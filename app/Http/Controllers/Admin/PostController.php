@@ -19,23 +19,58 @@ class PostController extends CommonController
     public function index(Request $request)
     {
         view()->share('page_title','帖子管理');
-        $data = Post::paginate(10);
+        $data =Post::where(function ($query) use ($request){
+            $query->leftjoin('users','posts.user_id', '=', 'users.id');
+            if($request->get('id')){
+                $query->where('posts.id',$request->get('id'));
+            }
+            if($request->get('user_id')){
+                $query->where('posts.user_id',$request->get('user_id'));
+            }
+            if($request->get('name_id')){
+                $query->where('users.name_id',$request->get('name_id'));
+            }
+            if($request->get('nick_name')){
+                $query->where('users.nick_name',$request->get('nick_name'));
+            }
+            if($request->get('title')){
+                $query->where('posts.title','like','%'.$request->get('title').'%');
+            }
+            if($request->get('type')){
+                $query->where('posts.type',$request->get('type'));
+            }
+            if($request->get('pay_type')){
+                $query->where('posts.pay_type',$request->get('pay_type'));
+            }
+            if($request->get('status')){
+                $query->where('posts.status',$request->get('status'));
+            }
+            if($request->get('start_time')){
+                $query->where('posts.created_at','>=',$request->get('start_time'));
+            }
+            if($request->get('end_time')){
+                $query->where('posts.created_at','<',$request->get('end_time'));
+            }
+            #dd($query);
+        })->paginate(10);
+
         foreach($data as $key=>$value){
             #发帖类型,收费类型,帖子状态
             $data[$key]['type_str'] = $this->postType($value['type']);
             $data[$key]['pay_type_str'] = $this->postPayType($value['pay_type']);
             $data[$key]['status_str'] = $this->postStatus($value['status']);
-            $user = User::find($value['user_id']);
-            $data[$key]['name_id'] = $user['name_id'];
-            $data[$key]['nick_name'] = $user['nick_name'];
         }
         $condition = [
+            'id'=>$request->get('id'),
+            'user_id'=>$request->get('user_id'),
             'name_id'=>$request->get('name_id'),
-            'email'=>$request->get('email'),
             'nick_name'=>$request->get('nick_name'),
-            'user_type'=>$request->get('user_type'),
+            'title'=>$request->get('title'),
+            'type'=>$request->get('type'),
+            'pay_type'=>$request->get('pay_type'),
             'status'=>$request->get('status'),
-            'pay_status'=>$request->get('pay_status'),
+            'start_time'=>$request->get('start_time'),
+            'end_time'=>$request->get('end_time'),
         ];
         return view('admin/post/index')->with(['data'=>$data,'condition'=>$condition]);
     }
@@ -43,6 +78,9 @@ class PostController extends CommonController
     #查看
     public function edit(Request $request,$id)
     {
+        #$disk = \Storage::disk('qiniu');
+        #echo $disk->exists('14759839382149.jpg');die();
+
         view()->share('page_title','帖子编辑');
         $post = Post::find($id);
         #图片

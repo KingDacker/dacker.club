@@ -33,18 +33,15 @@ class LoginController extends CommonController
         if (Session::get('phrase') != $request->captcha) {
             return redirect()->back()->withInput($request->all())->withErrors(array('captcha' => '验证码不正确'));
         }
-        $user = User::where('email',$request->email)->first();
+        #管理员
+        $user = User::where('email',$request->email)->where('user_type',99)->first();
         if(!$user){
             return redirect()->back()->withInput($request->all())->withErrors(array('email' => '用户名或密码不正确'));
         }
-        //dd(Crypt::encrypt('123456'));
-        //dd($user->password);
-        //dd(Crypt::decrypt($user->password));
         if(Crypt::decrypt($user->password) != $request->password ){
             dd($user);
             return redirect()->back()->withInput($request->all())->withErrors(array('email' => '用户名或密码不正确'));
         }
-
         session(['user'=>$user]);
         return redirect('admin/home');
     }
