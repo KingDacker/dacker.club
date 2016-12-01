@@ -9,7 +9,9 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+#后端
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function() {
+
     Route::get('index', 'LoginController@index');
     Route::get('code', 'LoginController@code');
     Route::post('login', 'LoginController@login');
@@ -25,16 +27,18 @@ Route::group(['middleware'=>['admin.login'],'namespace' => 'Admin', 'prefix' => 
     Route::any('post/update/{post}','PostController@update');
     Route::post('post/delComment','PostController@delComment');
 
-
     #用户管理
     Route::any('user','UserController@index');
     Route::any('user/edit/{user}','UserController@edit');
     Route::post('user/update/{user}','UserController@update');
- #Route::get('index', 'LoginController@index');
- #Route::resource('article','ArticleController');
-
 });
 
+#前端
+
+#注册
+Route::any('login/signup','LoginController@signup');
+#登录
+Route::any('login/signin','LoginController@signin');
 
 // Route::auth();
 // Route::group(['middleware' => 'auth', 'namespace' => 'Admin', 'prefix' => 'admin'], function() {

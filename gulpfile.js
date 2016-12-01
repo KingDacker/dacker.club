@@ -72,6 +72,8 @@ gulp.task('copy', function () {
     gulp.src("vendor/bower/AdminLTE/plugins/pace/pace.min.js")
         .pipe(gulp.dest("resources/assets/js/"));
 
+    //dacker
+
     // datepicker
     gulp.src("vendor/bower/AdminLTE/plugins/datepicker/datepicker3.css")
         .pipe(gulp.dest("resources/assets/css/"));
@@ -79,10 +81,28 @@ gulp.task('copy', function () {
         .pipe(gulp.dest("resources/assets/js/"));
 
     // simple.slide图片查看插件 基于jquery1.8
-    gulp.src("public/source/simple.slide.css")
+    gulp.src("vendor/admin_source/simple.slide.css")
         .pipe(gulp.dest("resources/assets/css/"));
-    gulp.src("public/source/simple.slide.min.js")
+    gulp.src("vendor/admin_source/simple.slide.min.js")
         .pipe(gulp.dest("resources/assets/js/"));
+
+    //// 前端样式
+    //gulp.src("vendor/nose_source/jPlayer/jplayer.flat.css")
+    //    .pipe(gulp.dest("resources/assets/css/"));
+    //
+    //gulp.src("vendor/nose_source/animate.css")
+    //    .pipe(gulp.dest("resources/assets/css/"));
+    //
+    //gulp.src("vendor/nose_source/simple-line-icons.css")
+    //    .pipe(gulp.dest("resources/assets/css/"));
+    //
+    //gulp.src("vendor/nose_source/font.css")
+    //    .pipe(gulp.dest("resources/assets/css/"));
+    //
+    //gulp.src("vendor/nose_source/app.css")
+    //    .pipe(gulp.dest("resources/assets/css/"));
+
+
 });
 
 elixir(function (mix) {
@@ -116,7 +136,13 @@ elixir(function (mix) {
             'ionicons.min.css',
             'blue.css',
             'datepicker3.css',
-            'simple.slide.css'
+            'simple.slide.css',
+            //'jplayer.flat.css',
+            //'animate.css',
+            //'simple-line-icons',
+            //'font.css',
+            //'app.css',
+
         ],
         'public/assets/css/app.css',
         'resources/assets/css/'

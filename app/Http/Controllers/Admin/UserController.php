@@ -104,7 +104,17 @@ class UserController extends CommonController
     }
 
 
-
-
+//    public function destroy($id)
+//    {
+//        try {
+//            if (User::destroy($id)) {
+//                return redirect()->back()->withSuccess('删除用户成功');
+//            }
+//        } catch (\Exception $e) {
+//            return redirect()->back()->withErrors(array('error' => $e->getMessage()));
+//        }
+//    }
+//$user = User::find($id);
+//return view('backend.user.edit',compact('user'));
 
 }
