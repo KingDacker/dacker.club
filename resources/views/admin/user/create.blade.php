@@ -18,35 +18,35 @@
                                     {{--<option value="{{$role->id}}">{{$role->display_name}}</option>--}}
                                     {{--@endforeach--}}
                                 </select>
-                                @include('admin.layout.message.tips',['field'=>'role_id'])
+                                @include('message.tips',['field'=>'role_id'])
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="name" class="col-sm-3 control-label">用户名称</label>
                             <div class="col-sm-9">
                                 <input type="text" class="form-control" id="name" name="name" placeholder="用户名称" value="{{old('name')}}">
-                                @include('admin.layout.message.tips',['field'=>'name'])
+                                @include('message.tips',['field'=>'name'])
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="email" class="col-sm-3 control-label">用户邮箱</label>
                             <div class="col-sm-9">
                                 <input type="text" class="form-control" id="email" name="email" placeholder="用户邮箱" value="{{old('email')}}">
-                                @include('admin.layout.message.tips',['field'=>'email'])
+                                @include('message.tips',['field'=>'email'])
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="password" class="col-sm-3 control-label">用户密码</label>
                             <div class="col-sm-9">
                                 <input type="text" class="form-control" id="password" name="password" placeholder="用户密码" value="{{old('password')}}">
-                                @include('admin.layout.message.tips',['field'=>'password'])
+                                @include('message.tips',['field'=>'password'])
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="password_confirmation" class="col-sm-3 control-label">确认密码</label>
                             <div class="col-sm-9">
                                 <input type="text" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="确认密码" value="{{old('password_confirmation')}}">
-                                @include('admin.layout.message.tips',['field'=>'password_confirmation'])
+                                @include('message.tips',['field'=>'password_confirmation'])
                             </div>
                         </div>
                     </div>

@@ -39,16 +39,15 @@ class LoginController extends CommonController
             return redirect()->back()->withInput($request->all())->withErrors(array('email' => '用户名或密码不正确'));
         }
         if(Crypt::decrypt($user->password) != $request->password ){
-            dd($user);
             return redirect()->back()->withInput($request->all())->withErrors(array('email' => '用户名或密码不正确'));
         }
-        session(['user'=>$user]);
+        session(['admin_dacker'=>$user]);
         return redirect('admin/home');
     }
 
     public function logout()
     {
-        session(['user'=>null]);
+        session(['admin_dacker'=>null]);
         return redirect('admin/index');
     }
 

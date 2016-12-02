@@ -23,8 +23,8 @@
             </ol>
         </section>
         <section class="content">
-            @include('admin.layout.message.error')
-            @include('admin.layout.message.success')
+            @include('message.error')
+            @include('message.success')
             @yield('content')
         </section>
     </div>

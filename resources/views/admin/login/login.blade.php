@@ -19,17 +19,17 @@
             <div class="row form-group has-feedback">
                 <input type="text" class="form-control" placeholder="账号" name="email" value="{{ old('email') }}">
                 <span class="fa fa-user form-control-feedback"></span>
-                @include('admin.layout.message.tips',['field'=>'email'])
+                @include('message.tips',['field'=>'email'])
             </div>
             <div class="row form-group has-feedback">
                 <input type="password" class="form-control" placeholder="密码" name="password" value="{{ old('password') }}">
                 <span class="fa fa-lock form-control-feedback"></span>
-                @include('admin.layout.message.tips',['field'=>'password'])
+                @include('message.tips',['field'=>'password'])
             </div>
             <div class="row form-group has-feedback">
                 <input type="text" class="form-control" placeholder="验证码" name="captcha" >
                 <span class="fa fa-image form-control-feedback"></span>
-                @include('admin.layout.message.tips',['field'=>'captcha'])
+                @include('message.tips',['field'=>'captcha'])
             </div>
             <div class="row form-group has-feedback">
                 <img src="{{url('admin/code')}}"

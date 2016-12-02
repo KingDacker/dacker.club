@@ -9,9 +9,8 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-#后端
+##################################后端##################################
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function() {
-
     Route::get('index', 'LoginController@index');
     Route::get('code', 'LoginController@code');
     Route::post('login', 'LoginController@login');
@@ -33,12 +32,14 @@ Route::group(['middleware'=>['admin.login'],'namespace' => 'Admin', 'prefix' => 
     Route::post('user/update/{user}','UserController@update');
 });
 
-#前端
-
+##################################前端##################################
 #注册
-Route::any('login/signup','LoginController@signup');
+Route::any('login/signup','LoginController@signUp');
 #登录
-Route::any('login/signin','LoginController@signin');
+Route::any('login/signin','LoginController@signIn');
+#忘记密码
+Route::any('login/email','LoginController@sendEmail');
+Route::any('login/reset/{token}','LoginController@resetPassword');
 
 // Route::auth();
 // Route::group(['middleware' => 'auth', 'namespace' => 'Admin', 'prefix' => 'admin'], function() {
@@ -66,3 +67,7 @@ Route::any('login/signin','LoginController@signin');
 //    Route::post('auth/login', 'AuthController@postLogin');
 //    Route::get('auth/logout', 'AuthController@getLogout');
 //});
+
+Route::auth();
+
+Route::get('/home', 'HomeController@index');

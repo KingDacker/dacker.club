@@ -29,7 +29,7 @@ return [
     |
     */
 
-    'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
+    'host' => env('MAIL_HOST', 'smtp.126.com'),
 
     /*
     |--------------------------------------------------------------------------
@@ -42,7 +42,7 @@ return [
     |
     */
 
-    'port' => env('MAIL_PORT', 587),
+    'port' => env('MAIL_PORT', 25),
 
     /*
     |--------------------------------------------------------------------------
@@ -55,7 +55,9 @@ return [
     |
     */
 
-    'from' => ['address' => null, 'name' => null],
+    #'from' => ['address' => null, 'name' => null],
+    #'from' => ['address' => 'liyachen521@126.com', 'name' => 'Dacker.club(管理员)'],
+    'from' => ['address' => env('FROM_ADDRESS'), 'name' => env('FROM_ADDRESS_NAME')],
 
     /*
     |--------------------------------------------------------------------------
