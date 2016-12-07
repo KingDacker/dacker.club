@@ -35,7 +35,7 @@
                 <button type="submit" class="btn btn-lg btn-warning lt b-white b-2x btn-block btn-rounded">
                     <i class="icon-arrow-right pull-right"></i><span class="m-r-n-lg">登录</span>
                 </button>
-                <div class="text-center m-t m-b"><a href="#"><small>忘记密码?</small></a></div>
+                <div class="text-center m-t m-b"><a href="{{url('/login/email')}}"><small>忘记密码?</small></a></div>
                 <div class="line line-dashed"></div>
                 <p class="text-muted text-center"><small>还没有账号?</small></p>
                 <a href="{{url('/login/signup')}}" class="btn btn-lg btn-info btn-block rounded">注册一个账号</a>

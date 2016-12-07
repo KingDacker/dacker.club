@@ -133,7 +133,7 @@ class LoginController extends Controller
                 $message->to($to)->subject($this->email_sub);
             });
             if($flag){
-                return redirect()->back()->with('success', '发送成功');
+                return redirect()->back()->with('success', '邮件发送成功,请去您的邮箱查看');
             }else{
                 return redirect()->back()->withErrors(['errors' => '发送失败请联系管理员']);
             }
@@ -143,13 +143,11 @@ class LoginController extends Controller
 
     #找回密码 通过邮箱验证后,重新设置密码
     public function resetPassword(Request $request,$token){
-        #dd(Crypt::decrypt('eyJpdiI6IkVXbGJXUTRKSm9YNEFUeWVNa1R0Q0E9PSIsInZhbHVlIjoiMEtxQ2tPdUxTWG8wOEx0WTlock5vUT09IiwibWFjIjoiMTg4ZmI1MjM2NzMzYjc1ZTljMGFjZWI1NjlmMTU1NDAwNjg0NDg3ZmRjODRlNzJhODNkZWM0ZDE0ZDI2MTM0ZSJ9'));
         if($request->isMethod('post')){
             #失效时间判断
             $rs = PasswordReset::where('email',$request->get('email'))->where('token',$token)->first();
             if(!$rs){
                 return back()->withErrors(['errors' => '链接不正确']);
-                #return view('login/reset')->with('errors','链接不正确')->with('email',$request->get('email'));
             }
             $send_time = strtotime($rs->created_at);
             #60分钟内有效
@@ -178,7 +176,7 @@ class LoginController extends Controller
                 return view('login/reset')->with('errors','重新设置密码失败,请稍后再试');
             }
             #首页跳转
-            return redirect('admin/index');
+            return back()->with('success','重置密码成功,请去重新登录');
         }
 
         return view('login/reset')->with('email',$request->get('email'));
