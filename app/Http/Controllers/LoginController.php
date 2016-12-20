@@ -49,11 +49,19 @@ class LoginController extends Controller
                 return redirect()->back()->withInput($request->all())->withErrors(array('email' => '用户名或密码不正确'));
             }
             session(['user'=>$user]);
-            return redirect('admin/home');
+            return redirect('/');
         }
         return view('login/signin');
     }
 
+    #登出
+    public function logout(){
+        if(session('user')){
+            session()->forget('user');
+            return redirect('/');
+        }
+        return redirect('/');
+    }
     #注册
     public function signUp(Request $request)
     {
@@ -96,13 +104,13 @@ class LoginController extends Controller
             }
             $user = User::find($id);
             session(['user'=>$user]);
-            return redirect('admin/home');
+            return redirect('/');
 
         }
         return view('login/signup');
     }
 
-    #找回密码 检测邮箱
+    #找回密码 发送邮件
     public function sendEmail(Request $request){
 
         if($data = Input::all()){

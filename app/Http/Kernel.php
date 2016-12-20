@@ -49,7 +49,9 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Foundation\Http\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        #dacker 登录中间件
+        #dacker admin登录中间件
         'admin.login' => \App\Http\Middleware\AdminLogin::class,
+        #dacker user登录中间件
+        'user.login' => \App\Http\Middleware\UserLogin::class,
     ];
 }

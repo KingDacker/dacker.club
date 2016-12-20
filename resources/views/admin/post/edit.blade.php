@@ -67,7 +67,7 @@
                                 @if($data['type'] == $post_type_key)
                                     <option value="{{$post_type_key}}" selected="selected" >{{$post_type_value}}</option>
                                 @else
-                                    <option value="{{$post_type_key}}">{{$post_type_value}}</option>
+                                    <option value="{{$post_type_key}}" >{{$post_type_value}}</option>
                                 @endif
                             @endforeach
                         </select>
@@ -76,13 +76,11 @@
                         <label>收费类型</label>
                         <select name="pay_type"  class="form-control select2" style="width: 100%;">
                             <option  value="0" selected="selected">请选择</option>
-                            @foreach($post_pay_type as $post_pay_type_key=>$post_pay_type_value)
-                                @if($data['pay_type'] == $post_pay_type_key)
-                                    <option value="{{$post_pay_type_key}}" selected="selected" >{{$post_pay_type_value}}</option>
+                                @if($data['payments'] == 0)
+                                    <option value="1" selected="selected" >免费</option>
                                 @else
-                                    <option value="{{$post_pay_type_key}}">{{$post_pay_type_value}}</option>
+                                    <option value="2" selected="selected">收费</option>
                                 @endif
-                            @endforeach
                         </select>
                     </div>
 

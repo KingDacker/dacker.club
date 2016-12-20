@@ -40,7 +40,12 @@ class PostController extends CommonController
                 $query->where('posts.type',$request->get('type'));
             }
             if($request->get('pay_type')){
-                $query->where('posts.pay_type',$request->get('pay_type'));
+                if($request->get('pay_type')==1){
+                    $query->where('posts.payments',0.00);
+                }else{
+                    $query->where('posts.payments','>',0.00);
+                }
+
             }
             if($request->get('status')){
                 $query->where('posts.status',$request->get('status'));

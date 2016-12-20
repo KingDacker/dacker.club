@@ -8,6 +8,13 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesResources;
 
+use App\Http\Requests;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Admin\CommonController;
+use Illuminate\Support\Facades\File;
+use zgldh\QiniuStorage\QiniuStorage;
+
+
 class Controller extends BaseController
 {
     use AuthorizesRequests, AuthorizesResources, DispatchesJobs, ValidatesRequests;
@@ -59,4 +66,35 @@ class Controller extends BaseController
         return $code;
     }
 
+
+    // 文件上传方法
+    public function uploadImg(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $file = $_FILES['upload_image'];
+            $file_name = $file['name'];
+            $file_tmp = $file['tmp_name'];
+            #获取扩展名并转成小写
+            $file_suffix =  strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+            if (!in_array($file_suffix, array('jpg', 'jpeg', 'png', 'gif'))) {
+                return CommonController::echoJson(400,'suffix error');
+            }
+            if (!file_exists($file_tmp)) {
+                return CommonController::echoJson(401,'tmp_name error');
+            }
+            #图片限制小于3mb
+            if (filesize($file_tmp) > 3 * 1024 * 1024) {
+                return CommonController::echoJson(402,'file size error');
+            }
+            $content = File::get($file['tmp_name']);
+            $disk = QiniuStorage::disk('qiniu');
+            #重命名
+            $file_name = md5($file_name.time()).'.'.$file_suffix;
+            $rs = $disk->put($file_name,$content);
+            if(!$rs){
+                return CommonController::echoJson(403,'upload failed');
+            }
+            return CommonController::echoJson(200,'success',array('img_name'=>$file_name));
+        }
+    }
 }

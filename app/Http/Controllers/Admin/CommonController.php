@@ -90,7 +90,11 @@ class CommonController extends Controller
     #统一json形式
     public static function echoJson($status, $msg = '', $data = '')
     {
-        $result = ['status'=>$status,'msg'=>$msg,'data'=>$data];
+        if($status==200){
+            $result = ['status'=>$status,'msg'=>$msg,'data'=>$data];
+        }else{
+            $result = ['status'=>$status,'msg'=>$msg,'data'=>$data,'error'=>$msg];
+        }
         return response()->json($result);
 
     }

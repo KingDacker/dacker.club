@@ -9,9 +9,41 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-##################################后端##################################
+#上传图片测试
+Route::post('test/test','Controller@uploadImg');
+
+
+Route::any('post/create','PostController@create');
+##################################[前端]##################################
+#首页
+Route::any('/','HomeController@index');
+
+#用户注册,登录,找回密码
+Route::group(['prefix' => 'login'], function() {
+    #注册
+    Route::any('signup','LoginController@signUp');
+    #登录
+    Route::any('signin','LoginController@signIn');
+    #登出
+    Route::any('logout','LoginController@logout');
+    #忘记密码(发送邮件,重设密码)
+    Route::any('email','LoginController@sendEmail');
+    Route::any('reset/{token}','LoginController@resetPassword');
+});
+
+#用户提交,修改
+Route::group(['middleware'=>['user.login'], 'prefix' => 'user'], function() {
+    #用户信息更新
+    Route::any('update/info','UserController@updateInfo');
+    #用户申请投稿
+    Route::any('post/create','PostController@create');
+
+});
+
+##################################[后端]##################################
+
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function() {
-    Route::get('index', 'LoginController@index');
+    Route::any('index', 'LoginController@index');
     Route::get('code', 'LoginController@code');
     Route::post('login', 'LoginController@login');
 });
@@ -32,14 +64,7 @@ Route::group(['middleware'=>['admin.login'],'namespace' => 'Admin', 'prefix' => 
     Route::post('user/update/{user}','UserController@update');
 });
 
-##################################前端##################################
-#注册
-Route::any('login/signup','LoginController@signUp');
-#登录
-Route::any('login/signin','LoginController@signIn');
-#忘记密码
-Route::any('login/email','LoginController@sendEmail');
-Route::any('login/reset/{token}','LoginController@resetPassword');
+
 
 // Route::auth();
 // Route::group(['middleware' => 'auth', 'namespace' => 'Admin', 'prefix' => 'admin'], function() {

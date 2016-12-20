@@ -23,6 +23,8 @@ class AppServiceProvider extends ServiceProvider
         view()->share('post_type',CommonController::postType());
         view()->share('post_pay_type',CommonController::postPayType());
         view()->share('post_status',CommonController::postStatus());
+        #用户信息 昵称,昵称ID,头像
+
     }
 
     /**
