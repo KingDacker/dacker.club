@@ -138,7 +138,6 @@
                             <th>用户昵称</th>
                             <th>标题</th>
                             <th>投稿类型</th>
-                            <th>收费类型</th>
                             <th>支付金额</th>
                             <th>帖子状态</th>
                             <th>操作</th>
@@ -152,7 +151,6 @@
 
                                 <td>{{$post->title}}</td>
                                 <td>{{$post->type_str}}</td>
-                                <td>{{$post->pay_type_str}}</td>
                                 <td>{{$post->payments}}</td>
                                 <td>{{$post->status_str}}</td>
                                 <td>

@@ -21,6 +21,7 @@ class PostController extends CommonController
         view()->share('page_title','帖子管理');
         $data =Post::where(function ($query) use ($request){
             $query->leftjoin('users','posts.user_id', '=', 'users.id');
+            #$query->select('users.*,posts.*');
             if($request->get('id')){
                 $query->where('posts.id',$request->get('id'));
             }
@@ -45,7 +46,6 @@ class PostController extends CommonController
                 }else{
                     $query->where('posts.payments','>',0.00);
                 }
-
             }
             if($request->get('status')){
                 $query->where('posts.status',$request->get('status'));
@@ -56,14 +56,15 @@ class PostController extends CommonController
             if($request->get('end_time')){
                 $query->where('posts.created_at','<',$request->get('end_time'));
             }
-            #dd($query);
-        })->paginate(10);
-
+            $query->select('users.*,posts.*');
+        })->orderBy('id', 'desc')->paginate(10);
         foreach($data as $key=>$value){
-            #发帖类型,收费类型,帖子状态
+            #发帖类型,帖子状态
             $data[$key]['type_str'] = $this->postType($value['type']);
-            $data[$key]['pay_type_str'] = $this->postPayType($value['pay_type']);
             $data[$key]['status_str'] = $this->postStatus($value['status']);
+            $user_info = User::where('id',$value['user_id'])->first();
+            $data[$key]['name_id'] = $user_info['name_id'];
+            $data[$key]['nick_name'] = $user_info['nick_name'];
         }
         $condition = [
             'id'=>$request->get('id'),
@@ -90,6 +91,9 @@ class PostController extends CommonController
         $post = Post::find($id);
         #图片
         $images = PostImage::where('post_id',$id)->get();
+        foreach($images as $key=>$value){
+            $images[$key]['image'] =  env('App_IMAGE_URL').$value['image'];
+        }
         #评论(每楼详细)
         $comments = Comment::where('post_id',$id)->where('reply_id',0)->where('status',1)->orderBy('created_at', 'asc')->paginate(3);
         #评论(每楼的回复详细)
@@ -116,7 +120,6 @@ class PostController extends CommonController
             'user_id'   =>  'required|numeric',
             'title'     =>  'required|between:1,20',
             'type'      =>  'required',
-            'pay_type'  =>  'required',
             'status'    =>  'required',
             'created_at'=>  'required',
         ];

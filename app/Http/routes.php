@@ -37,7 +37,10 @@ Route::group(['middleware'=>['user.login'], 'prefix' => 'user'], function() {
     Route::any('update/info','UserController@updateInfo');
     #用户申请投稿
     Route::any('post/create','PostController@create');
-
+    #用户投稿列表
+    Route::any('post/list','PostController@lists');
+    #用户投稿详情
+    Route::any('post/detail','PostController@detail');
 });
 
 ##################################[后端]##################################

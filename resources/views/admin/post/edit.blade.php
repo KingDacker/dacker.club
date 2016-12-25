@@ -72,17 +72,7 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label>收费类型</label>
-                        <select name="pay_type"  class="form-control select2" style="width: 100%;">
-                            <option  value="0" selected="selected">请选择</option>
-                                @if($data['payments'] == 0)
-                                    <option value="1" selected="selected" >免费</option>
-                                @else
-                                    <option value="2" selected="selected">收费</option>
-                                @endif
-                        </select>
-                    </div>
+
 
                     <div class="form-group">
                         <label>帖子审核类型</label>
@@ -99,7 +89,7 @@
                     </div>
                     <div class="form-group">
                         <label>帖子内容</label>
-                        <textarea name="content" class="form-control" rows="3" >{{$data->content}}</textarea>
+                        <textarea name="content" class="form-control" rows="5" >{{$data->content}}</textarea>
                     </div>
                     <!-- /.form-group -->
                 </div>

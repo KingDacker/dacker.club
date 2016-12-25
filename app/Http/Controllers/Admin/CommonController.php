@@ -32,8 +32,8 @@ class CommonController extends Controller
 
         $array = array(
             '1' => '注册会员',
-            '2' => '发帖会员',
-            '3' => '高级会员',
+            '2' => '摄影会员',
+            '3' => '模特会员',
         );
         return self::_initType($array, $key);
     }
@@ -60,9 +60,9 @@ class CommonController extends Controller
     #帖子类型
     public static function postType($key = 0){
         $array = array(
-            '1' => '玩家投稿',
-            '2' => '模特投稿',
-            '3' => '模特私属',
+            '1' => '网友玩家投稿',
+            '2' => '模特写真投稿',
+            '3' => '模特私属投稿',
         );
         return self::_initType($array, $key);
     }
