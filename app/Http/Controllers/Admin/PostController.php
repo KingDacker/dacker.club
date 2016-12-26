@@ -19,8 +19,7 @@ class PostController extends CommonController
     public function index(Request $request)
     {
         view()->share('page_title','帖子管理');
-        $data =Post::where(function ($query) use ($request){
-            $query->leftjoin('users','posts.user_id', '=', 'users.id');
+        $data = Post::leftjoin('users','posts.user_id', '=', 'users.id')->where(function ($query) use ($request){
             #$query->select('users.*,posts.*');
             if($request->get('id')){
                 $query->where('posts.id',$request->get('id'));
@@ -56,15 +55,11 @@ class PostController extends CommonController
             if($request->get('end_time')){
                 $query->where('posts.created_at','<',$request->get('end_time'));
             }
-            $query->select('users.*,posts.*');
-        })->orderBy('id', 'desc')->paginate(10);
+        })->orderBy('posts.id', 'desc')->paginate(10);
         foreach($data as $key=>$value){
             #发帖类型,帖子状态
             $data[$key]['type_str'] = $this->postType($value['type']);
             $data[$key]['status_str'] = $this->postStatus($value['status']);
-            $user_info = User::where('id',$value['user_id'])->first();
-            $data[$key]['name_id'] = $user_info['name_id'];
-            $data[$key]['nick_name'] = $user_info['nick_name'];
         }
         $condition = [
             'id'=>$request->get('id'),
@@ -86,7 +81,6 @@ class PostController extends CommonController
     {
         #$disk = \Storage::disk('qiniu');
         #echo $disk->exists('14759839382149.jpg');die();
-
         view()->share('page_title','帖子编辑');
         $post = Post::find($id);
         #图片

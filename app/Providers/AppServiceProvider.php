@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use App\Http\Controllers\Admin\CommonController;
 use Illuminate\Support\ServiceProvider;
-
+use Illuminate\Session;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -23,7 +23,6 @@ class AppServiceProvider extends ServiceProvider
         view()->share('post_type',CommonController::postType());
         view()->share('post_pay_type',CommonController::postPayType());
         view()->share('post_status',CommonController::postStatus());
-        #用户信息 昵称,昵称ID,头像
 
     }
 

@@ -621,7 +621,7 @@
                     <div class="row m-t-lg m-b-lg">
                         <div class="col-sm-6">
                             <div class="bg-primary wrapper-md r">
-                                <a href="#">
+                                <a href="{{url('login/signin')}}">
                                     <span class="h4 m-b-xs block"><i class=" icon-user-follow i-lg"></i> 登录或者创建一个新账号</span>
                                     <span class="text-muted">嘿,没有账号的你赶紧去创建吧!</span>
                                 </a>
@@ -629,7 +629,7 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="bg-black wrapper-md r">
-                                <a href="#">
+                                <a href="{{url('login/signin')}}">
                                     <span class="h4 m-b-xs block"><i class="icon-cloud-download i-lg"></i> 下载我的App</span>
                                     <span class="text-muted">App我还没有做啊,哎呀好懒得,先用网站凑合看吧.</span>
                                 </a>

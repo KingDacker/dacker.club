@@ -43,8 +43,6 @@ class HomeController extends Controller
             }
 
         }
-
-
         dd(1111);
         $disk = QiniuStorage::disk('qiniu');
         dd($disk->get('14759839382149.jpg'));
