@@ -52,9 +52,9 @@ class PostController extends Controller
             }
             return CommonController::echoJson(200,'投稿成功');
         }else{
-            $data = ['page_title'=>'测试','user'=>session('user')];
+            $data = ['page_title'=>'申请投稿','user'=>session('user')];
             #dd($data['user']);
-            return view('user.test')->with('data',$data);
+            return view('post.create')->with('data',$data);
         }
     }
 

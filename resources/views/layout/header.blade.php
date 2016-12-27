@@ -36,79 +36,40 @@
             {{--登录后--}}
             @if(session('user'))
                 <li class="hidden-xs">
-                    <a href="#" class="dropdown-toggle lt" data-toggle="dropdown">
-                        <i class="icon-bell"></i>
-                        <span class="badge badge-sm up bg-danger count">2</span>
+                    <a class="dropdown-toggle lt" data-toggle="dropdown">
+                        <i>ID:{{  session('user')['name_id'] }}</i>
                     </a>
-                    <section class="dropdown-menu aside-xl animated fadeInUp">
-                        <section class="panel bg-white">
-                            <div class="panel-heading b-light bg-light">
-                                <strong>You have <span class="count">2</span> notifications</strong>
-                            </div>
-                            <div class="list-group list-group-alt">
-                                <a href="#" class="media list-group-item">
-                    <span class="pull-left thumb-sm">
-                      <img src="{{asset('nose_source/images/a0.png')}}" alt="..." class="img-circle">
-                    </span>
-                    <span class="media-body block m-b-none">
-                      Use awesome animate.css<br>
-                      <small class="text-muted">10 minutes ago</small>
-                    </span>
-                                </a>
-                                <a href="#" class="media list-group-item">
-                    <span class="media-body block m-b-none">
-                      1.0 initial released<br>
-                      <small class="text-muted">1 hour ago</small>
-                    </span>
-                                </a>
-                            </div>
-                            <div class="panel-footer text-sm">
-                                <a href="#" class="pull-right"><i class="fa fa-cog"></i></a>
-                                <a href="#notes" data-toggle="class:show animated fadeInRight">See all the
-                                    notifications</a>
-                            </div>
-                        </section>
-                    </section>
                 </li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle bg clear" data-toggle="dropdown">
-                        <span class="thumb-sm avatar pull-right m-t-n-sm m-b-n-sm m-l-sm">
-                        <img src="{{asset('nose_source/images/a0.png')}}" alt="..." style="">
-                        </span>
-                        {{  session('user')['nick_name'] }}<b class="caret"></b>
+                <li class="dropdown" style="margin-right: 10px">
+                    <a href="#" class="dropdown-toggle bg clear" data-toggle="dropdown" style="margin-right: 10px">
+                        <i class="fa-user fa"> {{  session('user')['nick_name'] }}</i><b class="caret"></b>
                     </a>
-                    <ul class="dropdown-menu animated fadeInRight"  style="right:20px">
+                    <ul class="dropdown-menu animated fadeInRight">
                         <li>
                             <span class="arrow top"></span>
-                            <a href="#">个人中心</a>
+                            <a href="{{url('login/logout')}}">登出</a>
                         </li>
-                        <li>
-                            <a href="profile.html">设置</a>
-                        </li>
+                        <li class="divider"></li>
                         <li>
                             <a href="#">
                                 <span class="badge bg-danger pull-right">3</span>
                                 未读消息
                             </a>
                         </li>
-                        <li class="divider"></li>
                         <li>
-                            <a href="{{url('login/logout')}}">登出</a>
+                            <a href="#">常见问题</a>
                         </li>
                     </ul>
                 </li>
-                {{--未登录--}}
+            {{--未登录--}}
             @else
                 <li class="hidden-xs">
                     <a href="{{url('login/signin')}}" class="dropdown-toggle lt">
                         <span>登录</span>
                     </a>
                 </li>
-                <li class="hidden-xs">
-                    <a href="{{url('login/signup')}}" class="dropdown-toggle bg clear">
-                    <span class="thumb-sm avatar pull-right m-t-n-sm m-b-n-sm m-l-sm">
-                    <img src="{{asset('nose_source/images/a0.png')}}" alt="...">
-                    </span>
+                <li class="hidden-xs" style="margin-right: 10px">
+                    <a href="{{url('login/signup')}}" class="dropdown-toggle lt" style="margin-right: 10px">
                         <span>注册</span>
                     </a>
                 </li>

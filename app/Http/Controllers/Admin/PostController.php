@@ -19,7 +19,9 @@ class PostController extends CommonController
     public function index(Request $request)
     {
         view()->share('page_title','帖子管理');
-        $data = Post::leftjoin('users','posts.user_id', '=', 'users.id')->where(function ($query) use ($request){
+        $data = Post::leftjoin('users','posts.user_id', '=', 'users.id')
+        ->select('posts.*','users.name_id','users.name_id','users.nick_name')
+        ->where(function ($query) use ($request){
             #$query->select('users.*,posts.*');
             if($request->get('id')){
                 $query->where('posts.id',$request->get('id'));
@@ -104,7 +106,6 @@ class PostController extends CommonController
             $comments[$key]['reply'] = $reply_comment;
         }
         return view('admin/post/edit')->with(['data'=>$post,'images'=>$images,'comments'=>$comments]);
-
     }
 
     #更新,审核帖子
