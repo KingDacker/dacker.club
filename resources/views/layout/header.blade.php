@@ -37,7 +37,7 @@
             @if(session('user'))
                 <li class="hidden-xs">
                     <a class="dropdown-toggle lt" data-toggle="dropdown">
-                        <i>ID:{{  session('user')['name_id'] }}</i>
+                        <b>ID:{{  session('user')['name_id'] }}</b>
                     </a>
                 </li>
                 <li class="dropdown" style="margin-right: 10px">
@@ -63,6 +63,21 @@
                 </li>
             {{--未登录--}}
             @else
+                <li class="dropdown" style="margin-right: 10px">
+                    <a href="#" class="dropdown-toggle bg clear" data-toggle="dropdown" style="margin-right: 10px">
+                        <i class="fa-user fa"> 游客 </i><b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu animated fadeInRight">
+                        <li>
+                            <span class="arrow top"></span>
+                            <a href="{{url('login/signin')}}">登录</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="{{url('login/signup')}}">注册</a>
+                        </li>
+                    </ul>
+                </li>
                 <li class="hidden-xs">
                     <a href="{{url('login/signin')}}" class="dropdown-toggle lt">
                         <span>登录</span>

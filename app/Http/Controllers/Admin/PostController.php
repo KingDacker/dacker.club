@@ -137,14 +137,14 @@ class PostController extends CommonController
     {
         $id = (int)$request->get('id');
         if(!$id){
-            return CommonController::echoJson(400,'parameter error');
+            return Controller::echoJson(400,'parameter error');
         }
         $rs_comment = Comment::where('id',$id)->update(['status'=>2]);
         $rs_reply = Comment::where('reply_id',$id)->update(['status'=>2]);
         if(!$rs_comment){
-            return CommonController::echoJson(401,'del error');
+            return Controller::echoJson(401,'del error');
         }
-        return CommonController::echoJson(200,'成功');
+        return Controller::echoJson(200,'成功');
     }
 
     public function create()

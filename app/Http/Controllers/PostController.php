@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Admin\CommonController;
+use App\Http\Controllers\CommonController;
 use App\Http\Requests;
 use App\Models\Post;
 use App\Models\PostImage;
@@ -10,16 +10,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 
-class PostController extends Controller
+class PostController extends CommonController
 {
     #创建投稿
     public function create(Request $request){
 
         if ($request->isMethod('post')) {
+            #TODO 权限认证
             #检测
             $rules = [
                 'title' => 'required|between:5,15',
-                'type' => 'required|in:1,2,3',
+                'type' => 'required|in:1,2,3,4,5',
                 'payments' => 'numeric|between:0.00,100000',
                 'image_arr' => 'required'
             ];
@@ -33,8 +34,9 @@ class PostController extends Controller
                 'image_arr.required' => '错误的请求7'
             ];
             $validator = Validator::make($request->all(),$rules,$messages);
+            #dd($validator->errors()->all());
             if($validator->fails()){
-                return CommonController::echoJson(400,'投稿失败,请稍后再试');
+                return Controller::echoJson(400,'投稿失败,请稍后再试');
             }
             $user_info = session('user');
             $data['user_id'] = $user_info['id'];
@@ -44,15 +46,19 @@ class PostController extends Controller
             $data['payments'] = $request->get('payments');
             $post_id = Post::insertGetId($data);
             if(!$post_id){
-                return CommonController::echoJson(401,'投稿失败,请稍后再试');
+                return Controller::echoJson(401,'投稿失败,请稍后再试');
             }
             $image_arr = $request->get('image_arr');
             foreach($image_arr as $key=>$value){
                 PostImage::insert(['post_id'=>$post_id ,'image' => $value]);
             }
-            return CommonController::echoJson(200,'投稿成功');
+            return Controller::echoJson(200,'投稿成功');
         }else{
-            $data = ['page_title'=>'申请投稿','user'=>session('user')];
+            $data = [
+                'page_title'=>'申请投稿',
+                'user'=>session('user'),
+                'checked_menu'  =>  ['level1'=>'投稿列表','level2'=>'开始投稿'],
+            ];
             #dd($data['user']);
             return view('post.create')->with('data',$data);
         }

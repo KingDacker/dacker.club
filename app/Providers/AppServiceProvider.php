@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Http\Controllers\Admin\CommonController;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Session;
 class AppServiceProvider extends ServiceProvider
@@ -16,13 +17,13 @@ class AppServiceProvider extends ServiceProvider
     {
         view()->share('page_description',' ---- Dacker.club ');
         #用户
-        view()->share('user_type',CommonController::userType());
-        view()->share('status',CommonController::userStatus());
-        view()->share('pay_status',CommonController::payStatus());
+        view()->share('user_type',Controller::userType());
+        view()->share('status',Controller::userStatus());
+        view()->share('pay_status',Controller::payStatus());
         #帖子
-        view()->share('post_type',CommonController::postType());
-        view()->share('post_pay_type',CommonController::postPayType());
-        view()->share('post_status',CommonController::postStatus());
+        view()->share('post_type',Controller::postType());
+        view()->share('post_pay_type',Controller::postPayType());
+        view()->share('post_status',Controller::postStatus());
 
     }
 

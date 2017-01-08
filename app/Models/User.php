@@ -28,4 +28,12 @@ class User extends Authenticatable
 //        return $this->hasOne('App\Models\Post');
 //    }
 
+    /**
+     * 获取与指定用户详情。
+     */
+    public function userInfo()
+    {
+        return $this->hasOne('App\Models\UserInfo');
+    }
+
 }

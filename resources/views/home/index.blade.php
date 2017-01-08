@@ -622,7 +622,7 @@
                         <div class="col-sm-6">
                             <div class="bg-primary wrapper-md r">
                                 <a href="{{url('login/signin')}}">
-                                    <span class="h4 m-b-xs block"><i class=" icon-user-follow i-lg"></i> 登录或者创建一个新账号</span>
+                                    <span class="h4 m-b-xs block"><i class=" icon-user-follow i-lg"></i> 登录或者创建账号</span>
                                     <span class="text-muted">嘿,没有账号的你赶紧去创建吧!</span>
                                 </a>
                             </div>

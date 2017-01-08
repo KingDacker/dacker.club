@@ -2,20 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Admin\CommonController;
+use App\Http\Controllers\CommonController;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use zgldh\QiniuStorage\QiniuStorage;
 
-class HomeController extends Controller
+class HomeController extends CommonController
 {
-
-
 
     public function index()
     {
-        return view('home.index')->with('page_title','首页');
+        $data = ['page_title'=>'首页','checked_menu'=>['level1'=>'私属物品','level2'=>'']];
+        return view('home.index')->with('data',$data);
     }
 
 

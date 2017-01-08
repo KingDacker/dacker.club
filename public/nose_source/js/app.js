@@ -71,7 +71,7 @@ Modernizr.addTest('ios7 ipad',function(){return!!navigator.userAgent.match(/iPad
 // data-bjax api 
 +function ($) { "use strict";
   var Bjax = function (element, options) {    
-    this.options   = options
+    this.options   = options;
     this.$element  = $( this.options.target || 'html' );
     this.start()
   }
@@ -85,8 +85,13 @@ Modernizr.addTest('ios7 ipad',function(){return!!navigator.userAgent.match(/iPad
     var that = this;
     this.backdrop();
     $.ajax(this.options.url).done(function(r){
+      console.log(3);
       that.$content = r;
       that.complete();
+      //没有登录,则跳转登录
+      if(r.status==199){
+        window.location.href= r.data;
+      }
     });
   }
 

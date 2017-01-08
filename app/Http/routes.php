@@ -9,64 +9,65 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-#上传图片测试
-Route::post('test/test','Controller@uploadImg');
 
-
-Route::any('post/create','PostController@create');
 ##################################[前端]##################################
 #首页
-Route::any('/','HomeController@index');
+Route::any('/', 'HomeController@index');
 
 #用户注册,登录,找回密码
-Route::group(['prefix' => 'login'], function() {
+Route::group(['prefix' => 'login'], function () {
     #注册
-    Route::any('signup','LoginController@signUp');
+    Route::any('signup', 'LoginController@signUp');
     #登录
-    Route::any('signin','LoginController@signIn');
+    Route::any('signin', 'LoginController@signIn');
     #登出
-    Route::any('logout','LoginController@logout');
+    Route::any('logout', 'LoginController@logout');
     #忘记密码(发送邮件,重设密码)
-    Route::any('email','LoginController@sendEmail');
-    Route::any('reset/{token}','LoginController@resetPassword');
+    Route::any('email', 'LoginController@sendEmail');
+    Route::any('reset/{token}', 'LoginController@resetPassword');
 });
 
-#用户提交,修改
-Route::group(['middleware'=>['user.login'], 'prefix' => 'user'], function() {
-    #用户信息更新
-    Route::any('update/info','UserController@updateInfo');
-    #用户申请投稿
-    Route::any('post/create','PostController@create');
-    #用户投稿列表
-    Route::any('post/list','PostController@lists');
-    #用户投稿详情
-    Route::any('post/detail','PostController@detail');
+#用户投稿,个人资料
+Route::group(['middleware' => ['user.login'], 'prefix' => 'user'], function () {
+    #用户上传图片
+    Route::post('upload/image', 'Controller@uploadImg');
+
+    #用户申请投稿,稿列表,投稿详情
+    Route::any('post/create', 'PostController@create');
+    Route::any('post/list', 'PostController@lists');
+    Route::any('post/detail', 'PostController@detail');
+
+    #用户个人资料
+    Route::any('info', 'UserController@info');
+    Route::any('info/update','UserController@infoUpdate');
 });
 
 ##################################[后端]##################################
 
-Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function() {
+Route::group(['namespace' => 'Admin', 'prefix' => 'admin'], function () {
+    #登录
     Route::any('index', 'LoginController@index');
     Route::get('code', 'LoginController@code');
     Route::post('login', 'LoginController@login');
 });
 
-Route::group(['middleware'=>['admin.login'],'namespace' => 'Admin', 'prefix' => 'admin'], function() {
-    Route::any('logout', 'LoginController@logout');
+Route::group(['middleware' => ['admin.login'], 'namespace' => 'Admin', 'prefix' => 'admin'], function () {
+    #首页,注销,密码
     Route::get('home', 'IndexController@index');
-    Route::any('password','IndexController@password');
+    Route::any('logout', 'LoginController@logout');
+    Route::any('password', 'IndexController@password');
     #帖子管理
-    Route::any('post','PostController@index');
-    Route::any('post/edit/{post}','PostController@edit');
-    Route::any('post/update/{post}','PostController@update');
-    Route::post('post/delComment','PostController@delComment');
-
+    Route::any('post', 'PostController@index');
+    Route::any('post/edit/{post}', 'PostController@edit');
+    Route::any('post/update/{post}', 'PostController@update');
+    Route::post('post/delComment', 'PostController@delComment');
     #用户管理
-    Route::any('user','UserController@index');
-    Route::any('user/edit/{user}','UserController@edit');
-    Route::post('user/update/{user}','UserController@update');
+    Route::any('user', 'UserController@index');
+    Route::any('user/edit/{user}', 'UserController@edit');
+    Route::post('user/update/{user}', 'UserController@update');
+    #菜单管理
+    Route::any('menu', 'MenuController@index');
 });
-
 
 
 // Route::auth();

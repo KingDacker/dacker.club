@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\UserInfo;
 use Illuminate\Mail\Message;
 use App\Models\User;
 use App\Models\PasswordReset;
@@ -14,7 +15,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Passwords;
 use Mail;
-class LoginController extends Controller
+class LoginController extends CommonController
 {
     protected $email_view = 'emails.reset';
     protected $email_sub = 'Dacker.club重置密码邮件';
@@ -48,7 +49,8 @@ class LoginController extends Controller
             if(Crypt::decrypt($user->password) != $data['password'] ){
                 return redirect()->back()->withInput($request->all())->withErrors(array('email' => '用户名或密码不正确'));
             }
-            session(['user'=>$user]);
+            #完善用户信息
+            CommonController::perfectUser($user);
             return redirect('/');
         }
         return view('login/signin');
@@ -102,8 +104,9 @@ class LoginController extends Controller
             if(!$id){
                 return back()->with('errors','注册失败,请联系站长')->withInput($request->all());
             }
+            UserInfo::Create(['user_id' => $id]);
             $user = User::find($id);
-            session(['user'=>$user]);
+            CommonController::perfectUser($user);
             return redirect('/');
 
         }

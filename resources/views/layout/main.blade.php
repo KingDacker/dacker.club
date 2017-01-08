@@ -24,8 +24,6 @@
             <!-- .aside -->
             @include('layout.sidebar')
             <!-- /.aside -->
-            @include('message.error')
-            @include('message.success')
             @yield('content')
         </section>
     </section>
