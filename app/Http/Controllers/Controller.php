@@ -204,7 +204,17 @@ class Controller extends BaseController
             '1' => '审核中',
             '2' => '审核通过',
             '3' => '审核未通过',
-            '4' => '删除',
+            '4' => '违规投稿',
+        );
+        return self::_initType($array, $key);
+    }
+    #帖子状态
+    public static function postStatusColor($key=0){
+        $array = array(
+            '1' => 'info',      #审核中
+            '2' => 'success',   #审核通过
+            '3' => 'warning',   #审核未通过
+            '4' => 'danger',    #违规投稿
         );
         return self::_initType($array, $key);
     }

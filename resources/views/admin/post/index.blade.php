@@ -203,9 +203,6 @@
             var status =  $('#status').val();
             var start_time =  $('#start_time').val();
             var end_time =  $('#end_time').val();
-//            console.log('/admin/post?id='+id+'&user_id='+user_id+'&name_id='+name_id+'&nick_name='+nick_name+
-//                    '&title='+title+'&type='+type+'&pay_type='+pay_type+'&status='+status+'&start_time='+start_time+
-//                    '&end_time='+end_time);
             window.location.href = '/admin/post?id='+id+'&user_id='+user_id+'&name_id='+name_id+'&nick_name='+nick_name+
                     '&title='+title+'&type='+type+'&pay_type='+pay_type+'&status='+status+'&start_time='+start_time+
                     '&end_time='+end_time;

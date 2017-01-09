@@ -35,11 +35,15 @@ Route::group(['middleware' => ['user.login'], 'prefix' => 'user'], function () {
     #用户申请投稿,稿列表,投稿详情
     Route::any('post/create', 'PostController@create');
     Route::any('post/list', 'PostController@lists');
-    Route::any('post/detail', 'PostController@detail');
+    Route::any('post/detail/{id}', 'PostController@detail');
 
     #用户个人资料
     Route::any('info', 'UserController@info');
     Route::any('info/update','UserController@infoUpdate');
+
+    #用户修改密码
+    Route::any('password','UserController@password');
+
 });
 
 ##################################[后端]##################################

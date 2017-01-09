@@ -5,7 +5,7 @@
                 <!-- nav -->
                 <nav class="nav-primary hidden-xs">
                     {{--导航中心--}}
-                    <ul class="nav bg clearfix">
+                    <ul class="nav clearfix">
                         <li class="hidden-nav-xs padder m-t m-b-sm text-xs text-muted">
                             Dacker俱乐部
                         </li>

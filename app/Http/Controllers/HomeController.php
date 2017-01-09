@@ -13,7 +13,7 @@ class HomeController extends CommonController
 
     public function index()
     {
-        $data = ['page_title'=>'首页','checked_menu'=>['level1'=>'私属物品','level2'=>'']];
+        $data = ['page_title'=>'首页','checked_menu'=>['level1'=>'','level2'=>'']];
         return view('home.index')->with('data',$data);
     }
 

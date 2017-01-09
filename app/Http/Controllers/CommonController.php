@@ -29,16 +29,14 @@ class CommonController extends Controller
             '1' => ['image_color'=>'icon-user icon',  'url'=>'/','title'=>'用户中心','name'=>'用户信息','menu'=>['level1'=>'用户信息'],
                 'list'=>[
                     ['image_color'=>'',  'url'=>'/user/info','name'=>'个人资料','menu'=>['level2'=>'个人资料']],
-                    ['image_color'=>'',  'url'=>'/','name'=>'修改密码','menu'=>['level2'=>'修改密码']]
+                    ['image_color'=>'',  'url'=>'/user/password','name'=>'修改密码','menu'=>['level2'=>'修改密码']]
                 ]
 
             ],
             '2' => ['image_color'=>'fa-folder-open-o fa',  'url'=>'/','title'=>'用户中心','name'=>'投稿列表','menu'=>['level1'=>'投稿列表'],
                 'list'=>[
                     ['image_color'=>'',  'url'=>'/user/post/create','name'=>'开始投稿','menu'=>['level2'=>'开始投稿']],
-                    ['image_color'=>'',  'url'=>'/','name'=>'审核待定','menu'=>['level2'=>'审核待定']],
-                    ['image_color'=>'',  'url'=>'/','name'=>'审核通过','menu'=>['level2'=>'审核通过']],
-                    ['image_color'=>'',  'url'=>'/','name'=>'审核拒绝','menu'=>['level2'=>'审核拒绝']]
+                    ['image_color'=>'',  'url'=>'/user/post/list','name'=>'投稿状态','menu'=>['level2'=>'投稿状态']],
                 ]
             ],
             '3' => ['image_color'=>'fa-money fa',  'url'=>'/','title'=>'用户中心','name'=>'财务状况','menu'=>['level1'=>'财务状况'],

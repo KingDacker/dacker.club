@@ -15,6 +15,7 @@
                     <span class="bar5 a5 bg-danger dker"></span>
                         </span>
                     </h2>
+                    @include('message.success')
                     {{--随机首页大图--}}
                     <div class="row row-sm">
                         <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">

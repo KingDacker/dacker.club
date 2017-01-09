@@ -65,16 +65,40 @@ class PostController extends CommonController
     }
 
     #投稿列表
-    public function lists(){
-        $user_info = session('user');
-        $post_list = Post::where('user_id',$user_info['id'])->where('status',1)->get();
+    public function lists(Request $request){
+        $post_list = Post::where('user_id',session('user')['id'])
+            ->where(function ($query) use ($request){
+                if($request->get('status')){
+                    $query->where('status',$request->get('status'));
+                }
+            })->orderBy('updated_at', 'desc')->paginate(10);
+        foreach($post_list as $key=>$value){
+            $post_list[$key]['status_str'] = Controller::postStatus($value['status']);
+            $post_list[$key]['status_color'] = Controller::postStatusColor($value['status']);
+            $post_list[$key]['type_str'] = Controller::postType($value['type']);
+        }
+        $condition = [
+            'status'=>$request->get('status'),
+        ];
+        $data = [
+            'page_title'    =>  '投稿列表',
+            'checked_menu'  =>  ['level1'=>'投稿列表','level2'=>'投稿状态'],
+            'post_list' =>  $post_list,
+            'condition' =>  $condition
+        ];
+        return view('post.list')->with('data',$data);
+
     }
 
     #投稿详情
     public function detail(){
-        $user_info = session('user');
+        $data = [
+            'page_title'    =>  '投稿列表',
+            'checked_menu'  =>  ['level1'=>'投稿列表','level2'=>'投稿状态'],
+        ];
+        return view('post.list')->with('data',$data);
         $post_detail = Post::leftjoin('post_images','posts.id','=','post_images.post_id')
-            ->where('posts.user_id',$user_info['id'])
+            ->where('posts.user_id',session('user')['id'])
             ->where('posts.status',1)
             ->select('posts.*','post_images.*')->get();
 

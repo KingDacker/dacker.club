@@ -14,6 +14,7 @@ class LoginController extends CommonController
 {
 
     public function index(){
+        #dd(Crypt::decrypt('eyJpdiI6InZBNzNvVGlHQWwweHJsXC9kU0hEbXFnPT0iLCJ2YWx1ZSI6InNlM0JQRFJrUEl0Q0V5eEUzXC9yQldBPT0iLCJtYWMiOiIzZmE0ZmJjZGY1NTM2MDNiOWUzYTA3NzlkMTY3Zjk4NjlhOTAxNGE5Y2U4OTI2Njk3ZTY0ZTk3ZTU1YjU0YmMxIn0='));
         #dd(Crypt::decrypt('eyJpdiI6IlwvNDdESjBsdnpNdG5zRlVkdUNXN3NBPT0iLCJ2YWx1ZSI6IlpOQmFhVVJDZThaSjFwdStqazRcL2cxT3BtbjcybGh1V2hWVXhWblpoTWtJPSIsIm1hYyI6IjliY2VkMzRjODg5ZWJmNmRjZjA4Y2JjNWJhZTdiMjIyMjBmYTI3NDhjOWNlNmEyYzUyNzdmMzUxYTc3OTg5MjYifQ=='));
         return view('admin.login.login');
     }
