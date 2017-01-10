@@ -88,7 +88,7 @@ class PostController extends CommonController
         #图片
         $images = PostImage::where('post_id',$id)->get();
         foreach($images as $key=>$value){
-            $images[$key]['image'] =  env('App_IMAGE_URL').$value['image'];
+            $images[$key]['image'] =  Controller::showImage($value['image']);
         }
         #评论(每楼详细)
         $comments = Comment::where('post_id',$id)->where('reply_id',0)->where('status',1)->orderBy('created_at', 'asc')->paginate(10);

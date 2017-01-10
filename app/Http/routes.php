@@ -37,10 +37,20 @@ Route::group(['middleware' => ['user.login'], 'prefix' => 'user'], function () {
     Route::any('post/list', 'PostController@lists');
     Route::any('post/detail/{id}', 'PostController@detail');
 
+    #点赞投稿
+    Route::any('post/likes', 'PostController@likes');
+
+    #回复留言
+    Route::post('post/reply/comment', 'PostController@replyComment');
+
     #用户个人资料
     Route::any('info', 'UserController@info');
     Route::any('info/id/{id}', 'UserController@info');
     Route::any('info/update','UserController@infoUpdate');
+
+    #关注,取消关注
+    Route::any('follow', 'UserController@follow');
+
 
     #用户修改密码
     Route::any('password','UserController@password');

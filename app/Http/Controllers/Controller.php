@@ -109,10 +109,20 @@ class Controller extends BaseController
 
     }
 
-    #头像
+    #头像处理
     public static function showAvatar($img){
         if($img){
             return env('App_IMAGE_URL').$img.'-avatar';
+        }else{
+            #默认头像
+            return asset ("/nose_source/img/avatar.png");
+        }
+    }
+
+    #图片处理
+    public static function showImage($img){
+        if($img){
+            return env('App_IMAGE_URL').$img.'-dacker';
         }else{
             #默认头像
             return asset ("/nose_source/img/avatar.png");
@@ -145,6 +155,7 @@ class Controller extends BaseController
             '1' => '初级会员',
             '2' => '中级会员',
             '3' => '高级会员',
+            '99'=> '站长大人'
         );
         return self::_initType($array, $key);
     }

@@ -36,7 +36,7 @@ class CommonController extends Controller
             '2' => ['image_color'=>'fa-folder-open-o fa',  'url'=>'/','title'=>'用户中心','name'=>'投稿列表','menu'=>['level1'=>'投稿列表'],
                 'list'=>[
                     ['image_color'=>'',  'url'=>'/user/post/create','name'=>'开始投稿','menu'=>['level2'=>'开始投稿']],
-                    ['image_color'=>'',  'url'=>'/user/post/list','name'=>'投稿状态','menu'=>['level2'=>'投稿状态']],
+                    ['image_color'=>'',  'url'=>'/user/post/list','name'=>'投稿记录','menu'=>['level2'=>'投稿记录']],
                 ]
             ],
             '3' => ['image_color'=>'fa-money fa',  'url'=>'/','title'=>'用户中心','name'=>'财务状况','menu'=>['level1'=>'财务状况'],

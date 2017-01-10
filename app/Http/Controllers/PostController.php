@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\CommonController;
 use App\Http\Requests;
 use App\Models\Comment;
+use App\Models\Like;
 use App\Models\Post;
 use App\Models\PostImage;
 use App\Models\User;
@@ -46,6 +47,8 @@ class PostController extends CommonController
             $data['content'] = $request->get('content');
             $data['type'] = $request->get('type');
             $data['payments'] = $request->get('payments');
+            #随机点赞数
+            $data['like_num'] = rand(19,99);
             $post_id = Post::insertGetId($data);
             if(!$post_id){
                 return Controller::echoJson(401,'投稿失败,请稍后再试');
@@ -66,7 +69,7 @@ class PostController extends CommonController
         }
     }
 
-    #投稿列表
+    #投稿记录
     public function lists(Request $request){
         $post_list = Post::where('user_id',session('user')['id'])
             ->where(function ($query) use ($request){
@@ -84,7 +87,7 @@ class PostController extends CommonController
         ];
         $data = [
             'page_title'    =>  '投稿列表',
-            'checked_menu'  =>  ['level1'=>'投稿列表','level2'=>'投稿状态'],
+            'checked_menu'  =>  ['level1'=>'投稿列表','level2'=>'投稿记录'],
             'post_list' =>  $post_list,
             'condition' =>  $condition
         ];
@@ -95,43 +98,119 @@ class PostController extends CommonController
     #投稿详情
     public function detail(Request $request,$id){
         $post = Post::where('id',$id)->where('status',2)->first();
+        #是否点赞了投稿
+        $like = Like::where('user_id',session('user')['id'])->where('obj_id',$id)->where('type',1)->where('status',1)->first();
+        $post['like_status'] = false;
+        if($like){
+            $post['like_status'] = true;
+        }
+        #是否关注了此作者
+        $like = Like::where('user_id',session('user')['id'])->where('obj_id',$id)->where('type',2)->where('status',1)->first();
+        $post['followers_status'] = false;
+        if($like){
+            $post['followers_status'] = true;
+        }
+        #投稿图片
         $post_image = $post->postImage;
-        $user = User::find($post['user_id']);
-        #选择菜单
+        $create_user = User::find($post['user_id']);
+        $create_user = CommonController::perfectUser($create_user,true);
+        #选择导航菜单
         $type_str = Controller::postType($post['type']);
         #评论(每楼详细)
-
-        $comments = Comment::where('post_id',$id)->where('reply_id',0)->where('status',1)->orderBy('created_at', 'desc')->paginate(10);
-
-
+        $comments = Comment::where('post_id',$id)->where('reply_id',0)->where('status',1)->orderBy('created_at', 'asc')->paginate(10);
         #评论(每楼的回复详细)
         foreach($comments as $key=>$value){
             $user = User::find($value['user_id']);
             $comments[$key]['nick_name'] = $user['nick_name'];
             $comments[$key]['avatar_str'] = Controller::showAvatar($user['avatar']);
+            #会员阶级,身份
+            $comments[$key]['user_type_str'] = Controller::userType($user['user_type']);
+            $comments[$key]['identity_str'] = Controller::userIdentity($user->userInfo['identity']);
             $reply_comment = Comment::where('post_id',$id)->where('reply_id',$value['id'])->where('status',1)->orderBy('created_at', 'asc')->get();
             foreach($reply_comment as $k=>$v){
                 $user = User::find($v['user_id']);
                 $reply_comment[$k]['nick_name'] = $user['nick_name'];
                 $reply_comment[$k]['avatar_str'] = Controller::showAvatar($user['avatar']);
+                #会员阶级,身份
+                $reply_comment[$k]['user_type_str'] = Controller::userType($user['user_type']);
+                $reply_comment[$k]['identity_str'] = Controller::userIdentity($user->userInfo['identity']);
                 $user = User::find($v['to_user_id']);
                 $reply_comment[$k]['to_nick_name'] = $user['nick_name'];
             }
             $comments[$key]['reply'] = $reply_comment;
         }
-        #dd($comments);
         $data = [
             'page_title'    =>  '投稿列表',
             'checked_menu'  =>  ['level1'=>$type_str,'level2'=>''],
             'post'  =>  $post,
             'post_image'    =>  $post_image,
-            'user'  =>  $user,
+            'user'  =>  $create_user,
             'comments'   =>  $comments,
         ];
         return view('post.detail')->with('data',$data);
+    }
 
+    #回复留言
+    public function replyComment(Request $request){
+        if (!$request->isMethod('post')) {
+            return Controller::echoJson(400,'请求失败,请稍后再试');
+        }
+        $rs = Post::find((int)$request->get('post_id'));
+        if(!$rs){
+            return Controller::echoJson(400,'回复失败,请稍后再试');
+        }
+        if(mb_strlen($request->get('content'))>500 || !$request->get('content')){
+            return Controller::echoJson(402,'回复失败,请稍后再试');
+        }
+        $comment_id = Comment::insertGetId(
+            [
+                'reply_id' => (int)$request->get('reply_id'),
+                'post_id' => (int)$request->get('post_id'),
+                'user_id' => session('user')['id'],
+                'to_user_id' => (int)$request->get('to_user_id'),
+                'content' => $request->get('content'),
+            ]
+        );
+        if(!$comment_id){
+            return Controller::echoJson(404,'回复失败,请稍后再试');
+        }
+        return Controller::echoJson(200,'成功');
+    }
 
-        dd($post_detail);
+    #赞,取消攒投稿
+    public function likes(Request $request){
+        $post_id = (int)$request->get('post_id');
+        if(!$post_id){
+            return Controller::echoJson(400,'点赞失败,请稍后再试');
+        }
+        $post = Post::find($post_id);
+        if(!$post){
+            return Controller::echoJson(401,'点赞失败,请稍后再试');
+        }
+        $like = Like::where('user_id',session('user')['id'])->where('obj_id',$post_id)->where('type',1)->first();
+        if(!$like){
+            #新增
+            Like::insert(
+                [
+                    'user_id'   =>  session('user')['id'],
+                    'type'      =>  1,
+                    'obj_id'    =>  $post_id,
+                ]
+            );
+            Post::where('id',$post_id)->increment('like_num');
+        }else{
+            #更新
+            if($like['status']==1){
+                $like->status = 2;
+                Post::where('id',$post_id)->decrement('like_num');
+            }else{
+                $like->status = 1;
+                Post::where('id',$post_id)->increment('like_num');
+            }
+            $like->save();
+        }
+        $post = Post::find($post_id);
+        return Controller::echoJson(200,'成功',$post->like_num);
     }
 
 }

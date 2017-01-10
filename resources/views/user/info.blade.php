@@ -41,7 +41,7 @@
                                           <i class="fa fa-eye"></i> 关注
                                         </span>
                                         <span class="text-active">
-                                          <i class="fa fa-eye"></i> 取消关注
+                                          <i class="fa fa-eye-slash"></i> 取消关注
                                         </span>
                                     </a>
                                     <a class="btn btn-dark btn-rounded">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\CommonController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
+use App\Models\Like;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\UserInfo;
@@ -119,6 +120,42 @@ class UserController extends CommonController
         return view('user.password')->with('data',$data);
     }
 
+    #关注 取消关注
+    public function follow(Request $request){
+        $user_id = (int)$request->get('user_id');
+        if(!$user_id){
+            return Controller::echoJson(400,'关注失败,请稍后再试');
+        }
+        $user_info = UserInfo::where('user_id',$user_id)->first();
+        if(!$user_info){
+            return Controller::echoJson(401,'关注失败,请稍后再试');
+        }
+        #type 1点赞 2关注
+        $like = Like::where('user_id',session('user')['id'])->where('obj_id',$user_id)->where('type',2)->first();
+        if(!$like){
+            #新增
+            Like::insert(
+                [
+                    'user_id'   =>  session('user')['id'],
+                    'type'      =>  2,
+                    'obj_id'    =>  $user_id,
+                ]
+            );
+            UserInfo::where('user_id',$user_id)->increment('followers_num');
+        }else{
+            #更新
+            if($like['status']==1){
+                $like->status = 2;
+                UserInfo::where('user_id',$user_id)->decrement('followers_num');
+            }else{
+                $like->status = 1;
+                UserInfo::where('user_id',$user_id)->increment('followers_num');
+            }
+            $like->save();
+        }
+        $user_info = UserInfo::where('user_id',$user_id)->first();
+        return Controller::echoJson(200,'成功',$user_info->followers_num);
+    }
 
 
 
