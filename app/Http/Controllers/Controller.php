@@ -180,11 +180,11 @@ class Controller extends BaseController
     #帖子类型
     public static function postType($key = 0){
         $array = array(
-            '1' => '私属物品投稿',//最终用户权限
-            '2' => '网友玩家投稿',
-            '3' => '性感御姐投稿',
-            '4' => '高贵女王投稿',
-            '5' => '萌萌萝莉投稿',
+            '1' => '私属物品',//最终用户权限
+            '2' => '网友玩家',
+            '3' => '性感御姐',
+            '4' => '高贵女王',
+            '5' => '萌萌萝莉',
         );
         return self::_initType($array, $key);
     }

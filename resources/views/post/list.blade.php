@@ -55,7 +55,11 @@
                                     </label>
                                 </td>
                                 <td>{{$value['id']}}</td>
-                                <td>{{$value['title']}}</td>
+                                <td>
+                                    <a href="{{url('user/post/detail/'.$value['id'])}}">
+                                        <b class="text-primary">{{$value['title']}}</b>
+                                    </a>
+                                </td>
                                 <td>{{$value['type_str']}}</td>
                                 <td>{{$value['payments']}}</td>
                                 <td>{{$value['created_at']}}</td>

@@ -91,7 +91,7 @@ class PostController extends CommonController
             $images[$key]['image'] =  env('App_IMAGE_URL').$value['image'];
         }
         #评论(每楼详细)
-        $comments = Comment::where('post_id',$id)->where('reply_id',0)->where('status',1)->orderBy('created_at', 'asc')->paginate(3);
+        $comments = Comment::where('post_id',$id)->where('reply_id',0)->where('status',1)->orderBy('created_at', 'asc')->paginate(10);
         #评论(每楼的回复详细)
         foreach($comments as $key=>$value){
             $user = User::find($value['user_id']);

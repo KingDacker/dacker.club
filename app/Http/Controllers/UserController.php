@@ -18,12 +18,20 @@ class UserController extends CommonController
 {
 
     #个人资料
-    public function info(){
-        #dd(session('user')->userinfo);
-        $user_id = session('user')['id'];
-        $user = session('user');
-        $user_info = $user['user_info'];
-        #dd($user_info);
+    public function info($id=null){
+
+        if($id){
+            #查看其它用户
+            $user_id = $id;
+            $user = User::find($user_id);
+            $user = CommonController::perfectUser($user,true);
+            $user_info = $user['user_info'];
+        }else{
+            #查看自己
+            $user_id = session('user')['id'];
+            $user = session('user');
+            $user_info = $user['user_info'];
+        }
         $user['post_num'] = Post::where('status',2)->where('user_id',$user_id)->count();
         $post_list = Post::where('status',2)->where('user_id',$user_id)->select('id','title','content','created_at')->get();
         if($post_list->count()>0){

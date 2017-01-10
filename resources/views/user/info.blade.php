@@ -127,10 +127,10 @@
                                         @if($data['post_list']->count())
                                             @foreach($data['post_list'] as $lists)
                                                 <li class="list-group-item">
-                                                    <a href="#" class="thumb-sm pull-left m-r-sm">
+                                                    <a href="{{url('user/post/detail/'.$lists['id'])}}" class="thumb-sm pull-left m-r-sm">
                                                         <img src="{{$data['user']['avatar_str']}}" class="img-circle">
                                                     </a>
-                                                    <a href="#" class="clear">
+                                                    <a href="{{url('user/post/detail/'.$lists['id'])}}" class="clear">
                                                         <small class="pull-right">{{$lists['created_at']}}</small>
                                                         <strong class="block">{{$lists['title']}}</strong>
                                                         <small>{{$lists['content']}}</small>

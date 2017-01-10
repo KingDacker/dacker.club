@@ -58,7 +58,7 @@ class CommonController extends Controller
     }
 
     #用户登录后,整合用户信息
-    public function perfectUser($user){
+    public function perfectUser($user,$other=false){
         $user_info = $user->userinfo;
         #头像,会员类型,注册天数,投稿数量
         $user['avatar_str'] = Controller::showAvatar($user['avatar']);
@@ -71,6 +71,9 @@ class CommonController extends Controller
             $user_info['gender_str'] = Controller::gender($user_info['gender']);
         }
         $user['user_info'] = $user_info;
+        if($other){
+            return $user;
+        }
         session(['user'=>$user]);
     }
 }

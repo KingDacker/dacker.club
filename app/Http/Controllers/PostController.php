@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\CommonController;
 use App\Http\Requests;
+use App\Models\Comment;
 use App\Models\Post;
 use App\Models\PostImage;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -91,16 +93,43 @@ class PostController extends CommonController
     }
 
     #投稿详情
-    public function detail(){
+    public function detail(Request $request,$id){
+        $post = Post::where('id',$id)->where('status',2)->first();
+        $post_image = $post->postImage;
+        $user = User::find($post['user_id']);
+        #选择菜单
+        $type_str = Controller::postType($post['type']);
+        #评论(每楼详细)
+
+        $comments = Comment::where('post_id',$id)->where('reply_id',0)->where('status',1)->orderBy('created_at', 'desc')->paginate(10);
+
+
+        #评论(每楼的回复详细)
+        foreach($comments as $key=>$value){
+            $user = User::find($value['user_id']);
+            $comments[$key]['nick_name'] = $user['nick_name'];
+            $comments[$key]['avatar_str'] = Controller::showAvatar($user['avatar']);
+            $reply_comment = Comment::where('post_id',$id)->where('reply_id',$value['id'])->where('status',1)->orderBy('created_at', 'asc')->get();
+            foreach($reply_comment as $k=>$v){
+                $user = User::find($v['user_id']);
+                $reply_comment[$k]['nick_name'] = $user['nick_name'];
+                $reply_comment[$k]['avatar_str'] = Controller::showAvatar($user['avatar']);
+                $user = User::find($v['to_user_id']);
+                $reply_comment[$k]['to_nick_name'] = $user['nick_name'];
+            }
+            $comments[$key]['reply'] = $reply_comment;
+        }
+        #dd($comments);
         $data = [
             'page_title'    =>  '投稿列表',
-            'checked_menu'  =>  ['level1'=>'投稿列表','level2'=>'投稿状态'],
+            'checked_menu'  =>  ['level1'=>$type_str,'level2'=>''],
+            'post'  =>  $post,
+            'post_image'    =>  $post_image,
+            'user'  =>  $user,
+            'comments'   =>  $comments,
         ];
-        return view('post.list')->with('data',$data);
-        $post_detail = Post::leftjoin('post_images','posts.id','=','post_images.post_id')
-            ->where('posts.user_id',session('user')['id'])
-            ->where('posts.status',1)
-            ->select('posts.*','post_images.*')->get();
+        return view('post.detail')->with('data',$data);
+
 
         dd($post_detail);
     }

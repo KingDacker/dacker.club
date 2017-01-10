@@ -39,6 +39,7 @@ Route::group(['middleware' => ['user.login'], 'prefix' => 'user'], function () {
 
     #用户个人资料
     Route::any('info', 'UserController@info');
+    Route::any('info/id/{id}', 'UserController@info');
     Route::any('info/update','UserController@infoUpdate');
 
     #用户修改密码
