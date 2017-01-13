@@ -35,10 +35,9 @@
                                 </div>
                                 <div class="line line-lg"></div>
                                 <div class="text-muted">
-                                    <i class="fa fa-user icon-muted"></i> 投稿人
-                                    <a href="{{url('user/info/id/'.$data['user']['id'])}}" class="m-r-sm text-info" >{{$data['user']['nick_name']}}</a>
+                                    <i class="fa fa-user icon-muted"></i> By <a href="{{url('user/info/id/'.$data['user']['id'])}}" class="m-r-sm text-info" >{{$data['user']['nick_name']}}</a>
                                     <i class="fa fa-clock-o icon-muted"></i> {{$data['post']['created_at']}}
-                                    <a class="m-l-sm"><i class="fa fa-comment-o icon-muted"></i> 4 comments</a>
+                                    {{--<a href="#" class="m-l-sm"><i class="fa fa-comment-o icon-muted"></i> 4 comments</a>--}}
                                     <a onclick="like()" data-toggle="class" class="m-l-sm active">
                                         @if($data['post']['like_status'])
                                             <i class="fa fa-star-o text-muted text"></i>
@@ -50,11 +49,12 @@
                                         <label id="like_num">{{$data['post']['like_num']}}</label> <label class="text-danger">喜欢请点我哟</label>
                                     </a>
                                 </div>
+
                             </div>
                         </div>
                     </div>
 
-                    <h4 class="m-t-lg m-b">3 Comments</h4>
+
                     <section class="comment-list block">
                         @foreach($data['comments'] as $comment)
                         <!-- comment -->
@@ -191,7 +191,7 @@
                         <li class="list-group-item">
                             <a href="#">
                                 <span class="badge pull-right">{{$data['post_image']->count()}}</span>
-                                完整图片数量
+                                图片总数
                             </a>
                         </li>
                         <li class="list-group-item">

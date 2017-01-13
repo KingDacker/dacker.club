@@ -51,6 +51,12 @@ class LoginController extends CommonController
             }
             #完善用户信息
             CommonController::perfectUser($user);
+            #登录后返回之前的链接
+            $return_url = session('return_url');
+            if($return_url){
+                session()->forget('return_url');
+                return redirect($return_url);
+            }
             return redirect('/');
         }
         return view('login/signin');

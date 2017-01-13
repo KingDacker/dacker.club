@@ -140,7 +140,7 @@ class PostController extends CommonController
             $comments[$key]['reply'] = $reply_comment;
         }
         $data = [
-            'page_title'    =>  '投稿列表',
+            'page_title'    =>  '投稿详情',
             'checked_menu'  =>  ['level1'=>$type_str,'level2'=>''],
             'post'  =>  $post,
             'post_image'    =>  $post_image,

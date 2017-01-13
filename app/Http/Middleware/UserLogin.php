@@ -22,14 +22,15 @@ class UserLogin
         #ajax判断
         if($request->ajax()){
             if(!session('user')){
+                session(['return_url'   =>  $_SERVER['HTTP_REFERER']]);
                 return CommonController::echoJson(199,'please login first','/login/signin');
             }
         }else{
             if(!session('user')){
+                session(['return_url'   =>  $_SERVER['REQUEST_URI']]);
                 return redirect('login/signin');
             }
         }
-
         return $next($request);
     }
 }
