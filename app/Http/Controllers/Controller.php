@@ -19,6 +19,116 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, AuthorizesResources, DispatchesJobs, ValidatesRequests;
 
+    /**
+     * 处理类型数据
+     * @param $array
+     * @param $key
+     * @return array
+     */
+    public static function _initType($array, $key)
+    {
+        if ($key) {
+            if (isset($array[$key])) {
+                return $array[$key];
+            } else {
+                return '';
+            }
+        } else {
+            return $array;
+        }
+    }
+
+    #用户类型
+    public static function userType($key = 0){
+
+        $array = array(
+            '1' => '初级会员',
+            '2' => '中级会员',
+            '3' => '高级会员',
+            '99'=> '站长大人'
+        );
+        return self::_initType($array, $key);
+    }
+    #用户身份
+    public static function userIdentity($key = 0){
+        $array = array(
+            '1' => '玩家',
+            '2' => '摄影师',
+            '3' => '傻白甜',
+        );
+        return self::_initType($array, $key);
+    }
+
+    #用户状态
+    public static function userStatus($key = 0){
+        $array = array(
+            '1' => '正常',
+            '2' => '禁言',
+            '3' => '注销',
+        );
+        return self::_initType($array, $key);
+    }
+
+    #付费状态
+    public static function payStatus($key = 0){
+        $array = array(
+            '1' => '已付费',
+            '2' => '未付费',
+        );
+        return self::_initType($array, $key);
+    }
+
+    #帖子类型
+    public static function postType($key = 0){
+        $array = array(
+            '1' => '私属物品',//最终用户权限
+            '2' => '网友玩家',
+            '3' => '性感御姐',
+            '4' => '高贵女王',
+            '5' => '萌萌萝莉',
+        );
+        return self::_initType($array, $key);
+    }
+
+    #帖子是否收费
+    public static function postPayType($key = 0){
+        $array = array(
+            '1' => '免费',
+            '2' => '收费',
+        );
+        return self::_initType($array, $key);
+    }
+
+    #帖子状态
+    public static function postStatus($key=0){
+        $array = array(
+            '1' => '审核中',
+            '2' => '审核通过',
+            '3' => '审核未通过',
+            '4' => '违规投稿',
+        );
+        return self::_initType($array, $key);
+    }
+    #帖子状态
+    public static function postStatusColor($key=0){
+        $array = array(
+            '1' => 'info',      #审核中
+            '2' => 'success',   #审核通过
+            '3' => 'warning',   #审核未通过
+            '4' => 'danger',    #违规投稿
+        );
+        return self::_initType($array, $key);
+    }
+
+    #性别
+    public static function gender($key=0){
+        $array = array(
+            '1' => '男',
+            '2' => '女',
+        );
+        return self::_initType($array, $key);
+    }
+
     #name_id 随机算法
     #生成验证码
     #length 随机字符长度
@@ -129,115 +239,22 @@ class Controller extends BaseController
         }
     }
 
-    /**
-     * 处理类型数据
-     * @param $array
-     * @param $key
-     * @return array
-     */
-    public static function _initType($array, $key)
-    {
-        if ($key) {
-            if (isset($array[$key])) {
-                return $array[$key];
-            } else {
-                return '';
-            }
-        } else {
-            return $array;
-        }
+    #生成唯一订单号
+    public static function orderId(){
+        #英文字母、年月日、Unix 时间戳和微秒数、随机数，
+        $yCode    = array('A','B','C','D','E','F','G','H','I','J');
+        $orderSn  = '';
+        $orderSn .= $yCode[(intval(date('Y')) - 1970) % 10];
+        $orderSn .= strtoupper(dechex(date('m')));
+        $orderSn .= date('d').substr(time(), -5);
+        $orderSn .= substr(microtime(), 2, 5);
+        $orderSn .= sprintf('%02d', mt_rand(0, 99));
+        #得到唯一订单号：例如G107347128750079
+        return $orderSn;
     }
 
-    #用户类型
-    public static function userType($key = 0){
 
-        $array = array(
-            '1' => '初级会员',
-            '2' => '中级会员',
-            '3' => '高级会员',
-            '99'=> '站长大人'
-        );
-        return self::_initType($array, $key);
-    }
-    #用户身份
-    public static function userIdentity($key = 0){
-        $array = array(
-            '1' => '玩家',
-            '2' => '摄影师',
-            '3' => '傻白甜',
-        );
-        return self::_initType($array, $key);
-    }
 
-    #用户状态
-    public static function userStatus($key = 0){
-        $array = array(
-            '1' => '正常',
-            '2' => '禁言',
-            '3' => '注销',
-        );
-        return self::_initType($array, $key);
-    }
-
-    #付费状态
-    public static function payStatus($key = 0){
-        $array = array(
-            '1' => '已付费',
-            '2' => '未付费',
-        );
-        return self::_initType($array, $key);
-    }
-
-    #帖子类型
-    public static function postType($key = 0){
-        $array = array(
-            '1' => '私属物品',//最终用户权限
-            '2' => '网友玩家',
-            '3' => '性感御姐',
-            '4' => '高贵女王',
-            '5' => '萌萌萝莉',
-        );
-        return self::_initType($array, $key);
-    }
-
-    #帖子是否收费
-    public static function postPayType($key = 0){
-        $array = array(
-            '1' => '免费',
-            '2' => '收费',
-        );
-        return self::_initType($array, $key);
-    }
-
-    #帖子状态
-    public static function postStatus($key=0){
-        $array = array(
-            '1' => '审核中',
-            '2' => '审核通过',
-            '3' => '审核未通过',
-            '4' => '违规投稿',
-        );
-        return self::_initType($array, $key);
-    }
-    #帖子状态
-    public static function postStatusColor($key=0){
-        $array = array(
-            '1' => 'info',      #审核中
-            '2' => 'success',   #审核通过
-            '3' => 'warning',   #审核未通过
-            '4' => 'danger',    #违规投稿
-        );
-        return self::_initType($array, $key);
-    }
-
-    #性别
-    public static function gender($key=0){
-        $array = array(
-            '1' => '男',
-            '2' => '女',
-        );
-        return self::_initType($array, $key);
-    }
 
 
 }

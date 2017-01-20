@@ -27,7 +27,7 @@
               <button type="submit" class="btn btn-sm bg-white btn-icon rounded"><i class="fa fa-search"></i></button>
             </span>
                 <input type="text" class="form-control input-sm no-border rounded"
-                       placeholder="Search songs, albums...">
+                       placeholder="搜索">
             </div>
         </div>
     </form>

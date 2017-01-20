@@ -48,13 +48,19 @@ Route::group(['middleware' => ['user.login'], 'prefix' => 'user'], function () {
     Route::any('info/id/{id}', 'UserController@info');
     Route::any('info/update','UserController@infoUpdate');
 
-    #关注,取消关注
-    Route::any('follow', 'UserController@follow');
-
-
     #用户修改密码
     Route::any('password','UserController@password');
 
+    #关注,取消关注
+    Route::any('follow', 'UserController@follow');
+
+    #用户生成订单,支付订单
+    Route::any('order/create/{post_id}', 'OrderController@create');
+    Route::any('order/pay', 'OrderController@pay');
+
+    #地址省市区选项,新增用户地址
+    Route::any('address/option', 'AddressController@addressOption');
+    Route::any('address/create', 'AddressController@addressCreate');
 });
 
 ##################################[后端]##################################

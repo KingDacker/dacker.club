@@ -3,28 +3,24 @@
 <section id="content">
     <section class="vbox">
         <section class="scrollable wrapper-lg">
+            @include('message.error')
+            @include('message.success')
             <div class="row">
                 <div class="col-sm-9">
                     <div class="blog-post">
                         <div class="post-item">
                             <br>
-                            <div class="post-media">
-                                <img style="width:25%;height:25%" src="{{asset('/nose_source/img/test.jpg')}}" class="img-full">
-                            </div>
-                            {{--<div class="post-left" style="margin-left:10px; ">--}}
-                                {{--<img style="width:24%;" src="{{asset('/nose_source/img/test.jpg')}}" class="img-full">--}}
-
-                                {{--<img style="width:24%;" src="{{asset('/nose_source/img/test.jpg')}}" class="img-full">--}}
-
-                                {{--<img style="width:24%;" src="{{asset('/nose_source/img/test.jpg')}}" class="img-full">--}}
-
-                                {{--<img style="width:24%;" src="{{asset('/nose_source/img/test.jpg')}}" class="img-full">--}}
-
-                                {{--<img style="width:24%;" src="{{asset('/nose_source/img/test.jpg')}}" class="img-full">--}}
-
-                                {{--<img style="width:24%;" src="{{asset('/nose_source/img/test.jpg')}}" class="img-full">--}}
-
+                            {{--<div class="post-media">--}}
+                                {{--<img style="width:25%;height:25%" src="{{asset('/nose_source/img/test.jpg')}}" class="img-full">--}}
                             {{--</div>--}}
+                            <div class="post-left" style="margin-left:10px; ">
+                                @foreach($data['post_image'] as $key=>$value)
+                                    {{--<img style="width:24%;" src="{{$value['image']}}" class="img-full">--}}
+                                    <a href="javascript:;" i="{{$value['image']}}" class=" nose_view_picture">
+                                        <img style="width:24%;" src="{{$value['image']}}" width="160" height="200">
+                                    </a>
+                                @endforeach
+                            </div>
                             <br>
                         </div>
                         <div class="post-item">
@@ -40,11 +36,11 @@
                                     {{--<a href="#" class="m-l-sm"><i class="fa fa-comment-o icon-muted"></i> 4 comments</a>--}}
                                     <a onclick="like()" data-toggle="class" class="m-l-sm active">
                                         @if($data['post']['like_status'])
-                                            <i class="fa fa-star-o text-muted text"></i>
-                                            <i class="fa fa-star text-danger text-active"></i>
+                                            <i class="fa fa-heart-o text-muted text"></i>
+                                            <i class="fa fa-heart text-danger text-active"></i>
                                         @else
-                                            <i class="fa fa-star-o text-muted text-active"></i>
-                                            <i class="fa fa-star text-danger text"></i>
+                                            <i class="fa fa-heart-o text-muted text-active"></i>
+                                            <i class="fa fa-heart text-danger text"></i>
                                         @endif
                                         <label id="like_num">{{$data['post']['like_num']}}</label> <label class="text-danger">喜欢请点我哟</label>
                                     </a>
@@ -202,7 +198,7 @@
                         </li>
 
                         <li class="list-group-item">
-                            <a href="#">
+                            <a href="{{url('user/order/create/'.$data['post']['id'])}}">
                                 <button class="badge btn btn-danger btn-sm pull-right ">Go</button>
                                 点击购买
                             </a>
@@ -214,37 +210,43 @@
 
 
                     </div>
-                    <h5 class="font-bold">Recent Posts</h5>
+                    <h5 class="font-bold">最新 投稿 </h5>
                     <div>
-                        <article class="media">
-                            <a class="pull-left thumb thumb-wrapper m-t-xs">
-                                <img src="images/m1.jpg">
-                            </a>
-                            <div class="media-body">
-                                <a href="#" class="font-semibold">Bootstrap 3: What you need to know</a>
-                                <div class="text-xs block m-t-xs"><a href="#">Travel</a> 2 minutes ago</div>
-                            </div>
-                        </article>
-                        <div class="line"></div>
-                        <article class="media m-t-none">
-                            <a class="pull-left thumb thumb-wrapper m-t-xs">
-                                <img src="images/m2.jpg">
-                            </a>
-                            <div class="media-body">
-                                <a href="#" class="font-semibold">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</a>
-                                <div class="text-xs block m-t-xs"><a href="#">Design</a> 2 hours ago</div>
-                            </div>
-                        </article>
-                        <div class="line"></div>
-                        <article class="media m-t-none">
-                            <a class="pull-left thumb thumb-wrapper m-t-xs">
-                                <img src="images/m3.jpg">
-                            </a>
-                            <div class="media-body">
-                                <a href="#" class="font-semibold">Sed diam nonummy nibh euismod tincidunt ut laoreet</a>
-                                <div class="text-xs block m-t-xs"><a href="#">MFC</a> 1 week ago</div>
-                            </div>
-                        </article>
+                        @if($data['other_post'])
+                            @foreach($data['other_post'] as $other_key=>$other_value)
+                            <article class="media">
+                                <a href="{{url('user/post/detail/'.$other_value['id'])}}" class="pull-left thumb  m-t-xs">
+                                    <img src="{{$other_value['image']}}" >
+                                </a>
+                                <div class="media-body">
+                                    <a href="{{url('user/post/detail/'.$other_value['id'])}}" class="font-semibold">{{$other_value['title']}}</a>
+                                    <div class="text-xs block m-t-xs">{{$other_value['created_at']}}</div>
+                                </div>
+                            </article>
+                            <div class="line"></div>
+                            @endforeach
+                        @endif
+
+
+                        {{--<article class="media m-t-none">--}}
+                            {{--<a class="pull-left thumb thumb-wrapper m-t-xs">--}}
+                                {{--<img src="images/m2.jpg">--}}
+                            {{--</a>--}}
+                            {{--<div class="media-body">--}}
+                                {{--<a href="#" class="font-semibold">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</a>--}}
+                                {{--<div class="text-xs block m-t-xs"><a href="#">Design</a> 2 hours ago</div>--}}
+                            {{--</div>--}}
+                        {{--</article>--}}
+                        {{--<div class="line"></div>--}}
+                        {{--<article class="media m-t-none">--}}
+                            {{--<a class="pull-left thumb thumb-wrapper m-t-xs">--}}
+                                {{--<img src="images/m3.jpg">--}}
+                            {{--</a>--}}
+                            {{--<div class="media-body">--}}
+                                {{--<a href="#" class="font-semibold">Sed diam nonummy nibh euismod tincidunt ut laoreet</a>--}}
+                                {{--<div class="text-xs block m-t-xs"><a href="#">MFC</a> 1 week ago</div>--}}
+                            {{--</div>--}}
+                        {{--</article>--}}
                     </div>
                 </div>
             </div>
@@ -257,7 +259,21 @@
 @stop
 @section('script')
 <script>
+
     var post_id = '{{$data['post']['id']}}';
+
+    //幻灯片
+    $('.nose_view_picture').simpleSlide(
+//        {
+//
+//            "opacity":0.5,                  //背景透明度
+//            "windowAction": "zoomIn",       //窗体进入动画
+//            "imageAction": "bounceIn",      //图片进入动画
+//            "loadingImage":"img/1.gif"      //加载图片
+//
+//        }
+    );
+
     //显示回复对话框
     function showComment(id){
         var reply_nick_name = $('#reply_nick_name_' + id).val();

@@ -112,6 +112,9 @@ class PostController extends CommonController
         }
         #投稿图片
         $post_image = $post->postImage;
+        foreach($post_image as $key=>$value){
+            $post_image[$key]['image'] = Controller::showImage($value['image']);
+        }
         $create_user = User::find($post['user_id']);
         $create_user = CommonController::perfectUser($create_user,true);
         #选择导航菜单
@@ -139,13 +142,24 @@ class PostController extends CommonController
             }
             $comments[$key]['reply'] = $reply_comment;
         }
+
+        #其他最新作品
+        $other_post = Post::where('id','<>',$id)->where('user_id',$post['user_id'])->where('status',2)->orderby('created_at','desc')->limit(3)->get();
+        if($other_post){
+            foreach( $other_post as $key=>$value){
+                $image = PostImage::where('post_id',$value['id'])->orderby('id')->first();
+                $other_post[$key]['image'] = Controller::showImage($image['image']);
+            }
+        }
+
         $data = [
             'page_title'    =>  '投稿详情',
             'checked_menu'  =>  ['level1'=>$type_str,'level2'=>''],
             'post'  =>  $post,
             'post_image'    =>  $post_image,
             'user'  =>  $create_user,
-            'comments'   =>  $comments,
+            'comments'  =>  $comments,
+            'other_post'    =>  $other_post
         ];
         return view('post.detail')->with('data',$data);
     }

@@ -2869,9 +2869,11 @@ a.bg-light:focus {
 .inline {
   display: inline-block !important;
 }
-.none {
-  display: none;
-}
+/*simple.slide.css 冲突*/
+/*.none {*/
+  /*display: none;*/
+/*}*/
+/*simple.slide.css 冲突*/
 .pull-right-lg {
   float: right;
 }

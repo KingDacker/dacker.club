@@ -11,7 +11,11 @@
     <link rel="stylesheet" href="{{asset('/nose_source/css/simple-line-icons.css')}}" type="text/css" />
     <link rel="stylesheet" href="{{asset('/nose_source/css/font.css')}}" type="text/css" />
     <link rel="stylesheet" href="{{asset('/nose_source/css/app.css')}}" type="text/css" />
+    {{--上传--}}
     <link rel="stylesheet" href="{{asset('/nose_source/css/fileinput.css')}}" type="text/css" />
+    {{--simple.slide图片查看插件 基于jquery1.8--}}
+    <link rel="stylesheet" href="{{asset('/nose_source/css/simple.slide.css')}}" type="text/css" />
+
     @yield('style')
 </head>
 
@@ -36,6 +40,10 @@
 
 <script src="{{ asset ("/nose_source/js/fileinput.js") }}" type="text/javascript"></script>
 <script src="{{ asset ("/nose_source/js/fileinput_locale_zh.js") }}" type="text/javascript"></script>
+
+{{--simple.slide图片查看插件 基于jquery1.8--}}
+<script src="{{ asset ("/nose_source/js/simple.slide.min.js") }}" type="text/javascript"></script>
+
 @yield('script')
 </body>
 </html>
