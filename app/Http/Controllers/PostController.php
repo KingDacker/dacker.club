@@ -6,6 +6,8 @@ use App\Http\Controllers\CommonController;
 use App\Http\Requests;
 use App\Models\Comment;
 use App\Models\Like;
+use App\Models\Order;
+use App\Models\OrderPost;
 use App\Models\Post;
 use App\Models\PostImage;
 use App\Models\User;
@@ -64,19 +66,18 @@ class PostController extends CommonController
                 'user'=>session('user'),
                 'checked_menu'  =>  ['level1'=>'投稿列表','level2'=>'开始投稿'],
             ];
-            #dd($data['user']);
             return view('post.create')->with('data',$data);
         }
     }
 
-    #投稿记录
+    #用户自己的投稿记录
     public function lists(Request $request){
         $post_list = Post::where('user_id',session('user')['id'])
             ->where(function ($query) use ($request){
                 if($request->get('status')){
                     $query->where('status',$request->get('status'));
                 }
-            })->orderBy('updated_at', 'desc')->paginate(10);
+            })->orderBy('id', 'desc')->paginate(10);
         foreach($post_list as $key=>$value){
             $post_list[$key]['status_str'] = Controller::postStatus($value['status']);
             $post_list[$key]['status_color'] = Controller::postStatusColor($value['status']);
@@ -97,7 +98,35 @@ class PostController extends CommonController
 
     #投稿详情
     public function detail(Request $request,$id){
+        #查看自己未通过审核的投稿
+        $post = Post::where('id',$id)->where('user_id',session('user')['id'])->where('status','<>',2)->first();
+        if($post){
+            #选择导航菜单
+            $type_str = Controller::postType($post['type']);
+            #投稿图片
+            $post_image = $post->postImage;
+            foreach($post_image as $key=>$value){
+                $post_image[$key]['image'] = Controller::showImage($value['image']);
+            }
+            #投稿作者
+            $create_user = User::find($post['user_id']);
+            $create_user = CommonController::perfectUser($create_user,true);
+            $data = [
+                'page_title'    =>  '投稿详情',
+                'checked_menu'  =>  ['level1'=>$type_str,'level2'=>''],
+                'post'  =>  $post,
+                'post_image'    =>  $post_image,
+                'user'  =>  $create_user,
+            ];
+            return view('post.pre_detail')->with('data',$data);
+
+        }
+
+        #审核通过的投稿
         $post = Post::where('id',$id)->where('status',2)->first();
+        if(!$post){
+            return view('errors.404');
+        }
         #是否点赞了投稿
         $like = Like::where('user_id',session('user')['id'])->where('obj_id',$id)->where('type',1)->where('status',1)->first();
         $post['like_status'] = false;
@@ -151,7 +180,14 @@ class PostController extends CommonController
                 $other_post[$key]['image'] = Controller::showImage($image['image']);
             }
         }
-
+        #是否购买了此投稿
+        $order_post = OrderPost::where('post_id',$id)->where('user_id',session('user')['id'])->first();
+        $order = Order::where('user_id',session('user')['id'])->where('order_status','>',1)->first();
+        $order_status = false;
+        #投稿通过审核或者是自己的投稿
+        if(($order_post && $order) || ($post['user_id']==session('user')['id'])){
+            $order_status = true;
+        }
         $data = [
             'page_title'    =>  '投稿详情',
             'checked_menu'  =>  ['level1'=>$type_str,'level2'=>''],
@@ -159,7 +195,8 @@ class PostController extends CommonController
             'post_image'    =>  $post_image,
             'user'  =>  $create_user,
             'comments'  =>  $comments,
-            'other_post'    =>  $other_post
+            'other_post'    =>  $other_post,
+            'order_status'  =>  $order_status
         ];
         return view('post.detail')->with('data',$data);
     }

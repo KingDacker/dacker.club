@@ -5,14 +5,18 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\CommonController;
 use App\Models\Address;
+use App\Models\Applications;
 use App\Models\Order;
 use App\Models\OrderPost;
 use App\Models\Post;
+use App\Models\User;
 use App\Models\UserAddress;
 use App\Models\UserInfo;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Illuminate\Support\Facades\Validator;
+use Mockery\Tests\React_WritableStreamInterface;
 
 class OrderController extends CommonController
 {
@@ -60,35 +64,26 @@ class OrderController extends CommonController
             }
             #order_type 1实物 2写真 3打赏 4购买联系方式.........等
             #post['type'] 1私属物品 2玩家 3御姐 4女王 5萝莉
-            $address_arr['receiver_mobile'] = '';
-            $address_arr['receiver_name'] = '';
-            $address_arr['province'] = '';
-            $address_arr['city'] = '';
-            $address_arr['area'] = '';
-            $address_arr['detail'] = '';
-
-            $order_type = (int)$request->get('order_type');
             $address = UserAddress::find($request->get('address_id'));
-            #dd($order_type.'--'.$post['type'] );
-            if($order_type == 1 && $post['type'] == 1){
+            if($post['type'] == 1){
+                $order_type = 1;
                 #实物 地址必填
                 if(!$address){
                     return back()->with('errors','请先添加一个正确的收货地址');
                 }
-            }elseif($order_type == 2 ){
-                #写真
-                $order_type = 2;#订单类型 1实物 2写真 3打赏
-            }elseif($order_type == 3){
-                #打赏
-                #TODO
-                return back()->with('errors','此功能还未开放');
-            }elseif($order_type == 4){
-                #购买联系方式
-                #TODO
-                return back()->with('errors','此功能还未开放');
             }else{
-                return back()->with('errors','服务器繁忙,请稍后再试');
+                #写真
+                $order_type = 2;
+                $address['name'] = '';
+                $address['mobile'] = '';
+                $address['province'] = '';
+                $address['city'] = '';
+                $address['area'] = '';
+                $address['detail'] = '';
             }
+            #投稿者
+            $from_user = UserInfo::where('user_id',$post['user_id'])->first();
+            #dd($from_user['point_scale']);
             #生成订单
             $order_arr = [
                 'oid'        =>  Controller::orderId(),
@@ -97,6 +92,8 @@ class OrderController extends CommonController
                 'price'     =>  $post['payments'],
                 'discount_price'=>  0,
                 'actual_price'  =>  $post['payments'],
+                'point_scale'   =>  $from_user['point_scale'],
+                'pay_price'     =>  $post['payments']*$from_user['point_scale'],
                 'order_type'=>  $order_type,#订单类型 1实物 2写真 3打赏
                 'receiver_name' =>  $address['name'],
                 'receiver_mobile'   =>  $address['mobile'],
@@ -112,9 +109,13 @@ class OrderController extends CommonController
                 return back()->with('errors','下单失败,请稍后再试');
             }
             $order_post_arr = [
+                'user_id'  =>  session('user')['id'],
                 'order_id'  =>  $order_id,
                 'post_id'   =>  $post_id,
+                'post_title'=>  $post['title'],
+                'post_type'=>  $post['type'],
             ];
+            #订单扩展表
             $order_post_id = OrderPost::insertGetId($order_post_arr);
             if(!$order_post_id){
                 return back()->with('errors','下单失败了,请稍后再试');
@@ -123,18 +124,162 @@ class OrderController extends CommonController
             if(!$rs){
                 return back()->with('errors','支付失败或者金额不足,请稍后再试');
             }
+            #鸡鸡币缓存
+            #$user = User::find($post['user_id']);
+            #CommonController::perfectUser($user,false);
             $rs = Order::where('id',$order_id)->update(['order_status'=>4]);
             if(!$rs){
                 return back()->with('errors','支付失败,请联系客服人员');
             }
-            $rs = Post::where('id',$post_id)->decrement('stock_num');
-            if(!$rs){
-                return back()->with('errors','库存减少失败');
+            #虚拟物品,不减少库存
+            if($post['type'] == 1){
+                $rs = Post::where('id',$post_id)->decrement('stock_num');
+                if(!$rs){
+                    return back()->with('errors','库存减少失败');
+                }
+
             }
             return redirect('user/post/detail/'.$request->get('post_id'))->with('success','购买成功');
 
 
         }
     }
+
+    #订单详情
+    public function detail(Request $request,$order_post_id){
+        $order_post = OrderPost::find($order_post_id);
+        if(!$order_post){
+            return view('errors.404');
+        }
+        #订单
+        $order = Order::where('user_id',session('user')['id'])->where('id',$order_post['order_id'])->first();
+
+        $province = Address::find($order['province']);
+        $city = Address::find($order['city']);
+        $area = Address::find($order['area']);
+        $order['address'] =$province['name'].$city['name'].$area['name'].$order['detail'];
+        #投稿
+        $data = [
+            'page_title'    =>  '订单详情',
+            'checked_menu'  =>  ['level1'=>'财务收支','level2'=>''],
+            'order'  =>  $order,
+            'order_post' =>  $order_post
+        ];
+        return view('order.detail')->with('data',$data);
+    }
+
+    #消费记录
+    public function out(){
+        #总支出
+        $total_pay = Order::where('user_id',session('user')['id'])->where('order_status','>',1)->sum('actual_price');
+        #付款完成的记录
+        $order_list = Order::where('user_id',session('user')['id'])->where('order_status','>',1)->orderby('id','desc')->paginate(10);
+        foreach($order_list as $key=>$value){
+            $post_list = OrderPost::where('order_id',$value['id'])->get();
+            foreach($post_list as $k=>$v){
+                $post_list[$k]['post_type']= Controller::postType($v['post_type']);
+            }
+            $order_list[$key]['post_list'] =$post_list;
+        }
+        $data = [
+            'page_title'    =>  '支出记录',
+            'checked_menu'  =>  ['level1'=>'财务收支','level2'=>'支出记录'],
+            'order_list'  =>  $order_list,
+            'total_pay' =>  $total_pay
+        ];
+        return view('order.out')->with('data',$data);
+    }
+
+    #收益记录
+    public function in(){
+        #总收益
+        $total_pay = Order::where('from_user_id',session('user')['id'])->where('order_status','>',1)->sum('pay_price');
+        #收益的列表
+        $order_list = Order::where('from_user_id',session('user')['id'])->where('order_status','>',1)->orderby('id','desc')->paginate(10);
+        foreach($order_list as $key=>$value){
+            $nick_name = User::find($value['user_id']);
+            $order_list[$key]['nick_name'] = $nick_name['nick_name'];
+            $post_list = OrderPost::where('order_id',$value['id'])->get();
+            foreach($post_list as $k=>$v){
+                $post_list[$k]['post_type']= Controller::postType($v['post_type']);
+            }
+            $order_list[$key]['post_list'] =$post_list;
+        }
+        $data = [
+            'page_title'    =>  '收入记录',
+            'checked_menu'  =>  ['level1'=>'财务收支','level2'=>'收入记录'],
+            'order_list'  =>  $order_list,
+            'total_pay' =>  $total_pay
+        ];
+        return view('order.in')->with('data',$data);
+    }
+
+    #提现记录
+    public function cash(Request $request){
+        if($request->isMethod('post')){
+            #dd($request->all());
+            #检测
+            $rules = [
+                'ali_account' => 'required|between:1,55',
+                'ali_name' => 'required|between:1,55',
+                'cash' => 'required|numeric|between:100,100000',
+            ];
+            $messages = [
+                'ali_account.required' => '请填写支付宝账号',
+                'ali_account.between' => '支付宝账号长度不能超过55字符',
+                'ali_name.required' => '请填写支付宝昵称',
+                'ali_name.between' => '支付宝昵称长度不能超过55字符',
+                'cash.required' =>  '请填写提现金额',
+                'cash.numeric' => '请填写正确的数字提现金额',
+                'cash.between' => '提现金额为100-10w',
+            ];
+            $validator = Validator::make($request->all(),$rules,$messages);
+            if($validator->fails()){
+                return back()->withErrors($validator);
+            }
+            #金额验证
+            $cash = (int)$request->get('cash');
+            if($cash%100 != 0){
+                return back()->with('errors','提现金额必须为100的整数倍哦');
+            }
+            $user_info = UserInfo::where('user_id',session('user')['id'])->first();
+            if($cash>$user_info['point']){
+                return back()->with('errors','提现金额不足');
+            }
+            #更新支付宝账号信息
+            $user_info->ali_account = $request->get('ali_account');
+            $user_info->ali_name = $request->get('ali_name');
+            $user_info->save();
+            #提现记录
+            $rs = Applications::insertGetId(
+                [
+                    'user_id'   =>  session('user')['id'],
+                    'number'    =>  $cash,
+                    'type'      =>  1,#1提现
+                ]
+            );
+            if(!$rs){
+                return back()->with('errors','申请提现失败,请联系客服');
+            }
+            #冻结申请金额
+            UserInfo::where('user_id',session('user')['id'])->decrement('point', $cash);
+            return back()->with('success','申请提现成功,请耐心等待处理');
+        }
+
+        $user_info = UserInfo::where('user_id',session('user')['id'])->first();
+        #提现记录
+        $applications_list = Applications::where('user_id',session('user')['id'])->where('type',1)->paginate(10);
+        foreach($applications_list as $key => $value){
+            $applications_list[$key]['status_str'] = Controller::applicationStatus($value['status']);
+        }
+        $data = [
+            'page_title'    =>  '提现记录',
+            'checked_menu'  =>  ['level1'=>'财务收支','level2'=>'提现记录'],
+            'applications_list'  =>  $applications_list,
+            'user_info' =>  $user_info
+        ];
+        return view('order.cash')->with('data',$data);
+    }
+
 
 }

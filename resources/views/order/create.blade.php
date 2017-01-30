@@ -109,7 +109,7 @@
                     <td>1</td>
                     <td>{{$data['post']['title']}}</td>
                     <td>￥{{$data['post']['payments']}}</td>
-                    <td>￥{{$data['post']['payments']*$data['post']['buy_num']}}</td>
+                    <td>￥{{$data['post']['payments']}}</td>
                 </tr>
                 <tr>
                     <td colspan="3" class="text-right"><strong>邮费</strong></td>
@@ -122,7 +122,7 @@
 
                 <tr>
                     <td colspan="3" class="text-right no-border"><strong>实际支付</strong></td>
-                    <td><strong>￥{{$data['post']['payments']*$data['post']['buy_num']}}</strong></td>
+                    <td><strong>￥{{$data['post']['payments']}}</strong></td>
                 </tr>
                 <tr>
                     <td colspan="3" class="text-right no-border"></td>

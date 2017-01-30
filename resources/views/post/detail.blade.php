@@ -9,18 +9,23 @@
                 <div class="col-sm-9">
                     <div class="blog-post">
                         <div class="post-item">
-                            <br>
-                            {{--<div class="post-media">--}}
-                                {{--<img style="width:25%;height:25%" src="{{asset('/nose_source/img/test.jpg')}}" class="img-full">--}}
-                            {{--</div>--}}
+                            <header class="panel-heading"><strong>点击查看高清大图</strong></header>
+                            {{--(私属物品不用购买,可直接看写真)--}}
+                            @if($data['order_status']||$data['post']['type']==1)
                             <div class="post-left" style="margin-left:10px; ">
                                 @foreach($data['post_image'] as $key=>$value)
-                                    {{--<img style="width:24%;" src="{{$value['image']}}" class="img-full">--}}
                                     <a href="javascript:;" i="{{$value['image']}}" class=" nose_view_picture">
                                         <img style="width:24%;" src="{{$value['image']}}" width="160" height="200">
                                     </a>
                                 @endforeach
                             </div>
+                            @else
+                                <div class="post-media">
+                                    <a href="javascript:;" i="{{$data['post_image'][0]['image']}}" class=" nose_view_picture">
+                                        <img style="width:25%;height:25%" src="{{$data['post_image'][0]['image']}}" class="img-full">
+                                    </a>
+                                </div>
+                            @endif
                             <br>
                         </div>
                         <div class="post-item">
@@ -157,9 +162,9 @@
                             </a>
                         </li>
                         <li class="list-group-item">
-                            <a href="{{url('user/info/id/'.$data['user']['id'])}}" >
+                            <a href="#" >
                                 <span class=" pull-right">
-                                    <a onclick="follow()" data-toggle="class" class="m-l-sm active pull-right">
+                                    <a  href="#" onclick="follow()" data-toggle="class" class="m-l-sm active pull-right">
                                         {{--@if($data['post']['like_status'])--}}
                                             {{--<i class="fa fa-star-o text-muted text"></i>--}}
                                             {{--<i class="fa fa-star text-danger text-active"></i>--}}
@@ -179,7 +184,7 @@
 
                                     </a>
                                 </span>
-                                <a href="{{url('user/info/id/'.$data['user']['id'])}}" class="text-info" >关注不迷路</a>
+                                <a  >关注不迷路</a>
                             </a>
                         </li>
 
@@ -198,10 +203,31 @@
                         </li>
 
                         <li class="list-group-item">
-                            <a href="{{url('user/order/create/'.$data['post']['id'])}}">
-                                <button class="badge btn btn-danger btn-sm pull-right ">Go</button>
-                                点击购买
-                            </a>
+                            @if($data['order_status'])
+                                <a>
+                                    <button class="badge btn btn-success btn-sm pull-right ">已经购买</button>
+                                    点击购买
+                                </a>
+                            @elseif($data['post']['stock_num']>0)
+                                @if($data['post']['type']==1)
+                                <a href="{{url('user/order/create/'.$data['post']['id'])}}">
+                                    <button class="badge btn btn-danger btn-sm pull-right ">购买</button>
+                                    点击购买
+                                </a>
+                                @else
+                                    <form id="pay_form" action="{{url('user/order/pay')}}" method="post">
+                                        {{csrf_field()}}
+                                        <input type="hidden" name="post_id" value="{{$data['post']['id']}}">
+                                        <a><button type="button" class="badge btn btn-danger btn-sm pull-right " onclick="pay()">购买</button>点击购买</a>
+                                    </form>
+                                @endif
+                            @else
+                                <a>
+                                    <button class="badge btn btn-primary btn-sm pull-right ">售罄</button>
+                                    点击购买
+                                </a>
+                            @endif
+
                         </li>
                     </ul>
                     <div class="tags m-b-lg l-h-2x">
@@ -371,6 +397,13 @@
                 }
             }
         });
+    }
+
+    //虚拟支付
+    function pay(){
+        if(confirm("确定购买?")){
+            $('#pay_form').submit();
+        }
     }
 </script>
 @stop

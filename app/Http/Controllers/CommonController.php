@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Menu;
+use App\Models\UserInfo;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 
@@ -14,7 +15,7 @@ class CommonController extends Controller
     }
 
 
-    #前段 sidebar
+    #前端 导航
     public  function menuList(){
 
         $top_menu = [
@@ -29,6 +30,7 @@ class CommonController extends Controller
             '1' => ['image_color'=>'icon-user icon',  'url'=>'/','title'=>'用户中心','name'=>'用户信息','menu'=>['level1'=>'用户信息'],
                 'list'=>[
                     ['image_color'=>'',  'url'=>'/user/info','name'=>'个人资料','menu'=>['level2'=>'个人资料']],
+                    ['image_color'=>'',  'url'=>'/user/address/list','name'=>'收货地址','menu'=>['level2'=>'收货地址']],
                     ['image_color'=>'',  'url'=>'/user/password','name'=>'修改密码','menu'=>['level2'=>'修改密码']]
                 ]
 
@@ -39,22 +41,30 @@ class CommonController extends Controller
                     ['image_color'=>'',  'url'=>'/user/post/list','name'=>'投稿记录','menu'=>['level2'=>'投稿记录']],
                 ]
             ],
-            '3' => ['image_color'=>'fa-money fa',  'url'=>'/','title'=>'用户中心','name'=>'财务状况','menu'=>['level1'=>'财务状况'],
+            '3' => ['image_color'=>'fa-money fa',  'url'=>'','title'=>'用户中心','name'=>'财务收支','menu'=>['level1'=>'财务收支'],
                 'list'=>[
-                    ['image_color'=>'',  'url'=>'/','name'=>'消费记录','menu'=>['level2'=>'消费记录']],
-                    ['image_color'=>'',  'url'=>'/','name'=>'等待支付','menu'=>['level2'=>'等待支付']],
-                    ['image_color'=>'',  'url'=>'/','name'=>'目前收益','menu'=>['level2'=>'目前收益']],
+                    ['image_color'=>'',  'url'=>'/user/order/out','name'=>'支出记录','menu'=>['level2'=>'支出记录']],
+                    ['image_color'=>'',  'url'=>'/user/order/in','name'=>'收入记录','menu'=>['level2'=>'收入记录']],
+                    ['image_color'=>'',  'url'=>'/user/order/cash','name'=>'提现记录','menu'=>['level2'=>'提现记录']],
+
                 ]
             ],
-            '4' => ['image_color'=>'icon-envelope icon',            'url'=>'/message','name'=>'系统消息','menu'=>['level1'=>'系统消息'],'list'=>[]],
-            '5' => ['image_color'=>'icon-envelope icon text-info',  'url'=>'/','name'=>'私密消息','menu'=>['level1'=>'私密消息'],'list'=>[]],
-            '6' => ['image_color'=>'icon-question icon','url'=>'/help','name'=>'常见问题','menu'=>['level1'=>'常见问题'],'list'=>[]],
+            '4' => ['image_color'=>'icon-envelope icon', 'url'=>'/message','name'=>'消息中心','menu'=>['level1'=>'消息中心'],
+                'list'=>[
+                    ['image_color'=>'',  'url'=>'/user/order/out','name'=>'系统消息','menu'=>['level2'=>'系统消息']],
+                    ['image_color'=>'',  'url'=>'/user/order/in','name'=>'私密消息','menu'=>['level2'=>'私密消息']],
+                ]
+            ],
+            '5' => ['image_color'=>'icon-question icon','url'=>'/help','name'=>'常见问题','menu'=>['level1'=>'常见问题'],'list'=>[]],
         ];
         $menu_list = [
             'top_menu'  => $top_menu,
             'user_menu' => $user_menu,
         ];
         view()->share('menu_list',$menu_list);
+        #鸡鸡币数量
+        $user_info = UserInfo::where('user_id',session('user')['id'])->first();
+        view()->share('point',$user_info['point']);
     }
 
     #用户登录后,整合用户信息

@@ -37,6 +37,13 @@
             @if(session('user'))
                 <li class="hidden-xs">
                     <a class="dropdown-toggle lt" data-toggle="dropdown">
+{{--                        <b>鸡鸡币:{{  session('user')['user_info']['point'] }}</b>--}}
+                        <b>鸡鸡币:{{  $point }}</b>
+
+                    </a>
+                </li>
+                <li class="hidden-xs">
+                    <a class="dropdown-toggle lt" data-toggle="dropdown">
                         <b>ID:{{  session('user')['name_id'] }}</b>
                     </a>
                 </li>

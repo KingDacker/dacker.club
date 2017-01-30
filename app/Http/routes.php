@@ -54,11 +54,16 @@ Route::group(['middleware' => ['user.login'], 'prefix' => 'user'], function () {
     #关注,取消关注
     Route::any('follow', 'UserController@follow');
 
-    #用户生成订单,支付订单
+    #用户生成订单,订单详情,支付订单,支出记录,收入记录,提现记录
     Route::any('order/create/{post_id}', 'OrderController@create');
+    Route::any('order/detail/{id}', 'OrderController@detail');
     Route::any('order/pay', 'OrderController@pay');
+    Route::any('order/out', 'OrderController@out');
+    Route::any('order/in', 'OrderController@in');
+    Route::any('order/cash', 'OrderController@cash');
 
-    #地址省市区选项,新增用户地址
+    #收货地址列表,地址省市区选项,新增用户地址
+    Route::any('address/list', 'AddressController@addressList');
     Route::any('address/option', 'AddressController@addressOption');
     Route::any('address/create', 'AddressController@addressCreate');
 });

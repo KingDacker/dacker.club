@@ -129,6 +129,15 @@ class Controller extends BaseController
         return self::_initType($array, $key);
     }
 
+    #申请提现状态
+    public static function applicationStatus($key=0){
+        $array = array(
+            '1' => '待审核',
+            '2' => '已通过',
+        );
+        return self::_initType($array, $key);
+    }
+
     #name_id 随机算法
     #生成验证码
     #length 随机字符长度
