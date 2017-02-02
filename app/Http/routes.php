@@ -62,10 +62,15 @@ Route::group(['middleware' => ['user.login'], 'prefix' => 'user'], function () {
     Route::any('order/in', 'OrderController@in');
     Route::any('order/cash', 'OrderController@cash');
 
-    #收货地址列表,地址省市区选项,新增用户地址
+    #收货地址列表,地址省市区选项,新增用户地址,编辑地址,删除地址
     Route::any('address/list', 'AddressController@addressList');
     Route::any('address/option', 'AddressController@addressOption');
     Route::any('address/create', 'AddressController@addressCreate');
+    Route::any('address/edit', 'AddressController@addressEdit');
+    Route::any('address/edit/id/{address_id}', 'AddressController@addressEdit');
+    Route::any('address/del', 'AddressController@addressDel');
+
+
 });
 
 ##################################[后端]##################################
