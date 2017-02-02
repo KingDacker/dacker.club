@@ -30,7 +30,7 @@
                             @foreach($post_type as $key=>$value)
                                 <div class="radio i-checks">
                                     <label>
-                                @if($data['user']['user_type']>=3)
+                                @if($data['user']['user_type']>=2)
                                     <input type="radio" name="type" value="{{$key}}"   checked="">
                                     <i></i><b>{{$value}}</b>
                                 @elseif($key==1)

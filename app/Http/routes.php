@@ -72,6 +72,8 @@ Route::group(['middleware' => ['user.login'], 'prefix' => 'user'], function () {
     Route::any('news/chat/detail/{user_id}', 'NewsController@chatDetail');
     Route::post('news/chat/reply', 'NewsController@chatReply');
 
+    #常见问题,帮助中心
+    Route::any('help', 'HelpController@lists');
 
 
 
