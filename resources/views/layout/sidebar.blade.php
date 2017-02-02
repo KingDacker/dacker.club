@@ -120,10 +120,17 @@
                             <span class="arrow bottom hidden-nav-xs"></span>
                             <a href="#">常见问题</a>
                         </li>
+
                         <li>
                             <a href="#">
                                 <span class="badge bg-danger pull-right">3</span>
                                 未读消息
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="  pull-right">{{$point}}</span>
+                                鸡鸡币
                             </a>
                         </li>
                         <li class="divider"></li>

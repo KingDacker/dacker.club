@@ -88,11 +88,7 @@
 @stop
 @section('script')
 <script>
-    //提交表单(每次提交搜索前,重置page)
-    function postForm(){
-        var status =  $('#status').val();
-        window.location.href = '/user/post/list?status='+status;
-    }
+
 </script>
 @stop
 

@@ -51,8 +51,8 @@ class CommonController extends Controller
             ],
             '4' => ['image_color'=>'icon-envelope icon', 'url'=>'/message','name'=>'消息中心','menu'=>['level1'=>'消息中心'],
                 'list'=>[
-                    ['image_color'=>'',  'url'=>'/user/order/out','name'=>'系统消息','menu'=>['level2'=>'系统消息']],
-                    ['image_color'=>'',  'url'=>'/user/order/in','name'=>'私密消息','menu'=>['level2'=>'私密消息']],
+                    ['image_color'=>'',  'url'=>'/user/news/system/list','name'=>'系统消息','menu'=>['level2'=>'系统消息']],
+                    ['image_color'=>'',  'url'=>'/user/news/chat/list','name'=>'私密消息','menu'=>['level2'=>'私密消息']],
                 ]
             ],
             '5' => ['image_color'=>'icon-question icon','url'=>'/help','name'=>'常见问题','menu'=>['level1'=>'常见问题'],'list'=>[]],

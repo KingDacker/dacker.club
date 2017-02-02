@@ -35,13 +35,13 @@
         <ul class="nav navbar-nav m-n hidden-xs nav-user user">
             {{--登录后--}}
             @if(session('user'))
-                <li class="hidden-xs">
-                    <a class="dropdown-toggle lt" data-toggle="dropdown">
+                {{--<li class="hidden-xs">--}}
+                    {{--<a class="dropdown-toggle lt" data-toggle="dropdown">--}}
 {{--                        <b>鸡鸡币:{{  session('user')['user_info']['point'] }}</b>--}}
-                        <b>鸡鸡币:{{  $point }}</b>
+                        {{----}}
 
-                    </a>
-                </li>
+                    {{--</a>--}}
+                {{--</li>--}}
                 <li class="hidden-xs">
                     <a class="dropdown-toggle lt" data-toggle="dropdown">
                         <b>ID:{{  session('user')['name_id'] }}</b>
@@ -63,6 +63,13 @@
                                 未读消息
                             </a>
                         </li>
+                        <li>
+                            <a href="#">
+                                <span class="  pull-right">{{$point}}</span>
+                                鸡鸡币
+                            </a>
+                        </li>
+
                         <li>
                             <a href="#">常见问题</a>
                         </li>

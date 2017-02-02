@@ -32,16 +32,15 @@ Route::group(['middleware' => ['user.login'], 'prefix' => 'user'], function () {
     #用户上传图片
     Route::post('upload/image', 'Controller@uploadImg');
 
-    #用户申请投稿,稿列表,投稿详情
+    #用户申请投稿,稿列表,投稿详情,回复留言
     Route::any('post/create', 'PostController@create');
     Route::any('post/list', 'PostController@lists');
     Route::any('post/detail/{id}', 'PostController@detail');
-
-    #点赞投稿
-    Route::any('post/likes', 'PostController@likes');
-
-    #回复留言
     Route::post('post/reply/comment', 'PostController@replyComment');
+
+    #点赞 关注
+    Route::any('post/likes', 'PostController@likes');
+    Route::any('follow', 'UserController@follow');
 
     #用户个人资料
     Route::any('info', 'UserController@info');
@@ -50,9 +49,6 @@ Route::group(['middleware' => ['user.login'], 'prefix' => 'user'], function () {
 
     #用户修改密码
     Route::any('password','UserController@password');
-
-    #关注,取消关注
-    Route::any('follow', 'UserController@follow');
 
     #用户生成订单,订单详情,支付订单,支出记录,收入记录,提现记录
     Route::any('order/create/{post_id}', 'OrderController@create');
@@ -69,6 +65,14 @@ Route::group(['middleware' => ['user.login'], 'prefix' => 'user'], function () {
     Route::any('address/edit', 'AddressController@addressEdit');
     Route::any('address/edit/id/{address_id}', 'AddressController@addressEdit');
     Route::any('address/del', 'AddressController@addressDel');
+
+    #系统,私密消息,私密消息详情,回复私密消息
+    Route::any('news/system/list', 'NewsController@systemList');
+    Route::any('news/chat/list', 'NewsController@chatList');
+    Route::any('news/chat/detail/{user_id}', 'NewsController@chatDetail');
+    Route::post('news/chat/reply', 'NewsController@chatReply');
+
+
 
 
 });
