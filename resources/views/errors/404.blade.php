@@ -31,9 +31,9 @@
 
                 </a>
                 <a class="list-group-item">
-                    <i class="fa fa-chevron-right icon-muted"></i>
+                    
                     <span class="badge bg-info lt">kingdacker@126.com</span>
-                    <i class="fa fa-fw fa-phone icon-muted"></i> 联系 站长
+                    <i class="fa fa-fw fa-phone icon-muted"></i> 联系 客服
                 </a>
             </div>
         </div>

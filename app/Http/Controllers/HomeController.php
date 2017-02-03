@@ -4,20 +4,48 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\CommonController;
 use App\Http\Requests;
+use App\Models\Post;
+use App\Models\Top;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use zgldh\QiniuStorage\QiniuStorage;
 
 class HomeController extends CommonController
 {
-
+    #首页推荐
     public function index()
     {
-        $data = ['page_title'=>'首页','checked_menu'=>['level1'=>'','level2'=>'']];
+
+        $list = Top::where('status',1)->get();
+        foreach($list as $key=>$value){
+            $list[$key]['post_image'] = Controller::showImage($value['post_image']);
+        }
+        $data = [
+            'page_title'    =>  'dacker俱乐部',
+            'checked_menu'  =>  ['level1'=>'','level2'=>''],
+            'list'  =>  $list,
+            'user_info' =>  1
+        ];
         return view('home.index')->with('data',$data);
+
     }
 
-
+    #添加首页top
+    public function topAdd(Request $request){
+        $post_id = $request->get('post_id');
+        $post = Post::find($post_id);
+        $post_image = $post->postImage;
+        $user = User::find($post['user_id']);
+        $detail = [
+            'post_id'   =>  $post_id,
+            'post_image'=>  $post_image[0],
+            'post_title'=>  $post['title'],
+            'user_id'   =>  $post['user_id'],
+            'nick_name' =>  $user['nick_name'],
+        ];
+        Top::insertGetId($detail);
+    }
 
 
     public function upTest(Request $request){

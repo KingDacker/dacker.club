@@ -133,7 +133,7 @@ Route::group(['middleware' => ['admin.login'], 'namespace' => 'Admin', 'prefix' 
 //    Route::post('auth/login', 'AuthController@postLogin');
 //    Route::get('auth/logout', 'AuthController@getLogout');
 //});
-
-Route::auth();
-
-Route::get('/home', 'HomeController@index');
+//
+//Route::auth();
+//
+//Route::get('/home', 'HomeController@index');
