@@ -19,9 +19,13 @@ class PostController extends CommonController
 {
     #创建投稿
     public function create(Request $request){
+        $num = Post::where('user_id',session('user')['id'])->where('created_at','>=',date('Y-m-d 00:00:00'))->where('created_at','<',date('Y-m-d 23:59:59'))->count();
 
         if ($request->isMethod('post')) {
-            #TODO 权限认证
+            #每天限制10条投稿
+            if($num>10){
+                return Controller::echoJson(400,'投稿失败,每天的只能投稿10此');
+            }
             #检测
             $rules = [
                 'title' => 'required|between:5,15',
@@ -49,6 +53,10 @@ class PostController extends CommonController
             $data['content'] = $request->get('content');
             $data['type'] = $request->get('type');
             $data['payments'] = $request->get('payments');
+            #权限认证
+            if($data['type'] == 1 && session('user')['user_type']<2){
+                return Controller::echoJson(400,'投稿失败,您的权限不够,请先申请成为中级会员');
+            }
             #随机点赞数
             $data['like_num'] = rand(19,99);
             $post_id = Post::insertGetId($data);
@@ -65,7 +73,11 @@ class PostController extends CommonController
                 'page_title'=>'申请投稿',
                 'user'=>session('user'),
                 'checked_menu'  =>  ['level1'=>'投稿列表','level2'=>'开始投稿'],
+                'disable' => false
             ];
+            if($num>10){
+                $data['disable'] = true;
+            }
             return view('post.create')->with('data',$data);
         }
     }

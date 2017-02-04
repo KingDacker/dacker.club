@@ -7,74 +7,100 @@
         <div class="m-b-md">
             <h3 id="top_bar" class="m-b-none">开始申请投稿</h3>
         </div>
-        <form  enctype="multipart/form-data" class="form-horizontal" >
-            @include('message.close_error')
+        @if($data['disable'])
             <section class="panel panel-default">
                 <header class="panel-heading"><strong>投稿基本信息</strong></header>
                 <div class="panel-body">
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">标题(必填)</label>
-                        <div class="col-sm-10">
-                            <input type="text" id="title" data-required="true" class="form-control" placeholder="5-15个字符">
+                        <label class="col-lg-2 control-label text-danger">重要提醒</label>
+                        <div class="col-lg-10">
+                            <p class="form-control-static text-danger">每人每天可投稿10次,请不要上传淫秽色情图片,请勿侵犯他人肖像权</p>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">价格(选填)</label>
-                        <div class="col-sm-10">
-                            <input type="text" id="payments" data-notblank="true" class="form-control" placeholder="不填写则为免费(价格区间0-100000)" onkeyup="value=value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">投稿类型(必填)</label>
-                        <div class="col-sm-10">
-                            @foreach($post_type as $key=>$value)
-                                <div class="radio i-checks">
-                                    <label>
-                                @if($data['user']['user_type']>=2)
-                                    <input type="radio" name="type" value="{{$key}}"   checked="">
-                                    <i></i><b>{{$value}}</b>
-                                @elseif($key==1)
-                                    <input type="radio"  disabled="">
-                                    <i></i><b style="color: #00a7d0">{{$value}}</b><b style="color: red"> (为什么我不能选?)</b>
-                                @else
-                                    <input type="radio" name="type" value="{{$key}}"   checked="">
-                                    <i></i><b>{{$value}}</b>
-                                @endif
-                                    </label>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">内容(选填)</label>
-                        <div class="col-sm-10">
-                            <textarea  id="post_content" class="form-control" rows="5" placeholder="内容描述(0-300字符)"></textarea>
-                        </div>
-                    </div>
-                    <div class="line line-dashed b-b line-lg pull-in"></div>
                 </div>
-            </section>
-
-            <section class="panel panel-default">
-                <header class="panel-heading">
-                    <strong>图片信息(图片大小不能超过2mb,图片数量2-50张)</strong>
-                </header>
                 <div class="panel-body">
                     <div class="form-group">
-                        {{--<input id="upload_image-id" name="upload_image" type="file"  class="file" multiple data-overwrite-initial="false" data-min-file-count="2" >--}}
-                        <input id="upload_image" name="upload_image" type="file" multiple data-overwrite-initial="false" >
-                        <input id="image_arr" type="hidden" name="image_arr" value="">
-                        {{csrf_field()}}
+                        <label class="col-lg-2 control-label text-danger">警告</label>
+                        <div class="col-lg-10">
+                            <p class="form-control-static text-danger">今天的投稿次数已经用完了,请明天再继续投稿</p>
+                        </div>
                     </div>
                 </div>
-                <footer class="panel-footer text-right bg-light lter">
-                    <input type="button"  class="btn btn-success btn-s-xs" onclick="post()" value="申请投稿" >
-                </footer>
             </section>
+        @else
+            <form  enctype="multipart/form-data" class="form-horizontal" >
+                @include('message.close_error')
+                @include('message.error')
+                <section class="panel panel-default">
+                    <header class="panel-heading"><strong>投稿基本信息</strong></header>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label text-danger">重要提醒</label>
+                            <div class="col-lg-10">
+                                <p class="form-control-static text-danger">每人每天可投稿10次,请不要上传淫秽色情图片,请勿侵犯他人肖像权</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">标题(必填)</label>
+                            <div class="col-sm-10">
+                                <input type="text" id="title" data-required="true" class="form-control" placeholder="5-15个字符">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">价格(选填)</label>
+                            <div class="col-sm-10">
+                                <input type="text" id="payments" data-notblank="true" class="form-control" placeholder="不填写则为免费(价格区间0-100000)" onkeyup="value=value.replace(/[^\d{1,}\.\d{1,}|\d{1,}]/g,'')">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">投稿类型(必填)</label>
+                            <div class="col-sm-10">
+                                @foreach($post_type as $key=>$value)
+                                    <div class="radio i-checks">
+                                        <label>
+                                            @if($data['user']['user_type']>=2)
+                                                <input type="radio" name="type" value="{{$key}}"   checked="">
+                                                <i></i><b>{{$value}}</b>
+                                            @elseif($key==1)
+                                                <input type="radio"  disabled="">
+                                                <i></i><b style="color: #00a7d0">{{$value}}</b><b style="color: red"> (为什么我不能选?)</b>
+                                            @else
+                                                <input type="radio" name="type" value="{{$key}}"   checked="">
+                                                <i></i><b>{{$value}}</b>
+                                            @endif
+                                        </label>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
 
-        </form>
-
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">内容(选填)</label>
+                            <div class="col-sm-10">
+                                <textarea  id="post_content" class="form-control" rows="5" placeholder="内容描述(0-300字符)"></textarea>
+                            </div>
+                        </div>
+                        <div class="line line-dashed b-b line-lg pull-in"></div>
+                    </div>
+                </section>
+                <section class="panel panel-default">
+                    <header class="panel-heading">
+                        <strong>图片信息(图片大小不能超过2mb,图片数量2-50张)</strong>
+                    </header>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            {{--<input id="upload_image-id" name="upload_image" type="file"  class="file" multiple data-overwrite-initial="false" data-min-file-count="2" >--}}
+                            <input id="upload_image" name="upload_image" type="file" multiple data-overwrite-initial="false" >
+                            <input id="image_arr" type="hidden" name="image_arr" value="">
+                            {{csrf_field()}}
+                        </div>
+                    </div>
+                    <footer class="panel-footer text-right bg-light lter">
+                        <input type="button"  class="btn btn-success btn-s-xs" onclick="post()" value="申请投稿" >
+                    </footer>
+                </section>
+            </form>
+        @endif
     </section>
 </section>
 <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen,open" data-target="#nav,html"></a>
