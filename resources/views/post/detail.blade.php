@@ -57,6 +57,7 @@
 
 
                     <section class="comment-list block">
+                        @if(count($data['comments'])>0)
                         @foreach($data['comments'] as $comment)
                         <!-- comment -->
                         <article id="comment-id-1" class="comment-item">
@@ -137,7 +138,7 @@
                             @endforeach
                             @endif
                         @endforeach
-
+                        @endif
                     </section>
 
                     <h4 class="m-t-lg m-b">发表回复</h4>

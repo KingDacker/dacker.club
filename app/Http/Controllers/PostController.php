@@ -156,22 +156,29 @@ class PostController extends CommonController
             $comments[$key]['nick_name'] = $user['nick_name'];
             $comments[$key]['avatar_str'] = Controller::showAvatar($user['avatar']);
             #会员阶级,身份
-            $comments[$key]['user_type_str'] = Controller::userType($user['user_type']);
-            $comments[$key]['identity_str'] = Controller::userIdentity($user->userInfo['identity']);
+            $comments[$key]['user_type_str'] = '初级会员';
+            if($user['user_type']){
+                $comments[$key]['user_type_str'] = Controller::userType($user['user_type']);
+            }
+            $comments[$key]['identity_str'] = '玩家';
+            if($user->userInfo['identity']){
+                $comments[$key]['identity_str'] = Controller::userIdentity($user->userInfo['identity']);
+            }
+
             $reply_comment = Comment::where('post_id',$id)->where('reply_id',$value['id'])->where('status',1)->orderBy('created_at', 'asc')->get();
             foreach($reply_comment as $k=>$v){
                 $user = User::find($v['user_id']);
                 $reply_comment[$k]['nick_name'] = $user['nick_name'];
                 $reply_comment[$k]['avatar_str'] = Controller::showAvatar($user['avatar']);
                 #会员阶级,身份
-                $reply_comment[$k]['user_type_str'] = Controller::userType($user['user_type']);
-                $reply_comment[$k]['identity_str'] = Controller::userIdentity($user->userInfo['identity']);
+                $reply_comment[$k]['user_type_str'] = is_array(Controller::userType($user['user_type'])) ? '初级会员' : Controller::userType($user['user_type']);
+                $reply_comment[$k]['identity_str'] = is_array(Controller::userIdentity($user->userInfo['identity'])) ? '玩家' : Controller::userIdentity($user->userInfo['identity']);
                 $user = User::find($v['to_user_id']);
                 $reply_comment[$k]['to_nick_name'] = $user['nick_name'];
             }
             $comments[$key]['reply'] = $reply_comment;
         }
-
+        #dd($comments);
         #其他最新作品
         $other_post = Post::where('id','<>',$id)->where('user_id',$post['user_id'])->where('status',2)->orderby('created_at','desc')->limit(3)->get();
         if($other_post){

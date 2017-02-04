@@ -13,6 +13,8 @@
 ##################################[前端]##################################
 #首页
 Route::any('/', 'HomeController@index');
+#写真导航
+Route::any('/list/{type}', 'HomeController@lists');
 
 #用户注册,登录,找回密码
 Route::group(['prefix' => 'login'], function () {

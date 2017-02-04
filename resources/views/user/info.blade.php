@@ -51,7 +51,7 @@
                                 <div>
                                     <small class="text-uc text-xs text-muted">关于我 </small>
                                     <small class="text-uc text-xs text-muted">自我介绍</small>
-                                    <pre>{{$data['user_info']['introduce']}}</pre>
+                                    {{$data['user_info']['introduce']}}
                                     <div class="line"></div>
                                 </div>
                             </div>

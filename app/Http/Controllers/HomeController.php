@@ -25,12 +25,29 @@ class HomeController extends CommonController
             'page_title'    =>  'dacker俱乐部',
             'checked_menu'  =>  ['level1'=>'','level2'=>''],
             'list'  =>  $list,
-            'user_info' =>  1
         ];
         return view('home.index')->with('data',$data);
 
     }
 
+    #写真列表
+    public function lists($type){
+        $list = post::where('status',2)->where('type',$type)->paginate(12);
+        foreach($list as $key=>$value){
+            $user = User::find($value['user_id']);
+            $post_image = $value->postImage;
+            $list[$key]['post_image'] = Controller::showImage($post_image[0]['image']);
+            $list[$key]['nick_name'] = $user['nick_name'];
+        }
+        $level1 = is_array(Controller::postType($type)) ? '' : Controller::postType($type);
+
+        $data = [
+            'page_title'    =>  'dacker俱乐部',
+            'checked_menu'  =>  ['level1'=>$level1,'level2'=>''],
+            'list'  =>  $list,
+        ];
+        return view('home.list')->with('data',$data);
+    }
     #添加首页top
     public function topAdd(Request $request){
         $post_id = $request->get('post_id');
