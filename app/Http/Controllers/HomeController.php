@@ -16,7 +16,6 @@ class HomeController extends CommonController
     #首页推荐
     public function index()
     {
-
         $list = Top::where('status',1)->get();
         foreach($list as $key=>$value){
             $list[$key]['post_image'] = Controller::showImage($value['post_image']);
@@ -27,7 +26,6 @@ class HomeController extends CommonController
             'list'  =>  $list,
         ];
         return view('home.index')->with('data',$data);
-
     }
 
     #写真列表
@@ -48,23 +46,8 @@ class HomeController extends CommonController
         ];
         return view('home.list')->with('data',$data);
     }
-    #添加首页top
-    public function topAdd(Request $request){
-        $post_id = $request->get('post_id');
-        $post = Post::find($post_id);
-        $post_image = $post->postImage;
-        $user = User::find($post['user_id']);
-        $detail = [
-            'post_id'   =>  $post_id,
-            'post_image'=>  $post_image[0],
-            'post_title'=>  $post['title'],
-            'user_id'   =>  $post['user_id'],
-            'nick_name' =>  $user['nick_name'],
-        ];
-        Top::insertGetId($detail);
-    }
 
-
+    #测试用,忽略
     public function upTest(Request $request){
         if ($request->isMethod('post')) {
             $file = $request->file();

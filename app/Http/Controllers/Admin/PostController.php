@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Models\PostImage;
+use App\Models\Top;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -105,7 +106,12 @@ class PostController extends CommonController
             }
             $comments[$key]['reply'] = $reply_comment;
         }
-        return view('admin/post/edit')->with(['data'=>$post,'images'=>$images,'comments'=>$comments]);
+        $top = Top::where('post_id',$id)->where('status',1)->first();
+        $top_status = false;
+        if($top){
+            $top_status = true;
+        }
+        return view('admin/post/edit')->with(['data'=>$post,'images'=>$images,'comments'=>$comments,'top_status'=>$top_status]);
     }
 
     #更新,审核帖子
@@ -143,6 +149,34 @@ class PostController extends CommonController
         $rs_reply = Comment::where('reply_id',$id)->update(['status'=>2]);
         if(!$rs_comment){
             return Controller::echoJson(401,'del error');
+        }
+        return Controller::echoJson(200,'成功');
+    }
+
+    #置顶,取消置顶
+    public function top(Request $request){
+        $post_id = $request->get('id');
+
+        #top列表中有,则更新成删除,没有则增加
+        $top = Top::where('post_id',$post_id)->first();
+        if($top){
+            if($top['status'] ==1){
+                Top::where('id',$top['id'])->update(['status'=>2]);
+            }else{
+                Top::where('id',$top['id'])->update(['status'=>1]);
+            }
+        }else{
+            $post = Post::find($post_id);
+            $post_image = $post->postImage;
+            $user = User::find($post['user_id']);
+            $detail = [
+                'post_id'   =>  $post_id,
+                'post_image'=>  $post_image[0],
+                'post_title'=>  $post['title'],
+                'user_id'   =>  $post['user_id'],
+                'nick_name' =>  $user['nick_name'],
+            ];
+            Top::insertGetId($detail);
         }
         return Controller::echoJson(200,'成功');
     }

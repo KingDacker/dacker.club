@@ -14,9 +14,15 @@
             @if($data['status'] == $post_status_key)
                 <input type="button" class="btn btn-success" value="{{$post_status_value}}" onclick="updatePost({{$post_status_key}})">
             @else
-                <input type="button" class="btn btn-danger" value="{{$post_status_value}}" onclick="updatePost({{$post_status_key}})">
+                <input type="button" class="btn btn-default" value="{{$post_status_value}}" onclick="updatePost({{$post_status_key}})">
             @endif
         @endforeach
+
+        @if($top_status)
+                <input type="button" class="btn btn-success" value="取消置顶" onclick="topPost({{$data->id}})">
+        @else
+                <input type="button" class="btn btn-success" value="置顶" onclick="topPost({{$data->id}})">
+        @endif
     </div>
 </div>
 
@@ -218,5 +224,21 @@
             $('#post_form').submit();
         }
 
+        //置顶,取消置顶
+        function topPost(id){
+            $.ajax({
+                type:'post',
+                url:'/admin/post/top',
+                data:{'_token': '<?php echo csrf_token() ?>','id':id },
+                success:function(data){
+                    if(data.status==200){
+                        window.location.reload();
+                    }else{
+                        alert('bug');
+                        return false;
+                    }
+                }
+            });
+        }
     </script>
 @stop

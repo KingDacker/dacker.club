@@ -100,6 +100,8 @@ Route::group(['middleware' => ['admin.login'], 'namespace' => 'Admin', 'prefix' 
     Route::any('post/edit/{post}', 'PostController@edit');
     Route::any('post/update/{post}', 'PostController@update');
     Route::post('post/delComment', 'PostController@delComment');
+    #置顶帖子
+    Route::post('post/top', 'PostController@top');
     #用户管理
     Route::any('user', 'UserController@index');
     Route::any('user/edit/{user}', 'UserController@edit');
