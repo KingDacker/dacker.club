@@ -171,11 +171,12 @@ class PostController extends CommonController
             $user = User::find($post['user_id']);
             $detail = [
                 'post_id'   =>  $post_id,
-                'post_image'=>  $post_image[0],
+                'post_image'=>  $post_image[0]['image'],
                 'post_title'=>  $post['title'],
                 'user_id'   =>  $post['user_id'],
                 'nick_name' =>  $user['nick_name'],
             ];
+
             Top::insertGetId($detail);
         }
         return Controller::echoJson(200,'成功');

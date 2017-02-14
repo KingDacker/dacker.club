@@ -131,7 +131,6 @@ class PostController extends CommonController
                 'user'  =>  $create_user,
             ];
             return view('post.pre_detail')->with('data',$data);
-
         }
 
         #审核通过的投稿
