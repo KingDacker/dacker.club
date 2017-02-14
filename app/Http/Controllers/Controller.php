@@ -86,7 +86,7 @@ class Controller extends BaseController
             '3' => '御姐',
             '4' => '女王',
             '5' => '萝莉',
-            '6' => '男神'
+            #'6' => '男神'
         );
         return self::_initType($array, $key);
     }
