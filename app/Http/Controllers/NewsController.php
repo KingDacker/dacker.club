@@ -48,7 +48,10 @@ class NewsController extends CommonController
     }
 
     public function chatDetail($id){
-        $list = News::whereIn('user_id',[$id,session('user')['id']])->whereIn('to_user_id',[$id,session('user')['id']])->where('type',2)->where('status',1)->orderby('id','desc')->paginate(15);
+        #$list = News::whereIn('user_id',[$id,session('user')['id']])->whereIn('to_user_id',[$id,session('user')['id']])->where('type',2)->where('status',1)->orderby('id','desc')->paginate(15);
+        $list = News::where('user_id',$id)->where('to_user_id',session('user')['id'])->orwhere('user_id',session('user')['id'])->where('to_user_id',$id)
+            ->where('type',2)->where('status',1)->orderby('id','desc')
+            ->paginate(15);
         #检查发件人的信息 是否有未读
         foreach($list as $key=>$value){
             #发件人的头像,昵称

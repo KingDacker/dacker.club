@@ -29,14 +29,14 @@
                                         </div>
                                         <div class="col-xs-6">
                                             <a href="#">
-                                                <span class="m-b-xs h4 block">TODO</span>
+                                                <span class="m-b-xs h4 block" id="followers_num">{{$data['user']['fun_num']}}</span>
                                                 <small class="text-muted">粉丝数量</small>
                                             </a>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="btn-group btn-group-justified m-b">
-                                    <a class="btn btn-success btn-rounded" data-toggle="button">
+                                    <a class="btn btn-success btn-rounded" data-toggle="button" onclick="follow()">
                                         <span class="text">
                                           <i class="fa fa-eye"></i> 关注
                                         </span>
@@ -44,7 +44,7 @@
                                           <i class="fa fa-eye-slash"></i> 取消关注
                                         </span>
                                     </a>
-                                    <a class="btn btn-dark btn-rounded">
+                                    <a class="btn btn-dark btn-rounded" onclick="sendMessage()">
                                         <i class="fa fa-comment-o"></i> 发送私信
                                     </a>
                                 </div>
@@ -169,6 +169,34 @@
 @stop
 @section('script')
 <script>
+    //关注,取消关注
+    function follow(){
+        $.ajax({
+            type:'post',
+            url:'/user/follow',
+            data:{
+                '_token': '<?php echo csrf_token() ?>',
+                'user_id':'{{$data['user']['id']}}',
+            },
+            //traditional:false,//想要传递数组 设成false
+            success:function(data){
+                if(data.status==200){
+                    $('#followers_num').html(data.data);
+                }else if(data.status==199){
+                    //请去登录
+                    window.location.href = data.data;
+                }else{
+                    alert(data.msg);
+                    return false;
+                }
+            }
+        });
+    }
 
+    //发送私信
+    function sendMessage(){
+        var user_id  = '{{$data['user']['id']}}';
+        window.location.href = '/user/news/chat/detail/'+user_id;
+    }
 </script>
 @stop

@@ -17,7 +17,7 @@
                                 @foreach($data['list'] as $key=>$value)
                                     @if($value['position'] == 1)
                                         <article id="chat-id-1" class="chat-item left">
-                                            <a href="#" class="pull-left thumb-sm avatar">
+                                            <a href="{{url('user/info/id/'.$value['user_id'])}}" class="pull-left thumb-sm avatar">
                                                 <img src="{{$value['avatar_str']}}" alt="...">
                                             </a>
                                             <section class="chat-body">
@@ -32,7 +32,7 @@
                                         </article>
                                     @else
                                         <article id="chat-id-2" class="chat-item right">
-                                            <a href="#" class="pull-right thumb-sm avatar">
+                                            <a href="{{url('user/info/id/'.$value['user_id'])}}" class="pull-right thumb-sm avatar">
                                                 <img src="{{$value['avatar_str']}}" alt="...">
                                             </a>
                                             <section class="chat-body">

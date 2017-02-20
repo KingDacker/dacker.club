@@ -17,10 +17,8 @@ use zgldh\QiniuStorage\QiniuStorage;
 
 class UserController extends CommonController
 {
-
     #个人资料
     public function info($id=null){
-
         if($id){
             #查看其它用户
             $user_id = $id;
@@ -33,7 +31,10 @@ class UserController extends CommonController
             $user = session('user');
             $user_info = $user['user_info'];
         }
+        #发稿数量
         $user['post_num'] = Post::where('status',2)->where('user_id',$user_id)->count();
+        #粉丝数量
+        $user['fun_num'] = $user->userInfo['followers_num'];
         $post_list = Post::where('status',2)->where('user_id',$user_id)->select('id','title','content','created_at')->get();
         if($post_list->count()>0){
             foreach($post_list as $key=>$value){
@@ -42,6 +43,7 @@ class UserController extends CommonController
                 }
             }
         }
+
         $data = [
             'page_title'    =>  '个人资料',
             'checked_menu'  =>  ['level1'=>'用户信息','level2'=>'个人资料'],

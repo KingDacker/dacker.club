@@ -182,6 +182,9 @@
             //browseClass: "btn btn-primary", //按钮样式
             //previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
 
+        }).on("filebatchselected", function(event, files) {
+            //自动上传参数
+            $(this).fileinput("upload");
         }).on("fileuploaded", function (event, data, previewId, index) {
             var response = data.response;
             if(response.status==200){

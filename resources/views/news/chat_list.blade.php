@@ -15,7 +15,9 @@
                     @foreach($data['list'] as $key=>$value)
                     <article class="media">
                         <span class="pull-left thumb-sm">
-                            <img src="{{$value['send_user']['avatar_str']}}" alt="..." class="img-circle">
+                            <a href="{{url('user/info/id/'.$value['send_user']['id'])}}">
+                                <img src="{{$value['send_user']['avatar_str']}}" alt="..." class="img-circle">
+                            </a>
                         </span>
                         <div class="media-body" onclick="chatDetail({{$value['user_id']}})">
                             <div class="pull-right media-xs text-center text-muted">
@@ -29,9 +31,9 @@
 
                             </small>
                             @if($value['new_msg'])
-                                <small class="block m-t-sm text-success">你收到一条新的私密信息</small>
+                                <small class="block m-t-sm text-success"><a href="#">你收到一条新的私密信息</a></small>
                             @else
-                                <small class="block m-t-sm">点击查看历史信息</small>
+                                <small class="block m-t-sm"><a href="#">点击查看历史信息</a></small>
 
                             @endif
                         </div>
