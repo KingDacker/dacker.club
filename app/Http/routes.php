@@ -77,7 +77,8 @@ Route::group(['middleware' => ['user.login'], 'prefix' => 'user'], function () {
     #常见问题,帮助中心
     Route::any('help', 'HelpController@lists');
 
-
+    #充值 赞助
+    Route::any('pay', 'HelpController@pay');
 
 });
 

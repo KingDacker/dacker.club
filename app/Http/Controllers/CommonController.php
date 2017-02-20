@@ -55,6 +55,8 @@ class CommonController extends Controller
                 ]
             ],
             '5' => ['image_color'=>'icon-question icon','url'=>'/user/help','name'=>'常见问题','menu'=>['level1'=>'常见问题'],'list'=>[]],
+            '6' => ['image_color'=>'fa-bug fa','url'=>'/user/pay','name'=>'欢迎赞助','menu'=>['level1'=>'欢迎赞助'],'list'=>[]],
+
         ];
         $menu_list = [
             'top_menu'  => $top_menu,
