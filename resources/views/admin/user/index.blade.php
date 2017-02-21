@@ -125,7 +125,8 @@
                                 <td>{{$user->pay_status_str}}</td>
                                 <td>
                                     <a class="label label-success" href="{{URL::to('admin/user/edit/'.$user->id)}}">编辑</a>
-                                    <span class="label label-danger" href="{{URL::to('admin/user/'.$user->id)}}">删除</span>
+                                    {{--<span class="label label-danger" href="{{URL::to('admin/user/'.$user->id)}}">禁言</span>--}}
+                                    {{--<span class="label label-danger" href="{{URL::to('admin/user/'.$user->id)}}">删除</span>--}}
                                 </td>
                             </tr>
                         @empty

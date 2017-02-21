@@ -107,6 +107,7 @@ Route::group(['middleware' => ['admin.login'], 'namespace' => 'Admin', 'prefix' 
     Route::any('user', 'UserController@index');
     Route::any('user/edit/{user}', 'UserController@edit');
     Route::post('user/update/{user}', 'UserController@update');
+    Route::post('user/add/point', 'UserController@addPoint');
     #菜单管理
     Route::any('menu', 'MenuController@index');
 });
