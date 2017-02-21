@@ -9,16 +9,19 @@
                             <div class="post-item">
                                 <div class="post-media">
                                     <img src="{{ asset ("/nose_source/img/ali_pay.jpg") }}" class="img-sm" width="30%" height="30%">
+                                    <img src="{{ asset ("/nose_source/img/ali_friend.jpg") }}" class="img-sm" width="30%" height="30%">
                                 </div>
+
                                 <div class="caption wrapper-lg">
                                     <h2 class="post-title"><a href="#">赞助请扫这里哟,一元不嫌少</a></h2>
                                     <div class="post-sum">
-                                        <p>赞助的时候,请填写上你的注册邮箱,例如xxxx@dacker.com
+                                        <p>添加好友,开始赞助,记得发送你的注册邮箱哟
                                             <br>
-                                            赞助一元,可以获得一个鸡鸡币
+                                            每赞助一元,可以获得一个鸡鸡币
                                             <br>
                                         </p>
                                     </div>
+
                                     <div class="line line-lg"></div>
                                     <div class="text-muted">
                                         <i class="fa fa-user icon-muted"></i> by <a href="#" class="m-r-sm">dacker小编</a>

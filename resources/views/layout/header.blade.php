@@ -24,10 +24,9 @@
         <div class="form-group">
             <div class="input-group">
             <span class="input-group-btn">
-              <button type="submit" class="btn btn-sm bg-white btn-icon rounded"><i class="fa fa-search"></i></button>
+                <button type="submit" class="btn btn-sm bg-white btn-icon rounded"><i class="fa fa-search"></i></button>
             </span>
-                <input type="text" class="form-control input-sm no-border rounded"
-                       placeholder="搜索">
+                <input type="text" class="form-control input-sm no-border rounded" placeholder="搜索">
             </div>
         </div>
     </form>
@@ -35,17 +34,13 @@
         <ul class="nav navbar-nav m-n hidden-xs nav-user user">
             {{--登录后--}}
             @if(session('user'))
-                {{--<li class="hidden-xs">--}}
-                    {{--<a class="dropdown-toggle lt" data-toggle="dropdown">--}}
-{{--                        <b>鸡鸡币:{{  session('user')['user_info']['point'] }}</b>--}}
-                        {{----}}
-
-                    {{--</a>--}}
-                {{--</li>--}}
                 <li class="hidden-xs">
-                    <a class="dropdown-toggle lt" data-toggle="dropdown">
-                        <b>ID:{{  session('user')['name_id'] }}</b>
+                    @if($unread_num)
+                    <a href="{{url('user/news/chat/list')}}" class="dropdown-toggle lt" >
+                        <i class="icon-bell"></i>
+                        <span class="badge badge-sm up bg-danger " style="display: inline-block;">{{$unread_num}}</span>
                     </a>
+                    @endif
                 </li>
                 <li class="dropdown" style="margin-right: 10px">
                     <a href="#" class="dropdown-toggle bg clear" data-toggle="dropdown" style="margin-right: 10px">
@@ -59,19 +54,21 @@
                         <li class="divider"></li>
                         <li>
                             <a href="#">
-                                <span class="badge bg-danger pull-right">3</span>
-                                未读消息
+                                <span class="pull-right">{{  session('user')['name_id'] }}</span>
+                                ID
                             </a>
                         </li>
                         <li>
                             <a href="#">
-                                <span class="  pull-right">{{$point}}</span>
+                                <span class="pull-right">{{$point}}</span>
                                 鸡鸡币
                             </a>
                         </li>
-
                         <li>
-                            <a href="#">常见问题</a>
+                            <a href="{{url('user/news/chat/list')}}">
+                                <span class="badge bg-danger pull-right">{{$unread_num}}</span>
+                                未读消息
+                            </a>
                         </li>
                     </ul>
                 </li>

@@ -17,7 +17,8 @@
                         @endif
                             <a href="{{$top_menu['url']}}">
                                 <i class="{{$top_menu['image_color']}}"></i>
-                                <b class="badge bg-primary pull-right">6</b>
+                                {{--今天新增数量--}}
+                                {{--<b class="badge bg-primary pull-right">6</b>--}}
                                 <span class="font-bold">{{$top_menu['name']}}</span>
                             </a>
                         </li>
@@ -117,20 +118,22 @@
                     </a>
                     <ul class="dropdown-menu animated fadeInRight aside text-left">
                         <li>
-                            <span class="arrow bottom hidden-nav-xs"></span>
-                            <a href="#">常见问题</a>
-                        </li>
-
-                        <li>
                             <a href="#">
-                                <span class="badge bg-danger pull-right">3</span>
-                                未读消息
+                                 {{--<span class="arrow bottom hidden-nav-xs"></span>--}}
+                                <span class="pull-right ">{{  session('user')['name_id'] }}</span>
+                                ID
                             </a>
                         </li>
                         <li>
                             <a href="#">
                                 <span class="  pull-right">{{$point}}</span>
                                 鸡鸡币
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{url('user/news/chat/list')}}">
+                                <span class="badge bg-danger pull-right">{{$unread_num}}</span>
+                                未读消息
                             </a>
                         </li>
                         <li class="divider"></li>
@@ -143,7 +146,7 @@
                     <div class="dropdown dropup wrapper-sm clearfix">
                         <a href="{{url('login/signin')}}" >
                             <span class="thumb-sm avatar pull-left m-l-xs">
-                                <img src="{{asset('nose_source/images/a0.png')}}" class="dker" alt="...">
+                                <img src="{{asset('nose_source/img/avatar.png')}}" class="dker" alt="...">
                             </span>
                             <span class="hidden-nav-xs clear">
                             <span class="block m-l">

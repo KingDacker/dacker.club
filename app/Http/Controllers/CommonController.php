@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Menu;
+use App\Models\News;
 use App\Models\UserInfo;
 use Illuminate\Http\Request;
 use App\Http\Requests;
@@ -63,9 +64,23 @@ class CommonController extends Controller
             'user_menu' => $user_menu,
         ];
         view()->share('menu_list',$menu_list);
-        #鸡鸡币数量
-        $user_info = UserInfo::where('user_id',session('user')['id'])->first();
-        view()->share('point',$user_info['point']);
+
+        $point = 0;
+        $unread_num =0;
+        if(session('user')){
+            #鸡鸡币数量
+            $user_info = UserInfo::where('user_id',session('user')['id'])->first();
+            $point = $user_info['point'];
+            #未读消息数量
+            $unread_num = News::where('to_user_id',session('user')['id'])->where('status',1)->where('type',2)->where('check',0)->count();
+        }
+        view()->share(
+            [
+                'point' => $point,
+                'unread_num' => $unread_num
+            ]
+        );
+
     }
 
     #用户登录后,整合用户信息
