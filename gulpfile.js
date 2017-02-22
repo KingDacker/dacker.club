@@ -86,21 +86,11 @@ gulp.task('copy', function () {
     gulp.src("vendor/admin_source/simple.slide.min.js")
         .pipe(gulp.dest("resources/assets/js/"));
 
-    //// 前端样式
-    //gulp.src("vendor/nose_source/jPlayer/jplayer.flat.css")
-    //    .pipe(gulp.dest("resources/assets/css/"));
-    //
-    //gulp.src("vendor/nose_source/animate.css")
-    //    .pipe(gulp.dest("resources/assets/css/"));
-    //
-    //gulp.src("vendor/nose_source/simple-line-icons.css")
-    //    .pipe(gulp.dest("resources/assets/css/"));
-    //
-    //gulp.src("vendor/nose_source/font.css")
-    //    .pipe(gulp.dest("resources/assets/css/"));
-    //
-    //gulp.src("vendor/nose_source/app.css")
-    //    .pipe(gulp.dest("resources/assets/css/"));
+    <!-- Bootstrap WYSIHTML5 -->
+    gulp.src("vendor/bower/AdminLTE/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js")
+        .pipe(gulp.dest("resources/assets/js/"));
+    gulp.src("vendor/bower/AdminLTE/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css")
+        .pipe(gulp.dest("resources/assets/css/"));
 
 
 });
@@ -118,7 +108,8 @@ elixir(function (mix) {
             'select2.full.min.js',
             'select2.min.js',
             'bootstrap-datepicker.js',
-            'simple.slide.min.js'
+            'simple.slide.min.js',
+            'bootstrap3-wysihtml5.all.min.js'
         ],
         'public/assets/js/app.js',
         'resources/assets/js/'
@@ -137,11 +128,7 @@ elixir(function (mix) {
             'blue.css',
             'datepicker3.css',
             'simple.slide.css',
-            //'jplayer.flat.css',
-            //'animate.css',
-            //'simple-line-icons',
-            //'font.css',
-            //'app.css',
+            'bootstrap3-wysihtml5.min.css'
 
         ],
         'public/assets/css/app.css',

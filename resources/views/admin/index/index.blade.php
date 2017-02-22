@@ -16,7 +16,7 @@
                     </div>
                 </div>
                 <div class="box-body">
-                    @foreach($tasks as $task)
+                    @foreach($data['list'] as $task)
                         <h5>
 
                             {{ $task['name']?$task['name']: 'XXXX' }}

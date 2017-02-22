@@ -15,8 +15,7 @@ class IndexController extends CommonController
 {
     public function index()
     {
-        view()->share('page_title','首页');
-        $tasks = [
+        $list = [
             [
                 'name' => '',
                 'progress' => '87',
@@ -43,7 +42,12 @@ class IndexController extends CommonController
                 'color' => 'success'
             ]
         ];
-        return view('admin.index.index',compact('tasks'));
+        $data = [
+            'page_title'    =>  '首页',
+            'checked_menu'  =>  ['level1'=>'','level2'=>''],
+            'list'  =>  $list,
+        ];
+        return view('admin.index.index',compact('data'));
     }
 
     #修改密码

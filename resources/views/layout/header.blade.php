@@ -5,7 +5,6 @@
         </a>
         <a href="/" class="navbar-brand text-lt">
             <i class="icon-present"></i>
-            <img src="{{asset('nose_source/images/logo.png')}}" alt="." class="hide">
             <span class="hidden-nav-xs m-l-sm">Dacker</span>
         </a>
         <a class="btn btn-link visible-xs" data-toggle="dropdown" data-target=".user">

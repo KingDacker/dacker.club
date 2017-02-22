@@ -108,6 +108,10 @@ Route::group(['middleware' => ['admin.login'], 'namespace' => 'Admin', 'prefix' 
     Route::any('user/edit/{user}', 'UserController@edit');
     Route::post('user/update/{user}', 'UserController@update');
     Route::post('user/add/point', 'UserController@addPoint');
+    #公告消息列表,发布,删除
+    Route::any('news/lists', 'NewsController@lists');
+    Route::post('news/add/system', 'NewsController@addSystem');
+    Route::post('news/del/system', 'NewsController@delSystem');
     #菜单管理
     Route::any('menu', 'MenuController@index');
 });

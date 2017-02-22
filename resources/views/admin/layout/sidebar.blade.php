@@ -23,6 +23,21 @@
             <li><a href="{{url('/admin/password')}}"><i class="fa fa-share"></i> <span>修改密码</span></a></li>
             <li><a href="{{url('/admin/post')}}"><i class="fa fa-edit"></i> <span>帖子管理</span></a></li>
             <li><a href="{{url('/admin/user')}}"><i class="fa fa-user"></i> <span>用户管理</span></a></li>
+            <li><a href="{{url('/admin/user')}}"><i class="fa fa-user"></i> <span>用户管理</span></a></li>
+            <li class="treeview active">
+                <a href="#">
+                    <i class="fa fa-folder"></i> <span>用户管理</span>
+                    <span class="pull-right-container">
+                      <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu menu-open" style="display: block;">
+                    <li><a href="../examples/invoice.html"><i class="fa fa-circle-o"></i> 检索用户</a></li>
+                    <li><a href="../examples/invoice.html"><i class="fa fa-circle-o"></i> 个人资料</a></li>
+                    <li><a href="../examples/profile.html"><i class="fa fa-circle-o"></i> 收货地址</a></li>
+
+                </ul>
+            </li>
 
             <li class="header">LABELS</li>
             <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
