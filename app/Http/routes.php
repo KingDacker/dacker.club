@@ -97,13 +97,15 @@ Route::group(['middleware' => ['admin.login'], 'namespace' => 'Admin', 'prefix' 
     Route::get('home', 'IndexController@index');
     Route::any('logout', 'LoginController@logout');
     Route::any('password', 'IndexController@password');
-    #帖子管理
+    #帖子管理 列表,编辑,更新,置顶;删除评论,新增评论
     Route::any('post', 'PostController@index');
     Route::any('post/edit/{post}', 'PostController@edit');
     Route::any('post/update/{post}', 'PostController@update');
-    Route::post('post/delComment', 'PostController@delComment');
-    #置顶帖子
     Route::post('post/top', 'PostController@top');
+    Route::post('post/del/comment', 'PostController@delComment');
+    Route::post('post/add/comment', 'PostController@addComment');
+
+
     #用户管理
     Route::any('user', 'UserController@index');
     Route::any('user/edit/{user}', 'UserController@edit');

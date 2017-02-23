@@ -84,12 +84,11 @@ class PostController extends CommonController
     {
         #$disk = \Storage::disk('qiniu');
         #echo $disk->exists('14759839382149.jpg');die();
-        view()->share('page_title','帖子编辑');
         $post = Post::find($id);
         #图片
-        $images = PostImage::where('post_id',$id)->get();
-        foreach($images as $key=>$value){
-            $images[$key]['image'] =  Controller::showImage($value['image']);
+        $post_image = PostImage::where('post_id',$id)->get();
+        foreach($post_image as $key=>$value){
+            $post_image[$key]['image'] =  Controller::showImage($value['image']);
         }
         #评论(每楼详细)
         $comments = Comment::where('post_id',$id)->where('reply_id',0)->where('status',1)->orderBy('created_at', 'asc')->paginate(10);
@@ -97,21 +96,48 @@ class PostController extends CommonController
         foreach($comments as $key=>$value){
             $user = User::find($value['user_id']);
             $comments[$key]['nick_name'] = $user['nick_name'];
+            $comments[$key]['avatar_str'] = Controller::showAvatar($user['avatar']);
+            #会员阶级,身份
+            $comments[$key]['user_type_str'] = '初级会员';
+            if($user['user_type']){
+                $comments[$key]['user_type_str'] = Controller::userType($user['user_type']);
+            }
+            $comments[$key]['identity_str'] = '玩家';
+            if($user->userInfo['identity']){
+                $comments[$key]['identity_str'] = Controller::userIdentity($user->userInfo['identity']);
+            }
+
             $reply_comment = Comment::where('post_id',$id)->where('reply_id',$value['id'])->where('status',1)->orderBy('created_at', 'asc')->get();
             foreach($reply_comment as $k=>$v){
+
                 $user = User::find($v['user_id']);
                 $reply_comment[$k]['nick_name'] = $user['nick_name'];
+                $reply_comment[$k]['avatar_str'] = Controller::showAvatar($user['avatar']);
+                #会员阶级,身份
+                $reply_comment[$k]['user_type_str'] = is_array(Controller::userType($user['user_type'])) ? '初级会员' : Controller::userType($user['user_type']);
+                $reply_comment[$k]['identity_str'] = is_array(Controller::userIdentity($user->userInfo['identity'])) ? '玩家' : Controller::userIdentity($user->userInfo['identity']);
                 $user = User::find($v['to_user_id']);
                 $reply_comment[$k]['to_nick_name'] = $user['nick_name'];
             }
             $comments[$key]['reply'] = $reply_comment;
         }
+
+        #置顶
         $top = Top::where('post_id',$id)->where('status',1)->first();
         $top_status = false;
         if($top){
             $top_status = true;
         }
-        return view('admin/post/edit')->with(['data'=>$post,'images'=>$images,'comments'=>$comments,'top_status'=>$top_status]);
+
+        $data = [
+            'page_title'    =>  '帖子编辑',
+            'checked_menu'  =>  ['level1'=>'','level2'=>''],
+            'post'  =>  $post,
+            'post_image'    =>  $post_image,
+            'comments'  =>  $comments,
+            'top_status'=>$top_status
+        ];
+        return view('admin/post/edit')->with('data',$data);
     }
 
     #更新,审核帖子
@@ -153,6 +179,32 @@ class PostController extends CommonController
         return Controller::echoJson(200,'成功');
     }
 
+    #新增评论
+    public function addComment(Request $request){
+        if (!$request->isMethod('post')) {
+            return Controller::echoJson(400,'请求失败,请稍后再试');
+        }
+        $rs = Post::find((int)$request->get('post_id'));
+        if(!$rs){
+            return Controller::echoJson(400,'回复失败,请稍后再试');
+        }
+        if(mb_strlen($request->get('content'))>500 || !$request->get('content')){
+            return Controller::echoJson(402,'回复内容不能为空或超过500字符');
+        }
+        $comment_id = Comment::insertGetId(
+            [
+                'reply_id' => (int)$request->get('reply_id'),
+                'post_id' => (int)$request->get('post_id'),
+                'user_id' => session('admin_dacker')['id'],
+                'to_user_id' => (int)$request->get('to_user_id'),
+                'content' => $request->get('content'),
+            ]
+        );
+        if(!$comment_id){
+            return Controller::echoJson(404,'回复失败,请稍后再试');
+        }
+        return Controller::echoJson(200,'成功');
+    }
     #置顶,取消置顶
     public function top(Request $request){
         $post_id = $request->get('id');

@@ -18,7 +18,7 @@ use Mail;
 class LoginController extends CommonController
 {
     protected $email_view = 'emails.reset';
-    protected $email_sub = 'Dacker.club重置密码邮件';
+    protected $email_sub = 'dackerclub.com重置密码邮件';
     protected $email_to = '';
     #登录
     public function signIn(Request $request)
@@ -49,6 +49,8 @@ class LoginController extends CommonController
             if(Crypt::decrypt($user->password) != $data['password'] ){
                 return redirect()->back()->withInput($request->all())->withErrors(array('email' => '用户名或密码不正确'));
             }
+            #更新最后登录时间
+            User::where('id',$user['id'])->update(['last_login_at'=>date('Y-m-d H:i:s')]);
             #完善用户信息
             CommonController::perfectUser($user);
             #登录后返回之前的链接

@@ -11,7 +11,7 @@
                         <div class="post-item">
                             <header class="panel-heading"><strong>点击查看高清大图</strong></header>
                             {{--(私属物品不用购买,可直接看写真)--}}
-                            @if($data['order_status']||$data['post']['type']==1)
+                            @if($data['order_status']||$data['post']['type']==1||(session('user')['user_type']==99))
                             <div class="post-left" style="margin-left:10px; ">
                                 @foreach($data['post_image'] as $key=>$value)
                                     <a href="javascript:;" i="{{$value['image']}}" class=" nose_view_picture">
@@ -36,7 +36,7 @@
                                 </div>
                                 <div class="line line-lg"></div>
                                 <div class="text-muted">
-                                    <i class="fa fa-user icon-muted"></i> By <a href="{{url('user/info/id/'.$data['user']['id'])}}" class="m-r-sm text-info" >{{$data['user']['nick_name']}}</a>
+                                    <i class="fa fa-user icon-muted"></i> 投稿者 <a href="{{url('user/info/id/'.$data['user']['id'])}}" class="m-r-sm text-info" >{{$data['user']['nick_name']}}</a>
                                     <i class="fa fa-clock-o icon-muted"></i> {{$data['post']['created_at']}}
                                     {{--<a href="#" class="m-l-sm"><i class="fa fa-comment-o icon-muted"></i> 4 comments</a>--}}
                                     <a onclick="like()" data-toggle="class" class="m-l-sm active">
@@ -66,8 +66,8 @@
                             <section class="comment-body panel panel-default">
                                 <header class="panel-heading bg-white">
                                     <a href="#">{{$comment['nick_name']}}</a>
-                                    <label class="label bg-info m-l-sm pull-right">{{$comment['user_type_str']}}</label>
-                                    <label class="label bg-info m-l-sm pull-right">{{$comment['identity_str']}}</label>
+                                    <label class="label bg-info m-l-xs pull-right">{{$comment['user_type_str']}}</label>
+                                    <label class="label bg-info m-l-xs pull-right">{{$comment['identity_str']}}</label>
                                 </header>
                                 <div class="panel-body">
                                     <div>{{$comment['content']}}</div>
@@ -104,19 +104,21 @@
                                 <span class="arrow left"></span>
                                 <section class="comment-body panel panel-default">
                                     <header class="panel-heading bg-white">
-                                        <a href="#">{{$reply_comment['nick_name']}} 回复 {{$reply_comment['to_nick_name']}} : </a>
+                                        <a href="#">{{$reply_comment['nick_name']}} </a>
+                                        <label class="label bg-info m-l-xs pull-right">{{$reply_comment['identity_str']}}</label>
+                                        <label class="label bg-info m-l-xs pull-right">{{$reply_comment['user_type_str']}}</label>
                                     </header>
+
                                     <div class="panel-body">
-                                        <div class="comment-action m-t-sm">
-                                            <label class="label bg-info m-l-xs pull-left">{{$reply_comment['identity_str']}}</label>
-                                            <label class="label bg-info m-l-xs pull-left">{{$reply_comment['user_type_str']}}</label>
-                                            <span class="text-muted m-l-sm pull-left"><i class="fa fa-clock-o"></i>{{$reply_comment['created_at']}}</span>
+                                        <div>
+                                            回复 {{$reply_comment['to_nick_name']}} :
+                                            <br><br>
+                                            {{$reply_comment['content']}}
                                         </div>
-                                    </div>
-                                    <div class="panel-body">
-                                        <div>{{$reply_comment['content']}}</div>
                                         <div class="comment-action m-t-sm">
                                             <a onclick="showComment({{$reply_comment['id']}})" class="btn btn-default btn-xs"><i class="fa fa-mail-reply text-muted"></i> 回复</a>
+                                            <span class="text-muted m-l-sm pull-right"><i class="fa fa-clock-o"></i>{{$reply_comment['created_at']}}</span>
+
                                         </div>
 
                                         <form id="reply_form_{{$reply_comment['id']}}" action="" class="m-b-none" style="display: none">
@@ -166,13 +168,6 @@
                             <a href="#" >
                                 <span class=" pull-right">
                                     <a  href="#" onclick="follow()" data-toggle="class" class="m-l-sm active pull-right">
-                                        {{--@if($data['post']['like_status'])--}}
-                                            {{--<i class="fa fa-star-o text-muted text"></i>--}}
-                                            {{--<i class="fa fa-star text-danger text-active"></i>--}}
-                                        {{--@else--}}
-                                            {{--<i class="fa fa-star-o text-muted text-active"></i>--}}
-                                            {{--<i class="fa fa-star text-danger text"></i>--}}
-                                        {{--@endif--}}
                                         @if($data['post']['followers_status'])
                                             <i class="fa fa-eye text"></i>
                                             <i class="fa fa-eye-slash text-active"></i>
@@ -182,14 +177,12 @@
 
                                         @endif
                                         <label id="followers_num">{{$data['user']['user_info']['followers_num']}}</label>
-
                                     </a>
                                 </span>
                                 <a  >关注不迷路</a>
                             </a>
                         </li>
 
-                        
                         <li class="list-group-item">
                             <a href="#">
                                 <span class="badge pull-right">{{$data['post_image']->count()}}</span>
@@ -204,76 +197,53 @@
                         </li>
 
                         <li class="list-group-item">
-                            @if($data['order_status'])
-                                <a>
-                                    <button class="badge btn btn-success btn-sm pull-right ">已经购买</button>
-                                    点击购买
-                                </a>
-                            @elseif($data['post']['stock_num']>0)
-                                @if($data['post']['type']==1)
-                                <a href="{{url('user/order/create/'.$data['post']['id'])}}">
-                                    <button class="badge btn btn-danger btn-sm pull-right ">购买</button>
-                                    点击购买
-                                </a>
-                                @else
-                                    <form id="pay_form" action="{{url('user/order/pay')}}" method="post">
-                                        {{csrf_field()}}
-                                        <input type="hidden" name="post_id" value="{{$data['post']['id']}}">
-                                        <a><button type="button" class="badge btn btn-danger btn-sm pull-right " onclick="pay()">购买</button>点击购买</a>
-                                    </form>
-                                @endif
+                        @if($data['order_status'])
+                            <a>
+                                <button class="badge btn btn-success btn-sm pull-right ">已经购买</button>
+                                点击购买
+                            </a>
+                        @elseif($data['post']['stock_num']>0)
+                            @if($data['post']['type']==1)
+                            <a href="{{url('user/order/create/'.$data['post']['id'])}}">
+                                <button class="badge btn btn-danger btn-sm pull-right ">购买</button>
+                                点击购买
+                            </a>
                             @else
-                                <a>
-                                    <button class="badge btn btn-primary btn-sm pull-right ">售罄</button>
-                                    点击购买
-                                </a>
+                                <form id="pay_form" action="{{url('user/order/pay')}}" method="post">
+                                    {{csrf_field()}}
+                                    <input type="hidden" name="post_id" value="{{$data['post']['id']}}">
+                                    <a><button type="button" class="badge btn btn-danger btn-sm pull-right " onclick="pay()">购买</button>点击购买</a>
+                                </form>
                             @endif
+                        @else
+                            <a>
+                                <button class="badge btn btn-primary btn-sm pull-right ">售罄</button>
+                                点击购买
+                            </a>
+                        @endif
 
                         </li>
                     </ul>
                     <div class="tags m-b-lg l-h-2x">
                         <a href="#" class="label bg-primary">{{$data['user']['user_info']['identity_str']}}</a>
                         <a href="#" class="label bg-primary">{{$data['user']['user_type_str']}}</a>
-
-
                     </div>
                     <h5 class="font-bold">最新 投稿 </h5>
                     <div>
-                        @if($data['other_post'])
-                            @foreach($data['other_post'] as $other_key=>$other_value)
-                            <article class="media">
-                                <a href="{{url('user/post/detail/'.$other_value['id'])}}" class="pull-left thumb  m-t-xs">
-                                    <img src="{{$other_value['image']}}" >
-                                </a>
-                                <div class="media-body">
-                                    <a href="{{url('user/post/detail/'.$other_value['id'])}}" class="font-semibold">{{$other_value['title']}}</a>
-                                    <div class="text-xs block m-t-xs">{{$other_value['created_at']}}</div>
-                                </div>
-                            </article>
-                            <div class="line"></div>
-                            @endforeach
-                        @endif
-
-
-                        {{--<article class="media m-t-none">--}}
-                            {{--<a class="pull-left thumb thumb-wrapper m-t-xs">--}}
-                                {{--<img src="images/m2.jpg">--}}
-                            {{--</a>--}}
-                            {{--<div class="media-body">--}}
-                                {{--<a href="#" class="font-semibold">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</a>--}}
-                                {{--<div class="text-xs block m-t-xs"><a href="#">Design</a> 2 hours ago</div>--}}
-                            {{--</div>--}}
-                        {{--</article>--}}
-                        {{--<div class="line"></div>--}}
-                        {{--<article class="media m-t-none">--}}
-                            {{--<a class="pull-left thumb thumb-wrapper m-t-xs">--}}
-                                {{--<img src="images/m3.jpg">--}}
-                            {{--</a>--}}
-                            {{--<div class="media-body">--}}
-                                {{--<a href="#" class="font-semibold">Sed diam nonummy nibh euismod tincidunt ut laoreet</a>--}}
-                                {{--<div class="text-xs block m-t-xs"><a href="#">MFC</a> 1 week ago</div>--}}
-                            {{--</div>--}}
-                        {{--</article>--}}
+                    @if($data['other_post'])
+                        @foreach($data['other_post'] as $other_key=>$other_value)
+                        <article class="media">
+                            <a href="{{url('user/post/detail/'.$other_value['id'])}}" class="pull-left thumb  m-t-xs">
+                                <img src="{{$other_value['image']}}" >
+                            </a>
+                            <div class="media-body">
+                                <a href="{{url('user/post/detail/'.$other_value['id'])}}" class="font-semibold">{{$other_value['title']}}</a>
+                                <div class="text-xs block m-t-xs">{{$other_value['created_at']}}</div>
+                            </div>
+                        </article>
+                        <div class="line"></div>
+                        @endforeach
+                    @endif
                     </div>
                 </div>
             </div>
