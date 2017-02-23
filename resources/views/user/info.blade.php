@@ -49,9 +49,10 @@
                                     </a>
                                 </div>
                                 <div>
-                                    <small class="text-uc text-xs text-muted">关于我 </small>
-                                    <small class="text-uc text-xs text-muted">自我介绍</small>
-                                    {{$data['user_info']['introduce']}}
+                                    <h5 class="font-thin ">自我介绍</h5>
+                                    <p>
+                                        <?php echo str_replace(" "," ",str_replace("\n","<br/>",$data['user_info']['introduce']))?>
+                                    </p>
                                     <div class="line"></div>
                                 </div>
                             </div>

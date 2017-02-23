@@ -156,7 +156,7 @@
         $.ajax({
             type:'post',
             async: false,
-            url:'/user/address/option',
+            url:'/address/option',
             data:{
                 '_token': '<?php echo csrf_token() ?>',
                 'pid':pid

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 
+use App\Models\Address;
 use App\Models\User;
+use App\Models\UserAddress;
 use App\Models\UserInfo;
 use Illuminate\Http\Request;
 use App\Http\Requests;
@@ -70,12 +72,21 @@ class UserController extends CommonController
         }else{
             $user['pay_status_str'] = '未付费';
         }
+
+        $address_list = UserAddress::where('user_id',$id)->where('status',1)->get();
+        foreach($address_list as $key=>$value){
+            $province = Address::find($value['province']);
+            $city = Address::find($value['city']);
+            $area = Address::find($value['area']);
+            $address_list[$key]['detail'] = $province['name'].$city['name'].$area['name'].$value['detail'];
+        }
+
         $data = [
             'page_title'    =>  '修改个人资料',
             'checked_menu'  =>  ['level1'=>'用户管理','level2'=>'个人资料'],
             'user'  =>  $user,
-            'user_info' =>  $user->userInfo
-            #'user_info' =>  $user_info,
+            'user_info' =>  $user->userInfo,
+            'address_list'  =>  $address_list,
         ];
         return  view('admin.user.edit')->with('data',$data);
     }

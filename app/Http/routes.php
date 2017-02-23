@@ -15,7 +15,8 @@
 Route::any('/', 'HomeController@index');
 #写真导航
 Route::any('/list/{type}', 'HomeController@lists');
-
+#获取省市区
+Route::any('address/option', 'AddressController@addressOption');
 #用户注册,登录,找回密码
 Route::group(['prefix' => 'login'], function () {
     #注册
@@ -62,7 +63,7 @@ Route::group(['middleware' => ['user.login'], 'prefix' => 'user'], function () {
 
     #收货地址列表,地址省市区选项,新增用户地址,编辑地址,删除地址
     Route::any('address/list', 'AddressController@addressList');
-    Route::any('address/option', 'AddressController@addressOption');
+    //Route::any('address/option', 'AddressController@addressOption');
     Route::any('address/create', 'AddressController@addressCreate');
     Route::any('address/edit', 'AddressController@addressEdit');
     Route::any('address/edit/id/{address_id}', 'AddressController@addressEdit');
@@ -108,6 +109,11 @@ Route::group(['middleware' => ['admin.login'], 'namespace' => 'Admin', 'prefix' 
     Route::any('user/edit/{user}', 'UserController@edit');
     Route::post('user/update/{user}', 'UserController@update');
     Route::post('user/add/point', 'UserController@addPoint');
+    #用户收货地址
+    Route::get('address/edit/{address_id}/user/{user_id}', 'AddressController@edit');
+    Route::post('address/del', 'AddressController@del');
+    Route::post('address/create', 'AddressController@create');
+
     #公告消息列表,发布,删除
     Route::any('news/lists', 'NewsController@lists');
     Route::post('news/add/system', 'NewsController@addSystem');
