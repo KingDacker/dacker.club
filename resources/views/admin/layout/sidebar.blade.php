@@ -21,23 +21,40 @@
         <ul class="sidebar-menu">
             <li class="header">菜单栏目</li>
             <li><a href="{{url('/admin/password')}}"><i class="fa fa-share"></i> <span>修改密码</span></a></li>
-            <li><a href="{{url('/admin/post')}}"><i class="fa fa-edit"></i> <span>帖子管理</span></a></li>
-            <li><a href="{{url('/admin/user')}}"><i class="fa fa-user"></i> <span>用户管理</span></a></li>
-            <li><a href="{{url('/admin/user')}}"><i class="fa fa-user"></i> <span>用户管理</span></a></li>
-            <li class="treeview active">
+            <li><a href="{{url('/admin/post')}}"><i class="fa fa-edit"></i> <span>投稿管理</span></a></li>
+            <li class="treeview">
                 <a href="#">
                     <i class="fa fa-folder"></i> <span>用户管理</span>
-                    <span class="pull-right-container">
-                      <i class="fa fa-angle-left pull-right"></i>
-                    </span>
+                    <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
                 </a>
-                <ul class="treeview-menu menu-open" style="display: block;">
-                    <li><a href="../examples/invoice.html"><i class="fa fa-circle-o"></i> 检索用户</a></li>
-                    <li><a href="../examples/invoice.html"><i class="fa fa-circle-o"></i> 个人资料</a></li>
-                    <li><a href="../examples/profile.html"><i class="fa fa-circle-o"></i> 收货地址</a></li>
+                <ul class="treeview-menu">
+                    <li><a href="{{url('/admin/user')}}"><i class="fa fa-circle-o"></i> 检索用户</a></li>
+                    <li><a href="#"><i class="fa fa-circle-o text-red"></i> 个人资料</a></li>
+                    <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> 收货地址</a></li>
+                </ul>
+            </li>
+            <li class="treeview ">
+                <a href="#">
+                    <i class="fa fa-money"></i> <span>用户财务</span>
+                    <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                </a>
+                <ul class="treeview-menu" >
+                    <li class=""><a href="{{url('/admin/user')}}"><i class="fa fa-circle-o"></i> 检索用户</a></li>
+                    <li><a href="#"><i class="fa fa-circle-o"></i> 支出记录</a></li>
+                    <li><a href="#"><i class="fa fa-circle-o"></i> 收入记录</a></li>
+                </ul>
+            </li>
+            <li class="treeview active">
+                <a href="#">
+                    <i class="fa fa-credit-card"></i> <span>订单管理</span>
+                    <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                </a>
+                <ul class="treeview-menu" >
+                    <li class="active"><a href="{{url('/admin/order/lists')}}"><i class="fa fa-circle-o"></i> 检索订单</a></li>
 
                 </ul>
             </li>
+
 
             <li class="header">LABELS</li>
             <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>

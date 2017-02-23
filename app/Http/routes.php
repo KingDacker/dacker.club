@@ -97,6 +97,7 @@ Route::group(['middleware' => ['admin.login'], 'namespace' => 'Admin', 'prefix' 
     Route::get('home', 'IndexController@index');
     Route::any('logout', 'LoginController@logout');
     Route::any('password', 'IndexController@password');
+
     #帖子管理 列表,编辑,更新,置顶;删除评论,新增评论
     Route::any('post', 'PostController@index');
     Route::any('post/edit/{post}', 'PostController@edit');
@@ -105,13 +106,11 @@ Route::group(['middleware' => ['admin.login'], 'namespace' => 'Admin', 'prefix' 
     Route::post('post/del/comment', 'PostController@delComment');
     Route::post('post/add/comment', 'PostController@addComment');
 
-
-    #用户管理
+    #用户管理 列表,编辑,更新,增加鸡鸡币 收货地址的修改,删除,新增
     Route::any('user', 'UserController@index');
     Route::any('user/edit/{user}', 'UserController@edit');
     Route::post('user/update/{user}', 'UserController@update');
     Route::post('user/add/point', 'UserController@addPoint');
-    #用户收货地址
     Route::get('address/edit/{address_id}/user/{user_id}', 'AddressController@edit');
     Route::post('address/del', 'AddressController@del');
     Route::post('address/create', 'AddressController@create');
@@ -120,6 +119,11 @@ Route::group(['middleware' => ['admin.login'], 'namespace' => 'Admin', 'prefix' 
     Route::any('news/lists', 'NewsController@lists');
     Route::post('news/add/system', 'NewsController@addSystem');
     Route::post('news/del/system', 'NewsController@delSystem');
+
+    #订单管理
+    Route::any('order/lists', 'OrderController@lists');
+
+
     #菜单管理
     Route::any('menu', 'MenuController@index');
 });
