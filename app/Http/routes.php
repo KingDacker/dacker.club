@@ -122,6 +122,7 @@ Route::group(['middleware' => ['admin.login'], 'namespace' => 'Admin', 'prefix' 
 
     #订单管理
     Route::any('order/lists', 'OrderController@lists');
+    Route::any('order/detail/{order_id}', 'OrderController@detail');
 
 
     #菜单管理

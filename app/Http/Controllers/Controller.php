@@ -81,11 +81,11 @@ class Controller extends BaseController
     #帖子类型
     public static function postType($key = 0){
         $array = array(
-            '1' => 'PHP',#'私物',//最终用户权限
-            '2' => 'Java',#'玩家',
-            '3' => 'Python',#'御姐',
-            '4' => 'C++',#'女王',
-            '5' => 'C#',#'萝莉',
+            '1' => '私物',//最终用户权限
+            '2' => '玩家',
+            '3' => '御姐',
+            '4' => '女王',
+            '5' => '萝莉',
             #'6' => '男神'
         );
         return self::_initType($array, $key);
@@ -139,6 +139,28 @@ class Controller extends BaseController
         return self::_initType($array, $key);
     }
 
+    #订单状态
+    public static function orderStatus($key=0){
+        $array = array(
+            '1' => '待付款',
+            '2' => '待发货',
+            '3' => '已发货',
+            '4' => '完成',
+        );
+        return self::_initType($array, $key);
+    }
+
+    #订单类型
+    public static function orderType($key=0){
+        $array = array(
+            '1' => '实物',
+            '2' => '虚拟',
+            '3' => '打赏',
+        );
+        return self::_initType($array, $key);
+    }
+
+    ################################################################################################################################################################
     #name_id 随机算法
     #生成验证码
     #length 随机字符长度

@@ -108,7 +108,7 @@
                                 <td>{{$order->order_status_str}}</td>
                                 <td>{{$order->created_at}}</td>
                                 <td>
-                                    <a class="label label-success" href="{{URL::to('admin/post/edit/'.$order->id)}}">详情</a>
+                                    <a class="label label-success" href="{{URL::to('admin/order/detail/'.$order->order_post_id)}}">详情</a>
                                 </td>
                             </tr>
                         @empty

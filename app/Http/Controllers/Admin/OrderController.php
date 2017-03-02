@@ -46,11 +46,10 @@ class OrderController extends CommonController
             #订单状态,投稿标题,订单类型
             $order_list[$key]['order_status_str'] = $this->orderStatus($value['order_status']);
             $order_post = OrderPost::where('order_id',$value['id'])->first();
+            $order_list[$key]['order_post_id'] = $order_post['id'];
             $order_list[$key]['post_title'] = $order_post['post_title'];
             $order_list[$key]['order_type_str'] = $this->orderType($value['order_type']);
-
         }
-
         $condition = [
             'name_id'=>$request->get('name_id'),
             'email'=>$request->get('email'),
@@ -59,8 +58,6 @@ class OrderController extends CommonController
             'start_time'=>$request->get('start_time'),
             'end_time'=>$request->get('end_time'),
         ];
-
-
         $data = [
             'page_title'    =>  '订单列表',
             'checked_menu'  =>  ['level1'=>'','level2'=>''],
@@ -70,7 +67,35 @@ class OrderController extends CommonController
         return view('admin.order.list')->with('data',$data);
     }
 
-    #创建实物订单
+    #订单详情
+    public function detail(Request $request,$order_post_id){
+
+        $order_post = OrderPost::find($order_post_id);
+        if(!$order_post){
+            return view('errors.404');
+        }
+        #订单
+        $order = Order::where('id',$order_post['order_id'])->first();
+        $province = Address::find($order['province']);
+        $city = Address::find($order['city']);
+        $area = Address::find($order['area']);
+        $order['address'] =$province['name'].$city['name'].$area['name'].$order['detail'];
+        #投稿
+        $data = [
+            'page_title'    =>  '订单详情',
+            'checked_menu'  =>  ['level1'=>'','level2'=>''],
+            'order'  =>  $order,
+            'order_post' =>  $order_post
+        ];
+        return view('admin.order.detail')->with('data',$data);
+    }
+
+
+
+
+
+
+    #实物订单页面
     public function create(Request $request,$id=null){
         #收货地址
         $address_list = UserAddress::where('user_id',session('user')['id'])->get();
@@ -193,29 +218,6 @@ class OrderController extends CommonController
 
 
         }
-    }
-
-    #订单详情
-    public function detail(Request $request,$order_post_id){
-        $order_post = OrderPost::find($order_post_id);
-        if(!$order_post){
-            return view('errors.404');
-        }
-        #订单
-        $order = Order::where('user_id',session('user')['id'])->where('id',$order_post['order_id'])->first();
-
-        $province = Address::find($order['province']);
-        $city = Address::find($order['city']);
-        $area = Address::find($order['area']);
-        $order['address'] =$province['name'].$city['name'].$area['name'].$order['detail'];
-        #投稿
-        $data = [
-            'page_title'    =>  '订单详情',
-            'checked_menu'  =>  ['level1'=>'财务收支','level2'=>''],
-            'order'  =>  $order,
-            'order_post' =>  $order_post
-        ];
-        return view('order.detail')->with('data',$data);
     }
 
     #消费记录
