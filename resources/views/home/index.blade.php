@@ -21,7 +21,7 @@
                         @foreach($data['list'] as $key=>$value)
                         <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
                             <div class="item">
-                                <div class="pos-rlt" onclick="">
+                                <div class="pos-rlt" onclick="goDetail({{$value['post_id']}})">
                                     <div class="item-overlay opacity r r-2x ">
                                         <div class="center text-center m-t-n">
                                             <a href="{{url('post/detail/'.$value['post_id'])}}"><i class="icon-arrow-right i-2x"></i></a>
@@ -239,6 +239,8 @@
 @stop
 @section('script')
     <script type="text/javascript">
-
+    function goDetail(post_id){
+        window.location.href = '/post/detail/' + post_id;
+    }
     </script>
 @stop
