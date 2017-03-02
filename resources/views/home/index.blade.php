@@ -24,7 +24,7 @@
                                 <div class="pos-rlt" onclick="">
                                     <div class="item-overlay opacity r r-2x ">
                                         <div class="center text-center m-t-n">
-                                            <a href="{{url('user/post/detail/'.$value['post_id'])}}"><i class="icon-arrow-right i-2x"></i></a>
+                                            <a href="{{url('post/detail/'.$value['post_id'])}}"><i class="icon-arrow-right i-2x"></i></a>
                                         </div>
                                     </div>
                                     <div class="top">
@@ -35,7 +35,7 @@
                                     <a ><img src="{{$value['post_image']}}" alt="" class="r r-2x img-full" width="125" height="240"></a>
                                 </div>
                                 <div class="padder-v">
-                                    <a href="{{url('user/post/detail/'.$value['id'])}}" class="text-ellipsis">{{$value['post_title']}}</a>
+                                    <a href="{{url('post/detail/'.$value['id'])}}" class="text-ellipsis">{{$value['post_title']}}</a>
                                     <a href="{{url('user/info/id/'.$value['user_id'])}}" class="text-ellipsis text-xs text-muted">{{$value['nick_name']}}</a>
                                 </div>
                             </div>

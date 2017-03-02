@@ -40,7 +40,7 @@
                                 </td>
                                 <td>{{$value['oid']}}</td>
                                 <td>
-                                    <a href="{{url('user/post/detail/'.$v['post_id'])}}">
+                                    <a href="{{url('post/detail/'.$v['post_id'])}}">
                                         <b class="text-primary">{{$v['post_title']}}</b>
                                     </a>
                                 </td>

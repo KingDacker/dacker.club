@@ -17,12 +17,5 @@ class HelpController extends CommonController
         return view('help.list')->with('data',$data);
     }
 
-    public function pay(){
-        $data = [
-            'page_title'    =>  '欢迎赞助',
-            'checked_menu'  =>  ['level1'=>'欢迎赞助','level2'=>''],
-            'list'  =>  1,
-        ];
-        return view('help.pay')->with('data',$data);
-    }
+
 }

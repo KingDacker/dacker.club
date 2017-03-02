@@ -51,12 +51,11 @@ class CommonController extends Controller
             ],
             '4' => ['image_color'=>'icon-envelope icon', 'url'=>'','name'=>'消息中心','menu'=>['level1'=>'消息中心'],
                 'list'=>[
-                    ['image_color'=>'',  'url'=>'/user/news/system/list','name'=>'系统消息','menu'=>['level2'=>'系统消息']],
+                    //['image_color'=>'',  'url'=>'/user/news/system/list','name'=>'系统消息','menu'=>['level2'=>'系统消息']],
                     ['image_color'=>'',  'url'=>'/user/news/chat/list','name'=>'私密消息','menu'=>['level2'=>'私密消息']],
                 ]
             ],
-            '5' => ['image_color'=>'icon-question icon','url'=>'/user/help','name'=>'常见问题','menu'=>['level1'=>'常见问题'],'list'=>[]],
-            '6' => ['image_color'=>'fa-bug fa','url'=>'/user/pay','name'=>'欢迎赞助','menu'=>['level1'=>'欢迎赞助'],'list'=>[]],
+            //'5' => ['image_color'=>'fa-bug fa','url'=>'/user/pay','name'=>'充值中心','menu'=>['level1'=>'充值中心'],'list'=>[]],
 
         ];
         $menu_list = [

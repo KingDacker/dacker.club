@@ -15,8 +15,8 @@ class NewsController extends CommonController
         $type = 1;
         $list = News::where('status',1)->where('type',$type)->simplePaginate(15);
         $data = [
-            'page_title'    =>  '系统消息',
-            'checked_menu'  =>  ['level1'=>'消息中心','level2'=>'系统消息'],
+            'page_title'    =>  '网站公告',
+            'checked_menu'  =>  ['level1'=>'网站公告','level2'=>''],
             'list'  =>  $list,
         ];
         return view('news.sys_list')->with('data',$data);

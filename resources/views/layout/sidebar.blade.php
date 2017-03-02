@@ -27,13 +27,23 @@
                     </ul>
                     {{--用户中心--}}
                     <ul class="nav " data-ride="collapse">
-                    @foreach($menu_list['user_menu'] as $user_menu)
+                        <li
+                                @if('网站公告'==$data['checked_menu']['level1'])
+                                class="active"
+                                @endif
+                        >
+                            <a href="{{url('announcement')}}">
+                                <i class="fa-calendar fa"></i>
+                                <span>网站公告</span>
+                            </a>
+                        </li>
+                        @foreach($menu_list['user_menu'] as $user_menu)
                         @if(session('user'))
+                        <li
                             @if($user_menu['menu']['level1']==$data['checked_menu']['level1'])
-                            <li class="active">
-                            @else
-                            <li class="">
+                            class="active"
                             @endif
+                        >
                                 @if($user_menu['list'])
                                 <a href="#" class="auto">
                                     <span class="pull-right text-muted"><i class="fa fa-angle-left text"></i><i class="fa fa-angle-down text-active"></i></span>
@@ -42,11 +52,11 @@
                                 </a>
                                 <ul class="nav dk text-sm">
                                 @foreach($user_menu['list'] as $value)
+                                    <li
                                     @if($value['menu']['level2']==$data['checked_menu']['level2'])
-                                    <li class="active">
-                                    @else
-                                    <li class="">
+                                   class="active"
                                     @endif
+                                    >
                                         <a href="{{$value['url']}}" class="auto">
                                             <i class="fa fa-angle-right text-xs"></i>
                                             <span>{{$value['name']}}</span>
@@ -62,38 +72,33 @@
                                 @endif
                             @endif
                         </li>
-                    @endforeach
+                        @endforeach
                     </ul>
-                    {{--消息中心--}}
-                    {{--<ul class="nav text-sm">--}}
-                        {{--@foreach($menu_list['message_menu'] as $message_menu)--}}
-                        {{--@if($message_menu['menu']['level1']==$data['checked_menu']['level1'])--}}
-                            {{--<li class="active">--}}
-                        {{--@else--}}
-                            {{--<li class="">--}}
-                        {{--@endif--}}
-                            {{--<a href="{{$message_menu['url']}}">--}}
-                                {{--<i class="{{$message_menu['image_color']}}"></i>--}}
-                                {{--<span>{{$message_menu['name']}}</span>--}}
-                            {{--</a>--}}
-                        {{--</li>--}}
-                        {{--@endforeach--}}
-                    {{--</ul>--}}
-                    {{--帮助中心--}}
-                    {{--<ul class="nav text-sm">--}}
-                        {{--@foreach($menu_list['help_menu'] as $help_menu)--}}
-                            {{--@if($help_menu['menu']['level1']==$data['checked_menu']['level1'])--}}
-                                {{--<li class="active">--}}
-                            {{--@else--}}
-                                {{--<li class="">--}}
-                            {{--@endif--}}
-                                {{--<a href="{{$help_menu['url']}}">--}}
-                                    {{--<i class="{{$help_menu['image_color']}}"></i>--}}
-                                    {{--<span>{{$help_menu['name']}}</span>--}}
-                                {{--</a>--}}
-                            {{--</li>--}}
-                        {{--@endforeach--}}
-                    {{--</ul>--}}
+                    {{--固定链接--}}
+                    <ul class="nav text-sm">
+                        <li
+                            @if('常见问题'==$data['checked_menu']['level1'])
+                            class="active"
+                            @endif
+                        >
+                            <a href="{{url('help')}}">
+                                <i class="icon-question icon"></i>
+                                <span>常见问题</span>
+                            </a>
+                        </li>
+                        <li
+                            @if('欢迎赞助'==$data['checked_menu']['level1'])
+                            class="active"
+                            @endif
+                        >
+                            <a href="{{url('sponsor')}}">
+                                <i class="fa-bug fa"></i>
+                                <span>欢迎赞助</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                    {{--固定链接结束--}}
                 </nav>
                 <!-- / nav -->
             </div>

@@ -17,6 +17,15 @@ Route::any('/', 'HomeController@index');
 Route::any('/list/{type}', 'HomeController@lists');
 #获取省市区
 Route::any('address/option', 'AddressController@addressOption');
+
+#固定链接:常见问题,赞助中心,网站公告
+Route::any('help', 'HelpController@lists');
+Route::any('sponsor', 'PayController@sponsor');
+Route::any('announcement', 'NewsController@systemList');
+
+#投稿详情
+Route::any('post/detail/{id}', 'PostController@detail');
+
 #用户注册,登录,找回密码
 Route::group(['prefix' => 'login'], function () {
     #注册
@@ -70,16 +79,13 @@ Route::group(['middleware' => ['user.login'], 'prefix' => 'user'], function () {
     Route::any('address/del', 'AddressController@addressDel');
 
     #系统,私密消息,私密消息详情,回复私密消息
-    Route::any('news/system/list', 'NewsController@systemList');
+    //Route::any('news/system/list', 'NewsController@systemList');
     Route::any('news/chat/list', 'NewsController@chatList');
     Route::any('news/chat/detail/{user_id}', 'NewsController@chatDetail');
     Route::post('news/chat/reply', 'NewsController@chatReply');
 
-    #常见问题,帮助中心
-    Route::any('help', 'HelpController@lists');
-
-    #充值 赞助
-    Route::any('pay', 'HelpController@pay');
+    #充值
+    #Route::any('pay', 'PayController@pay');
 
 });
 

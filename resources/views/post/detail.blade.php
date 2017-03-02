@@ -233,11 +233,11 @@
                     @if($data['other_post'])
                         @foreach($data['other_post'] as $other_key=>$other_value)
                         <article class="media">
-                            <a href="{{url('user/post/detail/'.$other_value['id'])}}" class="pull-left thumb  m-t-xs">
+                            <a href="{{url('post/detail/'.$other_value['id'])}}" class="pull-left thumb  m-t-xs">
                                 <img src="{{$other_value['image']}}" >
                             </a>
                             <div class="media-body">
-                                <a href="{{url('user/post/detail/'.$other_value['id'])}}" class="font-semibold">{{$other_value['title']}}</a>
+                                <a href="{{url('post/detail/'.$other_value['id'])}}" class="font-semibold">{{$other_value['title']}}</a>
                                 <div class="text-xs block m-t-xs">{{$other_value['created_at']}}</div>
                             </div>
                         </article>
