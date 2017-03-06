@@ -14,7 +14,7 @@
                         <section class="panel panel-default">
                             <header class="panel-heading">消息栏</header>
                             <section class="chat-list panel-body">
-                                @foreach($data['list'] as $key=>$value)
+                                @foreach($chat_list=array_reverse($data['list']->items()) as $key=>$value)
                                     @if($value['position'] == 1)
                                         <article id="chat-id-1" class="chat-item left">
                                             <a href="{{url('user/info/id/'.$value['user_id'])}}" class="pull-left thumb-sm avatar">
@@ -47,9 +47,19 @@
                                         </article>
                                     @endif
                                 @endforeach
-
                             </section>
                             <footer class="panel-footer">
+                                <div class="row">
+                                    <div class="col-sm-4 hidden-xs"></div>
+                                    <div class="col-sm-4 text-center">
+                                        <small class="text-muted inline m-t-sm m-b-sm"></small>
+                                    </div>
+                                    <div class="col-sm-4 text-right text-center-xs">
+                                        <ul class="pagination pagination-sm m-t-none m-b-none">
+                                            {{ $data['list']->links()}}
+                                        </ul>
+                                    </div>
+                                </div>
                                 <!-- chat form -->
                                 <article class="chat-item" id="chat-form">
                                     <a class="pull-left thumb-sm avatar"></a>

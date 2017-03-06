@@ -15,19 +15,19 @@
                     @foreach($data['list'] as $key=>$value)
                     <article class="media">
                         <span class="pull-left thumb-sm">
-                            <a href="{{url('user/info/id/'.$value['send_user']['id'])}}">
-                                <img src="{{$value['send_user']['avatar_str']}}" alt="..." class="img-circle">
+                            <a href="{{url('user/info/id/'.$value['user_friend']['id'])}}">
+                                <img src="{{$value['user_friend']['avatar_str']}}" alt="..." class="img-circle">
                             </a>
                         </span>
-                        <div class="media-body" onclick="chatDetail({{$value['user_id']}})">
+                        <div class="media-body" onclick="chatDetail({{$value['user_friend']['id']}})">
                             <div class="pull-right media-xs text-center text-muted">
                                 {{--<strong class="h4">12:18</strong>--}}
                             </div>
                             <small class="block">
-                                <a href="#" class="">{{$value['send_user']['nick_name']}}</a>
+                                <a href="#" class="">{{$value['user_friend']['nick_name']}}</a>
                                 {{--<span class="label label-success">Circle</span>--}}
-                                <label class="label bg-info m-l-sm pull-right">{{$value['send_user']['user_type_str']}}</label>
-                                <label class="label bg-info m-l-sm pull-right">{{$value['send_user']['user_info']['identity_str']}}</label>
+                                <label class="label bg-info m-l-sm pull-right">{{$value['user_friend']['user_type_str']}}</label>
+                                <label class="label bg-info m-l-sm pull-right">{{$value['user_friend']['user_info']['identity_str']}}</label>
 
                             </small>
                             @if($value['new_msg'])

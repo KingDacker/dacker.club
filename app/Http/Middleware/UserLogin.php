@@ -27,8 +27,13 @@ class UserLogin
             }
         }else{
             if(!session('user')){
-                #session(['return_url'   =>  $_SERVER['REQUEST_URI']]);
-                session(['return_url'   =>  $_SERVER['HTTP_REFERER']]);
+                #dd($_SERVER);
+                if(isset($_SERVER['HTTP_REFERER'])){
+                    session(['return_url'   =>  $_SERVER['HTTP_REFERER']]);
+                }else{
+                    session(['return_url'   =>  $_SERVER['REQUEST_URI']]);
+                }
+
                 return redirect('login/signin');
             }
         }

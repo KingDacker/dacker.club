@@ -26,17 +26,43 @@ class NewsController extends CommonController
         #type 1系统消息 2私密消息
         $type = 2;
         #分组发件人
-        $list = News::where('status',1)->where('type',$type)->where('to_user_id',session('user')['id'])->groupby('user_id')->orderby('check','desc')->get();
+        $list = News::where('status',1)
+            ->where('type',$type)
+            ->where('reply_id',0)
+            ->where('to_user_id',session('user')['id'])
+            ->orwhere('user_id',session('user')['id'])
+            //->groupby('user_id')
+            //->groupby('to_user_id')
+            ->orderby('updated_at','desc')
+            ->orderby('check','desc')
+            ->get();
         #检查发件人的信息 是否有未读
         foreach($list as $key=>$value){
-            $check = News::where('user_id',$value['user_id'])->where('to_user_id',session('user')['id'])->where('status',1)->where('check',0)->first();
+            $check = News::
+                where('user_id',$value['user_id'])
+                ->where('to_user_id',session('user')['id'])
+                ->where('status',1)
+                ->where('check',0)
+                ->first();
             $list[$key]['new_msg'] = false;
             if($check){
                 $list[$key]['new_msg'] = true;
             }
-            #发件人的头像,昵称
-            $send_user = User::find($value['user_id']);
-            $list[$key]['send_user'] = CommonController::perfectUser($send_user,true);
+            #显示与自己相关的好友的头像,昵称
+            if($value['user_id']==session('user')['id']){
+                $user_friend = User::find($value['to_user_id']);
+            }else{
+                $user_friend = User::find($value['user_id']);
+            }
+            $user_friend = CommonController::perfectUser($user_friend,true);
+            #去除重复的 好友信息
+            foreach($list as $del_key=>$del_value){
+                if($user_friend == $list[$del_key]['user_friend']){
+                    unset($list[$del_key]);
+                    break;
+                }
+            }
+            $list[$key]['user_friend'] = $user_friend;
         }
 
         $data = [
@@ -49,7 +75,14 @@ class NewsController extends CommonController
 
     public function chatDetail($id){
         #$list = News::whereIn('user_id',[$id,session('user')['id']])->whereIn('to_user_id',[$id,session('user')['id']])->where('type',2)->where('status',1)->orderby('id','desc')->paginate(15);
-        $list = News::where('user_id',$id)->where('to_user_id',session('user')['id'])->orwhere('user_id',session('user')['id'])->where('to_user_id',$id)
+        $login_user_id = session('user')['id'];
+        $list = News::
+            where('user_id',$id)
+            ->where('to_user_id',session('user')['id'])
+            ->orWhere(function ($query) use ($id,$login_user_id) {
+                $query->where('user_id',$login_user_id)
+                ->where('to_user_id', $id);
+            })
             ->where('type',2)->where('status',1)->orderby('id','desc')
             ->paginate(15);
         #检查发件人的信息 是否有未读
@@ -63,7 +96,6 @@ class NewsController extends CommonController
                 $list[$key]['position'] = 1;
             }
         }
-        $list = array_reverse($list->items());
         $data = [
             'page_title'    =>  '私密消息详情',
             'checked_menu'  =>  ['level1'=>'消息中心','level2'=>'私密消息'],
@@ -79,6 +111,7 @@ class NewsController extends CommonController
 
     #回复私密消息
     public function chatReply(Request $request){
+        #dd($request->get('to_user_id'));
         #检测回复对象
         $content = $request->get('content');
         if(!$content){
