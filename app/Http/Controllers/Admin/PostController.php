@@ -144,7 +144,7 @@ class PostController extends CommonController
     public function update($id)
     {
         $rules = [
-            'user_id'   =>  'required|numeric',
+            #'user_id'   =>  'required|numeric',
             'title'     =>  'required|between:1,20',
             'type'      =>  'required',
             'status'    =>  'required',

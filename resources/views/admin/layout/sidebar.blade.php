@@ -44,7 +44,7 @@
                     <li><a href="#"><i class="fa fa-circle-o"></i> 收入记录</a></li>
                 </ul>
             </li>
-            <li class="treeview active">
+            <li class="treeview ">
                 <a href="#">
                     <i class="fa fa-credit-card"></i> <span>订单管理</span>
                     <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
@@ -54,7 +54,15 @@
 
                 </ul>
             </li>
-
+            <li class="treeview active">
+                <a href="#">
+                    <i class="fa-calendar fa"></i> <span>公告管理</span>
+                    <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
+                </a>
+                <ul class="treeview-menu" >
+                    <li class="active"><a href="{{url('/admin/news/lists')}}"><i class="fa fa-circle-o"></i> 检索订单</a></li>
+                </ul>
+            </li>
 
             <li class="header">LABELS</li>
             <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>

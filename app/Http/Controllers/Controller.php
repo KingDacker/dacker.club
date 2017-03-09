@@ -146,6 +146,7 @@ class Controller extends BaseController
             '2' => '待发货',
             '3' => '已发货',
             '4' => '完成',
+            '5' => '关闭',
         );
         return self::_initType($array, $key);
     }

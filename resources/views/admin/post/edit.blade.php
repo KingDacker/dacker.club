@@ -43,7 +43,7 @@
                     <input type="hidden" name="id" value="{{$data['post']->id}}">
                     <div class="form-group">
                         <label>用户ID</label>
-                        <input type="text" name="user_id" class="form-control"  value="{{$data['post']->user_id}}">
+                        <input type="text" name="user_id" class="form-control"  value="{{$data['post']->user_id}}" disabled>
                     </div>
                     <div class="form-group">
                         <label>帖子标题</label>
@@ -61,6 +61,10 @@
                             </div>
                             <input type="text" name="created_at" class="form-control pull-right" value="{{$data['post']->created_at}}">
                         </div>
+                    </div>
+                    <div class="form-group">
+                        <label>未通过理由</label>
+                        <textarea id="reply" name="reply" class="form-control" rows="3" placeholder="理由...">{{$data['post']->reply}}</textarea>
                     </div>
                 </div>
                 <div class="col-md-6">

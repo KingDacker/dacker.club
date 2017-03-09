@@ -152,7 +152,7 @@ class OrderController extends CommonController
             return view('errors.404');
         }
         #订单
-        $order = Order::where('user_id',session('user')['id'])->where('id',$order_post['order_id'])->first();
+        $order = Order::where('user_id',session('user')['id'])->where('id',$order_post['order_id'])->where('status',1)->first();
 
         $province = Address::find($order['province']);
         $city = Address::find($order['city']);
@@ -173,7 +173,7 @@ class OrderController extends CommonController
         #总支出
         $total_pay = Order::where('user_id',session('user')['id'])->where('order_status','>',1)->sum('actual_price');
         #付款完成的记录
-        $order_list = Order::where('user_id',session('user')['id'])->where('order_status','>',1)->orderby('id','desc')->paginate(10);
+        $order_list = Order::where('user_id',session('user')['id'])->where('order_status','>',1)->where('status',1)->orderby('id','desc')->paginate(10);
         foreach($order_list as $key=>$value){
             $post_list = OrderPost::where('order_id',$value['id'])->get();
             foreach($post_list as $k=>$v){
@@ -195,7 +195,7 @@ class OrderController extends CommonController
         #总收益
         $total_pay = Order::where('from_user_id',session('user')['id'])->where('order_status','>',1)->sum('pay_price');
         #收益的列表
-        $order_list = Order::where('from_user_id',session('user')['id'])->where('order_status','>',1)->orderby('id','desc')->paginate(10);
+        $order_list = Order::where('from_user_id',session('user')['id'])->where('order_status','>',1)->where('status',1)->orderby('id','desc')->paginate(10);
         foreach($order_list as $key=>$value){
             $nick_name = User::find($value['user_id']);
             $order_list[$key]['nick_name'] = $nick_name['nick_name'];

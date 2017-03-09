@@ -37,7 +37,7 @@
                             <div class="caption wrapper-lg">
                                 <h3 class="post-title">未通过/删除理由</h3>
                                 <div class="post-sum">
-                                    <p>{{$data['post']['reply']}}</p>
+                                    <p><pre>{!! $data['post']['reply'] !!}</pre></p>
                                 </div>
                                 <div class="line line-lg"></div>
 
@@ -90,121 +90,15 @@
 
     //幻灯片
     $('.nose_view_picture').simpleSlide(
-//        {
-//
-//            "opacity":0.5,                  //背景透明度
-//            "windowAction": "zoomIn",       //窗体进入动画
-//            "imageAction": "bounceIn",      //图片进入动画
-//            "loadingImage":"img/1.gif"      //加载图片
-//
-//        }
-    );
+        {
 
-    //显示回复对话框
-    function showComment(id){
-        var reply_nick_name = $('#reply_nick_name_' + id).val();
-        $('#reply_form_' + id).show();
-        $('#content_' + id).attr('placeholder','回复 '+ reply_nick_name + ':');
+            "opacity":0.5,                  //背景透明度
+            "windowAction": "zoomIn",       //窗体进入动画
+            "imageAction": "bounceIn",      //图片进入动画
+            "loadingImage":"img/1.gif"      //加载图片
 
-    }
-
-    //回复 xxx 留言
-    function replyComment(id){
-        var reply_id = $('#reply_id_' + id).val();
-        var to_user_id = $('#to_user_id_' + id).val();
-        var content = $('#content_' + id).val();
-        comment(reply_id,to_user_id,content);
-    }
-
-    //新增一条留言
-    function addComment(){
-        var reply_id = 0;
-        var to_user_id = 0;
-        var content = $('#add_content').val();
-        comment(reply_id,to_user_id,content);
-    }
-
-    //共通
-    function comment(reply_id,to_user_id,content){
-        $.ajax({
-            type:'post',
-            url:'/user/post/reply/comment',
-            data:{
-                '_token': '<?php echo csrf_token() ?>',
-                'post_id':post_id,
-                'reply_id':reply_id,
-                'to_user_id':to_user_id,
-                'content':content,
-            },
-            //traditional:false,//想要传递数组 设成false
-            success:function(data){
-                if(data.status==200){
-                    window.location.reload();
-                }else if(data.status==199){
-                    //请去登录
-                    window.location.href = data.data;
-                }else{
-                    alert(data.msg);
-                    return false;
-                }
-            }
-        });
-    }
-
-    //点赞,取消点赞
-    function like(){
-        $.ajax({
-            type:'post',
-            url:'/user/post/likes',
-            data:{
-                '_token': '<?php echo csrf_token() ?>',
-                'post_id':post_id,
-            },
-            //traditional:false,//想要传递数组 设成false
-            success:function(data){
-                if(data.status==200){
-                    $('#like_num').html(data.data);
-                }else if(data.status==199){
-                    //请去登录
-                    window.location.href = data.data;
-                }else{
-                    alert(data.msg);
-                    return false;
-                }
-            }
-        });
-    }
-
-    //关注,取消关注
-    function follow(){
-        $.ajax({
-            type:'post',
-            url:'/user/follow',
-            data:{
-                '_token': '<?php echo csrf_token() ?>',
-                'user_id':'{{$data['user']['id']}}',
-            },
-            //traditional:false,//想要传递数组 设成false
-            success:function(data){
-                if(data.status==200){
-                    $('#followers_num').html(data.data);
-                }else if(data.status==199){
-                    //请去登录
-                    window.location.href = data.data;
-                }else{
-                    alert(data.msg);
-                    return false;
-                }
-            }
-        });
-    }
-
-    //虚拟支付
-    function pay(){
-        if(confirm("确定购买?")){
-            $('#pay_form').submit();
         }
-    }
+    );
 </script>
 @stop
 

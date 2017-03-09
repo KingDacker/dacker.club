@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-xs-12">
             <h2 class="page-header">
-                <i class="fa fa-globe"></i> AdminLTE, Inc.
+                <i class="fa fa-globe"></i> 用户订单
                 <small class="pull-right">Date: {{$data['order']['created_at']}}</small>
             </h2>
         </div>
@@ -83,17 +83,15 @@
     </div>
     <!-- /.row -->
 
-    
-
-    <!-- this row will not appear when printing -->
     <div class="row no-print">
         <div class="col-xs-12">
-            <a href="invoice-print.html" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Print</a>
-            <button type="button" class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Submit Payment
-            </button>
-            <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px;">
-                <i class="fa fa-download"></i> Generate PDF
-            </button>
+            {{--<a href="invoice-print.html" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> 打印</a>--}}
+            {{--<button type="button" class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Submit Payment</button>--}}
+            {{--<button type="button" class="btn btn-primary pull-right" style="margin-right: 5px;"><i class="fa fa-download"></i> Generate PDF</button>--}}
+            <button type="button" class="btn btn-success pull-right">关闭订单</button>
+            <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px;">待发货</button>
+            <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px;">已发货</button>
+            <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px;">完成订单</button>
         </div>
     </div>
 </section>
