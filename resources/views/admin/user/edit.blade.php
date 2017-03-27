@@ -24,15 +24,15 @@
                 </div>
                 <div class="form-group">
                     <label>用户ID别称</label>
-                    <input type="text" name="name_id" class="form-control" required value="{{$data['user']->name_id}}">
+                    <input type="text" name="name_id" class="form-control"  value="{{$data['user']->name_id}}">
                 </div>
                 <div class="form-group">
                     <label>用户昵称</label>
-                    <input type="text" name="nick_name" class="form-control" required value="{{$data['user']->nick_name}}">
+                    <input type="text" name="nick_name" class="form-control"  value="{{$data['user']->nick_name}}">
                 </div>
                 <div class="form-group">
                     <label>用户邮箱</label>
-                    <input type="email" name="email" class="form-control" required value="{{$data['user']->email}}">
+                    <input type="email" name="email" class="form-control"  value="{{$data['user']->email}}">
                 </div>
 
                 <div class="form-group">
@@ -92,11 +92,11 @@
 
                 <div class="form-group">
                     <label >身高</label>
-                    <input type="text" name="height" class="form-control" required value="{{$data['user_info']->height}}">
+                    <input type="text" name="height" class="form-control"  value="{{$data['user_info']->height}}">
                 </div>
                 <div class="form-group">
                     <label >体重</label>
-                    <input type="text" name="weight" class="form-control" required value="{{$data['user_info']->weight}}">
+                    <input type="text" name="weight" class="form-control"  value="{{$data['user_info']->weight}}">
                 </div>
                 <div class="form-group">
                     <label >性别</label>
@@ -128,11 +128,11 @@
 
                 <div class="form-group">
                     <label class="text-red">收益率</label>
-                    <input type="text" name="point_scale" class="form-control" required value="{{$data['user_info']->point_scale}}">
+                    <input type="text" name="point_scale" class="form-control"  value="{{$data['user_info']->point_scale}}">
                 </div>
                 <div class="form-group">
                     <label class="text-red">粉丝数量</label>
-                    <input type="text" name="followers_num" class="form-control" required value="{{$data['user_info']->followers_num}}">
+                    <input type="text" name="followers_num" class="form-control"  value="{{$data['user_info']->followers_num}}">
                 </div>
                 <div class="form-group">
                     <label class="text-red">用户身份</label>
@@ -149,19 +149,19 @@
                 </div>
                 <div class="form-group">
                     <label class="text-red">手机</label>
-                    <input type="text" name="mobile" class="form-control" required value="{{$data['user_info']->mobile}}">
+                    <input type="text" name="mobile" class="form-control"  value="{{$data['user_info']->mobile}}">
                 </div>
                 <div class="form-group">
                     <label class="text-red">微信</label>
-                    <input type="text" name="we_chat" class="form-control" required value="{{$data['user_info']->we_chat}}">
+                    <input type="text" name="we_chat" class="form-control"  value="{{$data['user_info']->we_chat}}">
                 </div>
                 <div class="form-group">
                     <label class="text-red">支付宝账号</label>
-                    <input type="text" name="ali_account" class="form-control" required value="{{$data['user_info']->ali_account}}">
+                    <input type="text" name="ali_account" class="form-control"  value="{{$data['user_info']->ali_account}}">
                 </div>
                 <div class="form-group">
                     <label class="text-red">支付宝昵称</label>
-                    <input type="text" name="ali_name" class="form-control" required value="{{$data['user_info']->ali_name}}">
+                    <input type="text" name="ali_name" class="form-control"  value="{{$data['user_info']->ali_name}}">
                 </div>
 
 
