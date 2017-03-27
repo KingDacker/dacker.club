@@ -5,7 +5,7 @@
             {{--<strong>联系站长:</strong>--}}
             <p>
                 Dacker.club<br>
-                Email: kingdacker@126.com<br>
+                Email: service@dackerclub.com<br>
             </p>
         </div>
         <div class="col-xs-6">

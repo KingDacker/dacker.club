@@ -33,7 +33,7 @@
                                 </div>
                                 <div id="collapseTwo" class="panel-collapse collapse" style="height: 0px;">
                                     <div class="panel-body text-sm">
-                                        1.发送邮件到kingdacker@126.com,标题为--申请dacker俱乐部中级会员.<br>
+                                        1.发送邮件到service@dackerclub.com,标题为--申请dacker俱乐部中级会员.<br>
                                         2.内容为:可以视频的联系方式(微信,QQ等),认证的时间.<br>
                                     </div>
                                 </div>
@@ -46,7 +46,7 @@
                                 </div>
                                 <div id="collapseThree" class="panel-collapse collapse" style="height: 0px;">
                                     <div class="panel-body text-sm">
-                                        请继续骚扰客服 kingdacker@126.com
+                                        请继续骚扰客服 service@dackerclub.com
                                     </div>
                                 </div>
                             </div>
