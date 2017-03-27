@@ -26,11 +26,18 @@ class NewsController extends CommonController
         #type 1系统消息 2私密消息
         $type = 2;
         #分组发件人
-        $list = News::where('status',1)
-            ->where('type',$type)
-            ->where('reply_id',0)
-            ->where('to_user_id',session('user')['id'])
-            ->orwhere('user_id',session('user')['id'])
+        $list = News::where(function ($query) use ($type) {
+            $query->where('type',$type)
+                ->where('status',1)
+                ->where('reply_id',0)
+                ->where('user_id',session('user')['id']);
+            })
+            ->orWhere(function ($query) use ($type) {
+                $query->where('type',$type)
+                    ->where('status',1)
+                    ->where('reply_id',0)
+                    ->where('to_user_id',session('user')['id']);
+            })
             //->groupby('user_id')
             //->groupby('to_user_id')
             ->orderby('updated_at','desc')
@@ -49,11 +56,13 @@ class NewsController extends CommonController
                 $list[$key]['new_msg'] = true;
             }
             #显示与自己相关的好友的头像,昵称
+            #dd($value['user_id'].'--'.session('user')['id']);
             if($value['user_id']==session('user')['id']){
                 $user_friend = User::find($value['to_user_id']);
             }else{
                 $user_friend = User::find($value['user_id']);
             }
+            #dd($user_friend);
             $user_friend = CommonController::perfectUser($user_friend,true);
             #去除重复的 好友信息
             foreach($list as $del_key=>$del_value){
