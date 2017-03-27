@@ -45,7 +45,7 @@ class Controller extends BaseController
             '1' => '初级会员',
             '2' => '中级会员',
             '3' => '高级会员',
-            '99'=> '站长大人'
+            '99'=> '管理员'
         );
         return self::_initType($array, $key);
     }
@@ -53,8 +53,8 @@ class Controller extends BaseController
     public static function userIdentity($key = 0){
         $array = array(
             '1' => '玩家',
-            '2' => '摄影师',
-            '3' => '傻白甜',
+            '2' => '站长',
+            '3' => '摄影师',
         );
         return self::_initType($array, $key);
     }
@@ -86,7 +86,7 @@ class Controller extends BaseController
             '3' => '御姐',
             '4' => '女王',
             '5' => '萝莉',
-            #'6' => '男神'
+            '6' => '漫画'
         );
         return self::_initType($array, $key);
     }
