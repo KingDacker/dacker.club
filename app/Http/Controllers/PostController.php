@@ -29,15 +29,15 @@ class PostController extends CommonController
             #检测
             $rules = [
                 'title' => 'required|between:5,15',
-                'type' => 'required|in:1,2,3,4,5',
+                #'type' => 'required|in:1,2,3,4,5',
                 'payments' => 'numeric|between:0.00,100000',
                 'image_arr' => 'required'
             ];
             $messages = [
                 'title.required' => '错误的请求1',
                 'title.between' => '错误的请求2',
-                'type.required' => '错误的请求3',
-                'type.in' => '错误的请求4',
+                #'type.required' => '错误的请求3',
+                #'type.in' => '错误的请求4',
                 'payments.numeric' => '错误的请求5',
                 'payments.between' => '错误的请求6',
                 'image_arr.required' => '错误的请求7'
