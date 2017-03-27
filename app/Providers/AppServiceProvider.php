@@ -16,7 +16,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        view()->share('page_description',' ---- Dacker.club ');
+        view()->share('page_description',' ---- DackerClub ');
         #用户
         view()->share('user_type',Controller::userType());
         view()->share('user_identity',Controller::userIdentity());

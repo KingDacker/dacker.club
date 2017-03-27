@@ -200,10 +200,11 @@ class PostController extends CommonController
         }
         #是否购买了此投稿
         $order_post = OrderPost::where('post_id',$id)->where('user_id',session('user')['id'])->first();
-        $order = Order::where('user_id',session('user')['id'])->where('order_status','>',1)->first();
+        #$order = Order::where('user_id',session('user')['id'])->where('order_status','>',1)->first();
         $order_status = false;
-        #投稿通过审核或者是自己的投稿
-        if(($order_post && $order) || ($post['user_id']==session('user')['id'])){
+        #购买了此投稿 || 自己的投稿 || 售价为0
+        if(($order_post) || ($post['user_id']==session('user')['id']) || $post['payments'] == 0){
+            #显示图片
             $order_status = true;
         }
         $data = [
