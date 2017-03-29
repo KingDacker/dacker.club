@@ -80,9 +80,16 @@ class IndexController extends CommonController
             if($user->save()){
                 return back()->with('success','密码修改成功');
             }
-
+            $data = [
+                'page_title'    =>  '首页',
+                'checked_menu'  =>  ['level1'=>'','level2'=>''],
+            ];
         }
-        return view('admin.index.password');
+        $data = [
+            'page_title'    =>  '首页',
+            'checked_menu'  =>  ['level1'=>'','level2'=>''],
+        ];
+        return view('admin.index.password')->with('data',$data);
     }
 
 
