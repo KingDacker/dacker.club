@@ -4,8 +4,8 @@
     <meta charset="utf-8" />
     <title>{{ $data['page_title'] or "DackerClub.com" }}</title>
     <meta name="baidu-site-verification" content="xxcwFSux5Y" />
-    <meta name="Keywords" content="与其拍摄一个东西，不如拍摄一个意念，与其拍摄一个意念，不如拍摄一个梦幻 岁月更替，在光与影的交错里，演绎一场与时光的相逢写真 美女 萝莉 女王 御姐  私房 {{ $data['post']['title'] or "DackerClub.com" }}" />
-    <meta name="description" content="与其拍摄一个东西，不如拍摄一个意念，与其拍摄一个意念，不如拍摄一个梦幻 岁月更替，在光与影的交错里，演绎一场与时光的相逢写真 美女 萝莉 女王 御姐 私房  {{ $data['post']['title'] or "DackerClub.com" }}" />
+    <meta name="Keywords" content="与其拍摄一个东西，不如拍摄一个意念，与其拍摄一个意念，不如拍摄一个梦幻 岁月更替，在光与影的交错里，演绎一场与时光的相逢写真 美女 萝莉 女王 御姐  私房 写真 {{ $data['post']['title'] or "DackerClub.com" }}" />
+    <meta name="description" content="与其拍摄一个东西，不如拍摄一个意念，与其拍摄一个意念，不如拍摄一个梦幻 岁月更替，在光与影的交错里，演绎一场与时光的相逢写真 美女 萝莉 女王 御姐 私房 写真 {{ $data['post']['title'] or "DackerClub.com" }}" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <link rel="stylesheet" href="{{asset('/nose_source/css/bootstrap.css')}}" type="text/css" />
     <link rel="stylesheet" href="{{asset('/nose_source/css/animate.css')}}" type="text/css" />
