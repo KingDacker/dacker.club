@@ -26,7 +26,7 @@ class CommonController extends Controller
             '3' => ['image_color'=>'fa-camera fa text-info',     'url'=>'/list/3','title'=>'用户中心','name'=>$post_type[3],'menu'=>['level1'=>$post_type[3]]],
             '4' => ['image_color'=>'fa-camera fa text-warning',  'url'=>'/list/4','title'=>'用户中心','name'=>$post_type[4],'menu'=>['level1'=>$post_type[4]]],
             '5' => ['image_color'=>'fa-camera fa text-success',  'url'=>'/list/5','title'=>'用户中心','name'=>$post_type[5],'menu'=>['level1'=>$post_type[5]]],
-            '6' => ['image_color'=>'fa-camera fa text-dark',  'url'=>'/list/5','title'=>'用户中心','name'=>$post_type[6],'menu'=>['level1'=>$post_type[6]]],
+            '6' => ['image_color'=>'fa-camera fa text-dark',  'url'=>'/list/6','title'=>'用户中心','name'=>$post_type[6],'menu'=>['level1'=>$post_type[6]]],
 
         ];
 
